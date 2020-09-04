@@ -1,0 +1,21 @@
+version: 0.2
+env:
+  shell: bash
+phases:
+  install:
+    runtime-versions:
+      golang: 1.14
+    commands:
+      - wget -q https://github.com/gohugoio/hugo/releases/download/v0.74.3/hugo_0.74.3_Linux-64bit.deb
+      - dpkg -i hugo_*_Linux-64bit.deb
+  pre_build:
+    commands:
+      - aws s3 cp --recursive --quiet s3://namoshika-memo-content/content src/content
+      - git clone --recursive --quiet "https://github.com/vjeantet/hugo-theme-docdock.git" "src/themes/docdock"
+      - git --work-tree "src/themes/docdock/" --git-dir "src/themes/docdock/.git" checkout --quiet 71ae81d04c58f1c422bce0aab6f9f7e587be6fbd
+  build:
+    commands:
+      - hugo -s "src"
+  post_build:
+    commands:
+      - aws s3 sync --delete --acl bucket-owner-full-control "src/public" "s3://memo.nyamonote.tk"
