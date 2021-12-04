@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="{{ $.Site.LanguageCode | default "en" }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,minimum-scale=1">
+  <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{if .IsPage}}{{ .Summary }}{{ else }}{{ with .Site.Params.description }}{{ . }}{{ end }}{{ end }}{{ end }}">
+  {{ hugo.Generator }}
+  <title>{{ with .Params.Title }}{{ . }} | {{ end }}{{ .Site.Title }}</title>
+  {{/*  bot  */}}
+  {{ if eq (getenv "HUGO_ENV") "production" | or (eq .Params.env "production") }}
+    <meta name="robots" content="index, follow">
+  {{ else }}
+    <meta name="robots" content="noindex, nofollow">
+  {{ end }}
+  {{/*  stylesheet  */}}
+  {{ $css_file := slice (resources.Get "style/base.css") (resources.Get "style/syntax.css") | resources.Concat "style/main.css" }}
+  <link rel="stylesheet" href="{{ $css_file.RelPermalink }}">
+</head>
+<body>
+  <div class="flexbox">
+    <div>
+      <header id="site-header" class="toplevel-container">
+        {{ block "header" . }}{{ partial "site-header.html" . }}{{ end }}
+      </header>
+      <main id="site-main" class="toplevel-container">
+        {{ block "main" . }}{{ end }}
+      </main>
+    </div>
+    <div>
+      <footer id="site-footer" class="toplevel-container">
+        <p>このサイトでは <a href="https://icons8.jp/">icons8</a> の素材を使用しています。</p>
+        <p>&copy; {{ now.Format "2006" }} namoshika, All rights reserved</p>
+        {{ block "footer" . }}{{ end }}
+      </footer>
+    </div>
+  </div>
+</body>
+</html>

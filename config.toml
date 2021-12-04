@@ -1,0 +1,23 @@
+baseURL = 'http://example.org/'
+languageCode = 'ja-jp'
+title = "Memo.Namo"
+hasCJKLanguage = true
+theme = "ananke"
+
+[permalinks]
+knowledge = "/:section/:filename/"
+
+[markup]
+  [markup.highlight]
+    guessSyntax=true
+    noClasses=false
+  [markup.tableOfContents]
+    startLevel = 1
+
+[[menu.main]]
+name = "About"
+url = "/about/"
+
+[[menu.main]]
+name = "Knowledge"
+url = "/knowledge/"

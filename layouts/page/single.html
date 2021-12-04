@@ -1,0 +1,15 @@
+{{ define "main" }}
+  <article class="content-container content-grid">
+    <header class="content-grid-header">
+      <div>
+        {{ if eq .FirstSection .CurrentSection | not }}
+        <a class="content-grid-cat" href='{{ .Parent.RelPermalink  }}'>{{ .Parent.Title }}</a>
+        {{ end }}
+        <h1 class="content-grid-title">{{- .Title -}}</h1>
+      </div>
+    </header>
+    <section class="md-content content-grid-main">
+      {{- .Content -}}
+    </section>
+  </article>
+{{ end }}

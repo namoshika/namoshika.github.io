@@ -1,0 +1,9 @@
+{{ $src := .Get "src" }}
+{{ $cls := .Get "class" }}
+{{ $width := .Get "width" }}
+{{ $height := .Get "height" }}
+
+<div
+  style="background-image: url({{- $src -}}); width: {{- $width -}}; height: {{- $height -}};"
+  class="cover-image">
+</div>

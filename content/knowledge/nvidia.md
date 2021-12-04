@@ -1,0 +1,17 @@
+---
+title: "Nvidia"
+date: 2020-08-24T19:34:20+09:00
+tags: [Nvidia]
+draft: false
+---
+
+Ubuntu マシンに挿したグラボの負荷状況をターミナルで表示する。
+
+```bash
+git clone https://github.com/Syllo/nvtop.git
+sudo apt install build-essential cmake libncurses-dev
+mkdir -p nvtop/build
+cd nvtop/build
+Make ..
+sudo make install
+```

@@ -1,0 +1,48 @@
+{{ define "main" }}
+  <article class="content-container content-grid">
+    <header class="content-grid-header">
+      <h1 class="content-grid-title">{{- .Title -}}</h1>
+    </header>
+    <aside class="content-grid-side">
+      <div class="nav-sticky">
+        <h2>タグ</h2>
+        {{ .Scratch.Set "tag-activetags" (.GetTerms "tags") }}
+        {{ .Scratch.Set "tag-onlyactive" false }}
+        {{ partial "tag.html" . }}
+      </div>
+    </aside>
+    <section class="content-grid-main">
+      <section class="md-content">{{- .Content -}}</section>
+      <h2>記事一覧</h2>
+      <nav class="md-content">
+        {{ $articles_anygrp := .RegularPagesRecursive.GroupBy "CurrentSection" }}
+        {{ $articles_othgrp := slice }}
+        {{/* 独立カテゴリを個別グループ毎に表示 */}}
+        {{ range $category := sort $articles_anygrp "Key.Title" }}
+          {{ if eq $category.Key.Title "Knowledge" }}
+            {{ $articles_othgrp = $articles_othgrp | append $category}}
+          {{ else }}
+            {{ if ne $category.Key.Title $.Title }}
+              <h3><a class="nav-category" href="{{ $category.Key.RelPermalink }}">{{ $category.Key.Title }}</a></h3>
+            {{ end }}
+            <ul>
+              {{ range $item := sort $category.Pages "LinkTitle" }}
+                <li><a href="{{ $item.RelPermalink }}">{{ $item.LinkTitle }}</a></li>
+              {{ end }}
+            </ul>
+          {{ end }}
+        {{ end }}
+        {{/* 雑多カテゴリをその他グループ毎に表示 */}}
+        {{ range $category := $articles_othgrp }}
+          <h3>その他</h3>
+          <ul>
+            {{ range $item := sort $category.Pages "LinkTitle" }}
+              <li><a href="{{ $item.RelPermalink }}">{{ $item.LinkTitle }}</a></li>
+            {{ end }}
+          </ul>
+        {{ end }}
+      </nav>
+    </section>
+  </article>
+  <nav>{{ partial "pagination.html" . }}</nav>
+{{ end }}

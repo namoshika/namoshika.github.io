@@ -1,0 +1,5 @@
+{{- $match_res := (findRE "<h[1-6].*?>(?:.|\n)*?</h[1-6]>" .Content) -}}
+{{- if gt (len $match_res) 2 -}}
+  <h2>目次</h2>
+  {{ .TableOfContents }}
+{{- end -}}

@@ -1,0 +1,29 @@
+{{ define "main" }}
+	<article class="content-container">
+		{{- .Content -}}
+	</article>
+	<nav>
+		<h1 class="card-container-title">KNOWLEDGE</h1>
+		<ul class="card-container">
+			{{/* range $item_key, $item_val := .Site.Taxonomies.categories */}}
+			{{ $cat_pages := .GetPage "/knowledge" }}
+			{{ range $item_key := $cat_pages.Pages.ByLinkTitle }}
+				{{/* Get Icon URL */}}
+				{{ $icon_key := $item_key.Title | lower | urlize | printf "image/knowledge/icon-%s.png" }}
+				{{ if fileExists (printf "assets/%s" $icon_key) | not }}
+					{{ $icon_key = "image/knowledge/icon-default.png" }}
+				{{ end }}
+				
+				{{/* Display Icon */}}
+				{{ $icon_obj := resources.Get $icon_key }}
+				{{ $icon_obj := $icon_obj.Resize "50x50"}}
+				<li class="card-item">
+					<a href="{{ $item_key.RelPermalink }}" class="card-icontext">
+						<img src="{{ $icon_obj.RelPermalink }}" alt="link icon" class="card-icontext-icon" width="50" height="50">
+						<div class="card-icontext-text">{{ $item_key.LinkTitle }}</div>
+					</a>
+				</li>
+			{{ end }}
+		</ul>
+	</nav>
+{{ end }}

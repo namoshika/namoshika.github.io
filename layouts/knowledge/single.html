@@ -1,0 +1,30 @@
+{{ define "main" }}
+  <article class="content-container content-grid">
+    <header class="content-grid-header">
+      <div>
+        {{ if eq .FirstSection .CurrentSection | not }}
+        <a class="nav-category" href='{{ .Parent.RelPermalink  }}'>{{ .Parent.Title }}</a>
+        {{ end }}
+        <h1 class="content-grid-title">{{- .Title -}}</h1>
+      </div>
+      <p class="content-grid-desc">
+        <span>公開日: {{ .PublishDate.Format "2006-01-02"}}</span>
+        <span>更新日: {{ .Lastmod.Format "2006-01-02"}}</span>
+      </p>
+    </header>
+    <aside class="content-grid-side">
+      <div class="nav-sticky">
+        {{ partial "content-toc.html" . }}
+        <nav class="nav-tag">
+          <h2>タグ</h2>
+          {{ .Scratch.Set "tag-activetags" (.GetTerms "tags") }}
+          {{ .Scratch.Set "tag-onlyactive" false }}
+          {{ partial "tag.html" . }}
+        </nav>
+      </div>
+    </aside>
+    <section class="md-content content-grid-main">
+      {{- .Content -}}
+    </section>
+  </article>
+{{ end }}

@@ -1,0 +1,13 @@
+<ul class="tag-container">
+  {{ $only_active := .Scratch.Get "tag-onlyactive"}}
+  {{ $tags_active := .Scratch.Get "tag-activetags" | default slice }}
+  {{ range $tag_item := .Site.Taxonomies.tags }}
+    {{ $is_active := gt (where $tags_active "Title" $tag_item.Page.Title | len) 0 }}
+    {{ if or $is_active (not (eq $only_active true)) }}
+      {{ $class_name := cond $is_active "tag-item-active" "tag-item-inactive" }}
+      <li class="tag-item {{ $class_name }}">
+        <a href='{{ $tag_item.Page.RelPermalink }}'>{{ $tag_item.Page.Title }}</a>
+      </li>
+    {{ end }}
+  {{ end }}
+</ul>

@@ -1,0 +1,161 @@
+---
+title: "OpenSSL"
+date: 2020-09-02T17:54:16+09:00
+tags: [OpenSSL]
+draft: false
+---
+
+# 基本要素
+OpenSSL は http の通信暗号化 (https) で登場します。暗号化には公開鍵暗号方式を使用されており、次の要素が登場します。
+
+* 鍵 ... 秘密鍵と公開鍵がある
+* 署名要求 ... 証明書の認証局による署名付与前のもの
+* 証明書 ... 公開鍵に所属や仕込み先サーバーのドメインなどの情報を付与したもの
+
+OpenSSL では各ファイルに PEM 形式が既定で使用されます。 PEM に寄せておく方が良いです。
+
+* `DER` ... バイナリ形式
+* `PEM` ... テキスト形式 (Base64)。OpenSSL 絡みで `-- BEGIN ...` と続くのは PEM 形式
+
+## 秘密鍵の生成
+
+```bash
+# 秘密鍵を標準出力へ書出し
+$ openssl genrsa
+
+# 秘密鍵をファイル (hoge.key) へ書出し
+$ openssl genrsa -out hoge.key
+
+# 秘密鍵の長さを指定 (1024 bit)
+$ openssl genrsa 1024
+
+# 秘密鍵 (hoge.key) の情報を出力
+# -noout を指定すると、鍵自体はコンソール上に表示されない
+$ openssl rsa -in hoge.key -text -noout
+
+```
+
+## 公開鍵の生成
+
+```bash
+# 秘密鍵 (hoge.key) と対となる公開鍵を標準出力へ書出し
+$ openssl rsa -in hoge.key -pubout
+
+# 秘密鍵 (hoge.key) と対となる公開鍵をファイル (hoge.pub) へ書出し
+$ openssl rsa -in hoge.key -out hoge.pub -pubout
+
+# 公開鍵 (hoge.pub) の情報を表示
+$ openssl rsa -in hoge.pub -pubin
+```
+
+## 署名要求の生成
+
+```bash
+# 秘密鍵 (hoge.key) から証明書署名要求を標準出力へ書出す
+# 生成者やドメインなどの証明書に必要な情報が聞かれる。聞かれたことを入力する
+$ openssl req -new -key hoge.key
+
+# 入力画面をスキップしたい場合は -subj で入力内容を指定してやる。/key=value を連ねて記入する
+#   countryName (C)             ... 国名
+#   stateOrProvinceName (ST)    ... 都道府県
+#   localityName (L)            ... 市区町村
+#   organizationName (O)        ... 企業名
+#   organizationalUnitName (OU) ... 部門名
+#   commonName (CN)             ... FQDN
+#   emailAddress                ... メールアドレス
+$ openssl req -new -key hoge.key -subj "/C=JP/ST=Todofu-ken/L=Sikutyo-son/O=Company/OU=Section/CN=example.com/emailAddress=admin@example.com"
+
+# 秘密鍵 (hoge.key) から証明書署名要求をファイル (hoge.csr) へ書出す
+$ openssl req -new -key hoge.key -out hoge.csr
+
+
+# 生成した証明書署名要求 (hoge.csr) の中身を表示
+$ openssl req -in hoge.csr -text
+```
+
+## 証明書の生成
+
+```bash
+# 署名所署名要求 (hoge.csr) を秘密鍵 (ca.key) で署名して証明書 (hoge.crt) を生成
+$ openssl x509 -req -in hoge.csr -CA ca.crt -CAkey ca.key
+
+# 上記と同内容を有効期限 365 日で hoge.crt として出力 (既定も365日ではある)
+$ openssl x509 -req -in hoge.csr -CA ca.crt -CAkey ca.key -days 365 -out hoge.crt
+
+# 署名所署名要求 (ca.csr) を秘密鍵 (ca.key) で署名して証明書 (ca.crt) を生成。CAフラグが立つ。
+# -signkey は自己署名用。 別の秘密鍵を指定すると証明書に入る公開鍵が別の公開鍵になってしまう。
+$ openssl x509 -in ca.csr -req -signkey ca.key
+```
+
+## 証明書の動作確認
+
+```bash
+# 証明書を仕込んだサーバーへ TLS 接続する
+$ openssl s_client -connect TARGET_FQDN:443
+```
+
+# ショートカット操作
+OpenSSL には秘密鍵から証明書までの生成を一度に行う方法も存在します。  
+この辺の方法が複数状況が OpenSSL の分かりずらいところと言えましょうか。
+
+```bash
+# 秘密鍵と署名要求 を同時に生成する
+# 既定では秘密鍵に DES 暗号化が掛かるが、 -nodes オプションで暗号化を省略してる
+$ openssl req -new -keyout foo.key -out foo.crt -nodes
+
+# 秘密鍵と証明書 (自己署名) を同時に生成する
+# 既定では秘密鍵に DES 暗号化が掛かるが、 -nodes オプションで暗号化を省略してる
+$ openssl req -new -keyout foo.key -out foo.crt -nodes -x509 -days 365
+```
+
+# openssl.cnf による設定
+OpenSSL には openssl.cnf が設定ファイルとして用意されています。ここにコマンドで指定していたオプションを指定すると、コマンド実行時に指定する引数を省略できます。
+
+```bash
+# OpenSSL が openssl.cnf を参照しに行くディレクトリを取得する
+openssl version -a | grep OPENSSLDIR
+```
+
+大抵は以下のファイルが存在します。
+
+* /usr/lib/ssl/openssl.cnf ... シンボリックリンク。本体は etc のファイル。openssl が参照してるのはこっち
+* /etc/ssl/openssl.cnf
+
+# 証明書の SAN 対応の設定
+署名要求から証明書を作成する場合、署名要求の内容へ SAN (x509v3 拡張機能 SubjectAlternativeName) の追加を要します。漏れると Chrome ブラウザでアクセスした際に警告が出ます。これは本番環境においては本物の認証局が設定してくれますが、開発環境など証明書を自前で作る際には考慮する必要があります。SAN は設定ファイルの形で指定する必要があります ([公式が認めてるように](https://www.openssl.org/docs/man1.0.2/man1/openssl-req.html#BUGS) ユーザフレンドリーでは無いです)。ここでは制約下で一番マシだった方法を記載します。
+
+## 方法1
+作業ディレクトリに x509v3 拡張機能の指定内容を定義したファイル (hoge_x509v3.cnf) を用意し、以下のように値を定義します。
+
+```conf
+# ここでも定義でき、その際は証明書生成時に指定する -extensions オプションを省略可能。ただ、指定する方が好み。
+# subjectAltName=DNS.1:example.com,IP.1:192.168.1.3
+
+[ host1 ]
+# ここで定義してやる
+subjectAltName=DNS.1:example.com,IP.1:192.168.1.2
+
+[ host2 ]
+# ここで定義してやる
+subjectAltName=DNS.1:foo.com,IP.1:192.168.1.3
+```
+
+署名要求から証明書を作成する際に `-extfile` と `-extensions` を指定することで拡張できます。
+
+```bash
+# 証明書を生成する (SAN 付き)
+openssl x509 -in hoge.csr -req -CA ca.crt -CAkey ca.key -extfile hoge_x509v3.cnf -extensions host1
+
+# 生成した証明書の中身を確認すると、 Version の箇所が 1 ⇒ 3 になっていることが分かる
+openssl x509 -in hoge.crt -text -noout
+```
+
+## 方法2
+自己署名証明書を作成する場合、 OpenSSL 1.1.1 以降ならば `-addext` を使う方法も可能。ただ、最近追加 (2018/06/10 時点では Beta だったそう) された機能のため、使用できない環境も多いと思われます。
+
+```bash
+openssl req -new -keyout foo.key -out foo.crt -x509 -addext "subjectAltName=DNS.1:example.com"
+```
+
+# 参考資料
+1. OpenSSL commands: https://www.openssl.org/docs/man1.1.0/man1/
