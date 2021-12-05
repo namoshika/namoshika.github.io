@@ -1,4 +1,4 @@
-<h1><a href="{{ .Site.BaseURL }}">{{ $.Site.Title }}</a></h1>
+<h1><a href='{{ (.GetPage "/").RelPermalink }}'>{{ $.Site.Title }}</a></h1>
 <nav>
 	<ul class="horizontal-menu">
 		{{ range $item := .Site.Menus.main }}
