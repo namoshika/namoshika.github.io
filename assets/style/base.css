@@ -102,7 +102,7 @@ figure {
   display: grid;
   gap: 0 20px;
   grid-template-rows: auto 1fr;
-  grid-template-columns: 1fr 20rem;
+  grid-template-columns: 1fr 320px;
   grid-template-areas:
     "title-area title-area"
     "main-area  side-area";
@@ -217,10 +217,16 @@ figure {
 .md-content {
   min-width: 0;
 }
-.md-content :is(h1, h2, h3) {
+.md-content h1 {
   border-color: lightgray;
   border-style: solid;
   border-width: 0 0 1px 0;
+}
+.md-content h2 {
+  border-color: lightgray;
+  border-style: solid;
+  border-width: 0 0 0 0.2rem;
+  padding-left: 0.2rem;
 }
 .md-content p code {
   padding: 0.3rem;
@@ -258,6 +264,17 @@ figure {
 }
 .md-content .highlight pre {
   padding: 1rem 0.5rem;
+}
+.md-content blockquote {
+  margin: 1rem 5px 1rem 5px;
+  padding: 0.3rem;
+  background-color: #f0f0f0;
+  border-width: 0 0 0 5px;
+  border-style: solid;
+  border-color: rgb(93, 122, 167);
+}
+.md-content blockquote>* {
+  margin: 0;
 }
 @media (max-width: 45rem){
   .content-grid {

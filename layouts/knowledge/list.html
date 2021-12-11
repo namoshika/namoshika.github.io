@@ -15,25 +15,18 @@
       <section class="md-content">{{- .Content -}}</section>
       <h2>記事一覧</h2>
       <nav class="md-content">
-        {{ $articles_anygrp := .RegularPagesRecursive.GroupBy "CurrentSection" }}
-        {{ $articles_othgrp := slice }}
+        {{ $children := sort (.RegularPagesRecursive.GroupBy "CurrentSection") "Key.Title" }}
         {{/* 独立カテゴリを個別グループ毎に表示 */}}
-        {{ range $category := sort $articles_anygrp "Key.Title" }}
-          {{ if eq $category.Key.Title "Knowledge" }}
-            {{ $articles_othgrp = $articles_othgrp | append $category}}
-          {{ else }}
-            {{ if ne $category.Key.Title $.Title }}
-              <h3><a class="nav-category" href="{{ $category.Key.RelPermalink }}">{{ $category.Key.Title }}</a></h3>
+        {{ range $category := where $children ".Key.Title" "!=" "Knowledge" }}
+          <h3><a class="nav-category" href="{{ $category.Key.RelPermalink }}">{{ $category.Key.Title }}</a></h3>
+          <ul>
+            {{ range $item := sort $category.Pages "LinkTitle" }}
+              <li><a href="{{ $item.RelPermalink }}">{{ $item.LinkTitle }}</a></li>
             {{ end }}
-            <ul>
-              {{ range $item := sort $category.Pages "LinkTitle" }}
-                <li><a href="{{ $item.RelPermalink }}">{{ $item.LinkTitle }}</a></li>
-              {{ end }}
-            </ul>
-          {{ end }}
+          </ul>
         {{ end }}
         {{/* 雑多カテゴリをその他グループ毎に表示 */}}
-        {{ range $category := $articles_othgrp }}
+        {{ range $category := where $children ".Key.Title" "==" "Knowledge" }}
           <h3>その他</h3>
           <ul>
             {{ range $item := sort $category.Pages "LinkTitle" }}
