@@ -1,0 +1,88 @@
+<!doctype html><html lang=ja-jp>
+<head>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,minimum-scale=1">
+<meta name=description content="Box を CLI ツールから使用する # 認証情報を構成 box configure:environments:add authinf.json # ファイルをアップロード (既にファイルがある場合はエラーになる) box files:upload SRC_FILE_PATH --parent-id DST_FOLDR_ID # 新しいバージョンの">
+<meta name=generator content="Hugo 0.88.1">
+<title>Box | Memo.Namo</title>
+<meta name=robots content="noindex, nofollow">
+<link rel=stylesheet href=/style/main.css>
+</head>
+<body>
+<div class=flexbox>
+<div>
+<header id=site-header class=toplevel-container>
+<h1><a href=/>Memo.Namo</a></h1>
+<nav>
+<ul class=horizontal-menu>
+<li class=horizontal-menu-item><a href=/about/>About</a></li>
+<li class=horizontal-menu-item><a href=/knowledge/>Knowledge</a></li>
+</ul>
+</nav>
+</header>
+<main id=site-main class=toplevel-container>
+<article class="content-container content-grid">
+<header class=content-grid-header>
+<div>
+<h1 class=content-grid-title>Box</h1>
+</div>
+<p class=content-grid-desc>
+<span>公開日: 2020-09-03</span>
+<span>更新日: 2020-09-03</span>
+</p>
+</header>
+<aside class=content-grid-side>
+<div class=nav-sticky>
+<nav class=nav-tag>
+<h2>タグ</h2>
+<ul class=tag-container>
+<li class="tag-item tag-item-inactive">
+<a href=/tags/aws/>AWS</a>
+</li>
+<li class="tag-item tag-item-active">
+<a href=/tags/box/>Box</a>
+</li>
+<li class="tag-item tag-item-inactive">
+<a href=/tags/hugo/>Hugo</a>
+</li>
+<li class="tag-item tag-item-inactive">
+<a href=/tags/nvidia/>Nvidia</a>
+</li>
+<li class="tag-item tag-item-inactive">
+<a href=/tags/openssl/>OpenSSL</a>
+</li>
+<li class="tag-item tag-item-inactive">
+<a href=/tags/tableau/>Tableau</a>
+</li>
+</ul>
+</nav>
+</div>
+</aside>
+<section class="md-content content-grid-main"><h1 id=box-を-cli-ツールから使用する>Box を CLI ツールから使用する</h1>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-powershell data-lang=powershell><span class=c># 認証情報を構成</span>
+<span class=n>box</span> <span class=n>configure</span><span class=err>:</span><span class=n>environments</span><span class=err>:</span><span class=n>add</span> <span class=n>authinf</span><span class=p>.</span><span class=n>json</span>
+
+<span class=c># ファイルをアップロード (既にファイルがある場合はエラーになる)</span>
+<span class=n>box</span> <span class=n>files</span><span class=err>:</span><span class=n>upload</span> <span class=n>SRC_FILE_PATH</span> <span class=p>-</span><span class=n>-parent-id</span> <span class=n>DST_FOLDR_ID</span>
+
+<span class=c># 新しいバージョンのファイルをアップロード</span>
+<span class=n>box</span> <span class=n>files</span><span class=err>:</span><span class=n>versions</span><span class=err>:</span><span class=n>upload</span> <span class=n>DST_FILE_ID</span> <span class=n>SRC_FILE_PATH</span>
+
+<span class=c># フォルダを作成</span>
+<span class=n>box</span> <span class=n>folders</span><span class=err>:</span><span class=n>create</span> <span class=n>PARENT_FOLDER_ID</span> <span class=n>FOLDER_NAME</span>
+
+<span class=c># ユーザ情報を取得. USER_ID 省略時にはカレントユーザの情報が取得される</span>
+<span class=n>box</span> <span class=n>users</span><span class=err>:</span><span class=n>get</span> <span class=n>USER_ID</span>
+</code></pre></div></section>
+</article>
+</main>
+</div>
+<div>
+<footer id=site-footer class=toplevel-container>
+<p>このサイトでは <a href=https://icons8.jp/>icons8</a> の素材を使用しています。</p>
+<p>&copy; 2021 namoshika, All rights reserved</p>
+</footer>
+</div>
+</div>
+</body>
+</html>
