@@ -1,0 +1,241 @@
+<!doctype html><html lang=ja-jp>
+<head>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,minimum-scale=1">
+<meta name=description content="この記事で扱う範囲 公式チュートリアルの Wordpress サーバーを作成する資料を実践。 初学者過ぎてロールやエージェントインストールが辛かったので、現時点の理">
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']]}}</script>
+<script type=text/javascript id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js></script>
+<meta name=generator content="Hugo 0.90.1">
+<title>CodeDeploy | Memo.Namo</title>
+<meta name=robots content="noindex, nofollow">
+<link rel=stylesheet href=/style/main.css>
+</head>
+<body>
+<div class=flexbox>
+<div>
+<header id=site-header class=toplevel-container>
+<h1><a href=/>Memo.Namo</a></h1>
+<nav>
+<ul class=horizontal-menu>
+<li class=horizontal-menu-item><a href=/about/>About</a></li>
+<li class=horizontal-menu-item><a href=/knowledge/>Knowledge</a></li>
+</ul>
+</nav>
+</header>
+<main id=site-main class=toplevel-container>
+<article class="content-container content-grid">
+<header class=content-grid-header>
+<div>
+<a class=nav-category href=/knowledge/aws/>AWS</a>
+<h1 class=content-grid-title>CodeDeploy</h1>
+</div>
+<p class=content-grid-desc>
+<span>公開日: 2021-12-16</span>
+<span>更新日: 2021-12-16</span>
+</p>
+</header>
+<aside class=content-grid-side>
+<div class=nav-sticky>
+<h2>目次</h2>
+<nav id=TableOfContents>
+<ul>
+<li><a href=#この記事で扱う範囲>この記事で扱う範囲</a></li>
+<li><a href=#codedeployで必要なもの>CodeDeployで必要なもの</a></li>
+<li><a href=#デプロイする際の手順>デプロイする際の手順</a>
+<ul>
+<li><a href=#s3にデプロイ資材を用意>S3にデプロイ資材を用意</a></li>
+<li><a href=#iamロールを用意>IAMロールを用意</a></li>
+<li><a href=#ec2インスタンスを用意する>EC2インスタンスを用意する</a></li>
+<li><a href=#codedeployにアプリを登録する>CodeDeployにアプリを登録する</a></li>
+</ul>
+</li>
+<li><a href=#デプロイに失敗する場合>デプロイに失敗する場合</a></li>
+</ul>
+</nav>
+<nav class=nav-tag>
+<h2>タグ</h2>
+<ul class=tag-container>
+<li class="tag-item tag-item-active">
+<a href=/tags/aws/>AWS</a>
+</li>
+<li class="tag-item tag-item-inactive">
+<a href=/tags/box/>Box</a>
+</li>
+<li class="tag-item tag-item-inactive">
+<a href=/tags/hugo/>Hugo</a>
+</li>
+<li class="tag-item tag-item-inactive">
+<a href=/tags/math/>Math</a>
+</li>
+<li class="tag-item tag-item-inactive">
+<a href=/tags/nvidia/>Nvidia</a>
+</li>
+<li class="tag-item tag-item-inactive">
+<a href=/tags/openssl/>OpenSSL</a>
+</li>
+<li class="tag-item tag-item-inactive">
+<a href=/tags/tableau/>Tableau</a>
+</li>
+</ul>
+</nav>
+</div>
+</aside>
+<section class="md-content content-grid-main"><h1 id=この記事で扱う範囲>この記事で扱う範囲</h1>
+<p>公式チュートリアルの Wordpress サーバーを作成する資料を実践。<br>
+初学者過ぎてロールやエージェントインストールが辛かったので、現時点の理解を整理して出力。CodeDeployを使う際の用意する資材や、IAMの初歩的解説、デプロイ失敗時の原因調査で使えたログ場所をまとめました。</p>
+<h1 id=codedeployで必要なもの>CodeDeployで必要なもの</h1>
+<p>今回はS3のzipファイルをEC2インスタンスへデプロイする。次の要素を満たすことでデプロイが最後まで動く。</p>
+<ul>
+<li>S3: デプロイ資材 (zipでまとめておく)</li>
+<li>EC2 インスタンス
+<ul>
+<li>デプロイ先インスタンス:<br>
+適当なタグを設定しておくこと。CodeDeploy Agentをインストールしておくこと</li>
+</ul>
+</li>
+<li>IAM ロール
+<ul>
+<li>Role1: CodeDeployからデプロイ先インスタンスがあるEC2へアクセスするロール</li>
+<li>Role2: EC2からデプロイ資材のあるS3へアクセスするロール</li>
+</ul>
+</li>
+</ul>
+<h1 id=デプロイする際の手順>デプロイする際の手順</h1>
+<p>AWS CLIはできるだけ使わず、マネジメントコンソールからの操作で作業する。</p>
+<h2 id=s3にデプロイ資材を用意>S3にデプロイ資材を用意</h2>
+<p>資材はzipでまとめておき、S3へアップする。<br>
+資材はルート直下に appspec.yml が必要。このファイルでデプロイ資材の配置場所などを決める。</p>
+<p><strong>appspec.yml の仕様</strong><br>
+<a href=https://docs.aws.amazon.com/ja_jp/codedeploy/latest/userguide/reference-appspec-file-structure.html>https://docs.aws.amazon.com/ja_jp/codedeploy/latest/userguide/reference-appspec-file-structure.html</a></p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-yml data-lang=yml><span class=c># 必須</span><span class=w>
+</span><span class=w></span><span class=nt>version</span><span class=p>:</span><span class=w> </span><span class=m>0.0</span><span class=w>
+</span><span class=w></span><span class=nt>os</span><span class=p>:</span><span class=w> </span><span class=l>linux</span><span class=w>
+</span><span class=w></span><span class=nt>files</span><span class=p>:</span><span class=w>
+</span><span class=w></span><span class=c># パスはappspec.ymlがある場所がルート &amp; カレント ディレクトリになる</span><span class=w>
+</span><span class=w>  </span>- <span class=nt>source</span><span class=p>:</span><span class=w> </span><span class=l>/</span><span class=w>
+</span><span class=w>    </span><span class=nt>destination</span><span class=p>:</span><span class=w> </span><span class=l>/var/www/html/WordPress</span><span class=w>
+</span><span class=w></span><span class=c># オプション</span><span class=w>
+</span><span class=w></span><span class=c># デプロイライフサイクルに基づいて、処理を挟める。</span><span class=w>
+</span><span class=w></span><span class=nt>hooks</span><span class=p>:</span><span class=w>
+</span><span class=w>  </span><span class=nt>BeforeInstall</span><span class=p>:</span><span class=w>
+</span><span class=w>    </span>- <span class=nt>location</span><span class=p>:</span><span class=w> </span><span class=l>scripts/install_dependencies.sh</span><span class=w>
+</span><span class=w>      </span><span class=nt>timeout</span><span class=p>:</span><span class=w> </span><span class=m>300</span><span class=w>
+</span><span class=w>      </span><span class=nt>runas</span><span class=p>:</span><span class=w> </span><span class=l>root</span><span class=w>
+</span><span class=w>  </span><span class=nt>AfterInstall</span><span class=p>:</span><span class=w>
+</span><span class=w>    </span>- <span class=nt>location</span><span class=p>:</span><span class=w> </span><span class=l>scripts/change_permissions.sh</span><span class=w>
+</span><span class=w>      </span><span class=nt>timeout</span><span class=p>:</span><span class=w> </span><span class=m>300</span><span class=w>
+</span><span class=w>      </span><span class=nt>runas</span><span class=p>:</span><span class=w> </span><span class=l>root</span><span class=w>
+</span><span class=w>  </span><span class=nt>ApplicationStart</span><span class=p>:</span><span class=w>
+</span><span class=w>    </span>- <span class=nt>location</span><span class=p>:</span><span class=w> </span><span class=l>scripts/start_server.sh</span><span class=w>
+</span><span class=w>    </span>- <span class=nt>location</span><span class=p>:</span><span class=w> </span><span class=l>scripts/create_test_db.sh</span><span class=w>
+</span><span class=w>      </span><span class=nt>timeout</span><span class=p>:</span><span class=w> </span><span class=m>300</span><span class=w>
+</span><span class=w>      </span><span class=nt>runas</span><span class=p>:</span><span class=w> </span><span class=l>root</span><span class=w>
+</span><span class=w>  </span><span class=nt>ApplicationStop</span><span class=p>:</span><span class=w>
+</span><span class=w>    </span>- <span class=nt>location</span><span class=p>:</span><span class=w> </span><span class=l>scripts/stop_server.sh</span><span class=w>
+</span><span class=w>      </span><span class=nt>timeout</span><span class=p>:</span><span class=w> </span><span class=m>300</span><span class=w>
+</span><span class=w>      </span><span class=nt>runas</span><span class=p>:</span><span class=w> </span><span class=l>root</span><span class=w>
+</span></code></pre></div><h2 id=iamロールを用意>IAMロールを用意</h2>
+<p>サービス間は権限設定で疎通を許可する必要がある。<br>
+今回は CodeDeploy/EC2/S3 間に許可設定が必要。IAMにはService, Role, Policyが登場し次の関係になる。</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback> ┌─────┐　┌───┐　　┌────┐  
+ │ Service　├─┤ Role │◇─┤ Policy │
+ └─────┘　└───┘　　└────┘  
+</code></pre></div><p>次の2つのロール作成が必要。</p>
+<ul>
+<li>
+<p><strong>CodeDeploy → EC2</strong><br>
+CodeDeployサービスにEC2サービスへのアクセス権限が必要。これには AWS管理ポリシーに AWSCodeDeployRole が用意されている。このポリシーを付与したロールを作成する。</p>
+</li>
+<li>
+<p><strong>EC2インスタンス → S3</strong><br>
+デプロイ資材の取得はデプロイ先にインストールされたcodedeploy-agentが行うため、EC2インスタンスからS3へのアクセス権限の付与が必要になる。AWS管理ポリシーに AmazonEC2RoleforAWSCodeDeploy が用意されている。このポリシーを付与したロールを作成する。</p>
+</li>
+</ul>
+<p><strong>権限設定に関する補足</strong><br>
+PolicyはJSON形式で権限設定が定義されている。Actionで操作を指定、Effectで許可/拒否、Resourceで参照先を指定。次の例ではS3への読み取り系の許可を与える内容になっている。どの権限が必要になるかはサービスのドキュメントを読み漁るしか無い。一旦はAmazonがユースケース毎にAWS管理ポリシーをすでに登録済みなため、管理ポリシーを使うと良い。</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-json data-lang=json><span class=p>{</span>
+    <span class=nt>&#34;Version&#34;</span><span class=p>:</span> <span class=s2>&#34;2012-10-17&#34;</span><span class=p>,</span>
+    <span class=nt>&#34;Statement&#34;</span><span class=p>:</span> <span class=p>[</span>
+        <span class=p>{</span>
+            <span class=nt>&#34;Action&#34;</span><span class=p>:</span> <span class=p>[</span>
+                <span class=s2>&#34;s3:GetObject&#34;</span><span class=p>,</span>
+                <span class=s2>&#34;s3:GetObjectVersion&#34;</span><span class=p>,</span>
+                <span class=s2>&#34;s3:ListBucket&#34;</span>
+            <span class=p>],</span>
+            <span class=nt>&#34;Effect&#34;</span><span class=p>:</span> <span class=s2>&#34;Allow&#34;</span><span class=p>,</span>
+            <span class=nt>&#34;Resource&#34;</span><span class=p>:</span> <span class=s2>&#34;*&#34;</span>
+        <span class=p>}</span>
+    <span class=p>]</span>
+<span class=p>}</span>
+</code></pre></div><p>RoleにはPolicyが複数セットされる。また、Policyに似た「信頼関係」が設定でき、Roleの権限行使が許可される相手を定義する。今回は直接編集しないが、CodeDeployやEC2インスタンスへRoleを設定した際にRoleの信頼関係にPrincipalでCodeployやEC2へ「sts:AssumeRole」という権限委譲の機能が許可されることが確認できる。</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-json data-lang=json><span class=p>{</span>
+  <span class=nt>&#34;Version&#34;</span><span class=p>:</span> <span class=s2>&#34;2012-10-17&#34;</span><span class=p>,</span>
+  <span class=nt>&#34;Statement&#34;</span><span class=p>:</span> <span class=p>[</span>
+    <span class=p>{</span>
+      <span class=nt>&#34;Sid&#34;</span><span class=p>:</span> <span class=s2>&#34;&#34;</span><span class=p>,</span>
+      <span class=nt>&#34;Effect&#34;</span><span class=p>:</span> <span class=s2>&#34;Allow&#34;</span><span class=p>,</span>
+      <span class=nt>&#34;Principal&#34;</span><span class=p>:</span> <span class=p>{</span>
+        <span class=nt>&#34;Service&#34;</span><span class=p>:</span> <span class=s2>&#34;codedeploy.amazonaws.com&#34;</span>
+      <span class=p>},</span>
+      <span class=nt>&#34;Action&#34;</span><span class=p>:</span> <span class=s2>&#34;sts:AssumeRole&#34;</span>
+    <span class=p>}</span>
+  <span class=p>]</span>
+<span class=p>}</span>
+</code></pre></div><h2 id=ec2インスタンスを用意する>EC2インスタンスを用意する</h2>
+<p>デプロイ先となるインスタンスは起動しておく。</p>
+<p><strong>EC2インスタンス → S3 用ロールを付与</strong>
+EC2の管理画面からデプロイ先インスタンスを右クリック。コンテキストメニューから [インスタンスの設定] - [IAMロールの割り当て/解除] を開く。デプロイ先EC2インスタンスに先の手順で定義した 「EC2インスタンス → S3」 用ロールを付与。</p>
+<p><strong>CodeDeploy-Agentをインストール</strong>
+デプロイ先にエージェントをインストールする。エージェントはS3からDLして使う。rubyなども全てインストールすること。</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-sh data-lang=sh><span class=c1># CodeDeploy-Agentをダウンロード</span>
+sudo yum update
+sudo yum install ruby
+sudo yum install wget
+<span class=c1># 先のEC2インスタンスへのロール付与で認証が通っていることを確認</span>
+<span class=c1># access/secret key が表示され、type列が &#34;iam-role&#34; になっていること。</span>
+aws configure list
+<span class=c1># 東京リュージョンからDL</span>
+aws s3 cp --recursive s3://aws-codedeploy-ap-northeast-1/latest .
+
+<span class=c1># インストール</span>
+chmod +x ./install
+sudo ./install auto
+
+<span class=c1># 起動していることを確認</span>
+systemctl status codedeploy-agent
+
+<span class=c1># 起動してないなら起動させる</span>
+systemctl start codedeploy-agent
+</code></pre></div><h2 id=codedeployにアプリを登録する>CodeDeployにアプリを登録する</h2>
+<p>マネジメントコンソールのサービス一覧から「CodeDeploy」を開く。デプロイグループを開き、「アプリケーション」を開く。「アプリケーションの作成」をクリックし、ウィザードに従って設定。画面を見れば設定箇所は埋められるが、アプリを登録してもボタン一発でデプロイできる状態にはならず、毎度デプロイ資材の選択などが生じる。</p>
+<ul>
+<li>アプリケーション:<br>
+アプリ名を設定。次の2つはアプリ毎に設定可能</li>
+<li>デプロイグループ:<br>
+デプロイ先 (EC2インスタンスのタグ名) とデプロイ用IAMロール (サービスロール) を設定</li>
+<li>リビジョン:<br>
+デプロイ資材はリビジョンとして扱われる</li>
+</ul>
+<p><strong>追加のデプロイ動作設定</strong><br>
+意味が分かりにくい設定として「追加のデプロイ動作設定」がある。旧リビジョンのappspec.ymlに記載された hock.ApplicationStop がエラーの際に「ライフサイクルイベントの障害で、デプロイを失敗させない」を指定すると強制的に新リビジョンのデプロイ処理を走らせられる。</p>
+<h1 id=デプロイに失敗する場合>デプロイに失敗する場合</h1>
+<p>エラーが出た際にはマネジメントコンソールからライフライクルイベント毎のエラ出力を確認できる。EC2インスタンスの次のパスでもエージェントのログが格納されるため、エラー原因調査に使える。</p>
+<ul>
+<li>/var/log/aws/codedeploy-agent/</li>
+<li>/opt/codedeploy-agent/deployment-root/deployment-logs/<br>
+hookスクリプトのエラーなどはこちらで確認できる</li>
+</ul>
+</section>
+</article>
+</main>
+</div>
+<div>
+<footer id=site-footer class=toplevel-container>
+<p>このサイトでは <a href=https://icons8.jp/>icons8</a> の素材を使用しています。</p>
+<p>&copy; 2021 namoshika, All rights reserved</p>
+</footer>
+</div>
+</div>
+</body>
+</html>
