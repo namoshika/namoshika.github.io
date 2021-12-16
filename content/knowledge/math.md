@@ -1,0 +1,322 @@
+---
+title: "Math"
+date: 2021-12-16T08:30:03+09:00
+tags: [Math]
+draft: false
+---
+# キレイに書かれた数式って良いよね！
+Jupyter Notebook の Markdownセルには数式を美しく書く機能があります。
+
+数式は生テキストとして書くと見直した際に意味不明で困りものです。教科書通りに書ければ読みやすいのに！。Jupyter Notebookでは出来ます。ここでは次の方針とします。
+
+* あくまでJupyterで書く話 (MathJax? TEX? 知らない子ですね)
+* 数式のセオリーを知る (大文字小文字とかありますよね)
+* ある式を書くための一つの記法 (ベクトルって色々な書き方ありますよね)
+* 裏技とか無し (強者は本家リファレンスを読もう)
+
+# 数式の書き方
+数式の区間を作る際にはmarkdownセル中に `$$ ... $$` と書きます。
+
+```latex
+$$
+    y = ax
+$$
+```
+
+$$
+    y = ax
+$$
+
+文章中に数式を書く場合には `$ ... $` と書きます。
+
+```latex
+お $ \pi $ ლ(╹◡╹ლ)
+```
+お $ \pi $ ლ(╹◡╹ლ)
+
+# 数式ルール
+数式には「大文字」 or 「小文字」、「イタリック」 or 「ローマン体」が登場しますが、これらにはルールがあります (参考資料1)。
+
+* イタリック
+  - 変数
+  - e, d (本来はローマン体ですが、面倒臭い...)
+* ローマン体
+  - 数学記号 (演算子、lim、sin etc...)
+  - 略語
+  - 定数 (π)
+
+ローマン体を使う状況の多くは専用のコントロールシーケンス (\\hoge) が用意されており、これを覚える事が基本となります。また、変数は追加で次のルールがあります。
+
+|          | 太さ     | 文字   | 描画             |
+|----------|----------|--------|------------------|
+| スカラー | ノーマル | 小文字 | $x$              |
+| ベクトル | ボールド | 小文字 | $\boldsymbol{x}$ |
+| 行列     | ボールド | 大文字 | $\boldsymbol{X}$ |
+
+なお、書式は人や分野で違いがあるようです。ベクトルや行列にローマン体を使用する資料もあり、可読性で一理あるようにも思えます。書く際にはルールに一貫性を、指導員が居れば規約確認をした方が良いです。
+
+# 色々な式を書く
+後は様々な機能を覚えるのみです。より多くの書き方を知りたい際には (参考資料2)、記号を知る際は (参考資料3) をおすすめします。
+
+## よく使う記法
+様々な表現が可能。
+
+```latex
+$$
+    % 空白は表示に影響しない。コメントは"%"で始める
+    % 下付き文字は"_a"、上付き文字は"^a"
+    % 改行は"\\"を付ける
+    y_1 = ax^2 \\
+    % 複数文字を1要素とする際は{...}で囲う
+    % 空白は"\quad"
+    y_2 = ax^{10} \quad y_3 = ax \\
+$$
+```
+
+$$
+    % 空白は表示に影響しない
+    % 下付き文字は"_a"、上付き文字は"^a"
+    % 改行は"\\"を付ける
+    y_1 = ax^2 \\\\
+    % 複数文字を1要素とする際は{...}で囲う
+    % 空白は"\quad"
+    y_2 = ax^{10} \quad y_3 = ax \\\\
+$$
+
+複数行はイコールの場所で揃えると見やすい。
+
+```latex
+$$
+    % \begin{hoge}...\end{hoge} と書くことで幾つかの文章様式が表現可能 (texでは環境と呼ぶようです)
+    % aligned環境を使うと複数の式を&で位置合わせできる
+    \begin{aligned}
+        % 奇数番目の&で場所が縦に揃う
+        % 偶数番目の&はタブスペースになる
+        a_1   &= ax_1 & a_2   &= ax_2  \\
+        bb_1  &= ax_1 & bb_2  &= ax_2  \\
+        ccc_1 &= ax_1 & ccc_2 &= ax_2
+    \end{aligned}
+$$
+```
+
+$$
+    % \\begin{hoge}...\\end{hoge} と書くことで幾つかの文章様式が表現可能 (texでは環境と呼ぶようです)
+    % aligned環境を使うと複数の式を&で位置合わせできる
+    \begin{aligned}
+        % 奇数番目の&で場所が縦に揃う
+        % 偶数番目の&はタブスペースになる
+        a_1   &= ax_1 & a_2   &= ax_2  \\\\
+        bb_1  &= ax_1 & bb_2  &= ax_2  \\\\
+        ccc_1 &= ax_1 & ccc_2 &= ax_2
+    \end{aligned}
+$$
+
+```latex
+$$
+    \begin{aligned}
+        % 各種演算子の書き方
+        y &= ax     & y &> ax  & y \geqq ax \\
+        y &\neq ax  & y &< ax  & y \leqq ax \\
+    \end{aligned}
+$$
+```
+
+$$
+    \begin{aligned}
+        % 各種演算子の書き方
+        y &= ax     & y &> ax  & y \geqq ax \\\\
+        y &\neq ax  & y &< ax  & y \leqq ax \\\\
+    \end{aligned}
+$$
+
+## ベクトル & 行列
+
+```latex
+$$
+    % "boldsymbol"で太字にしている
+    \boldsymbol{v} =
+        % ベクトルや行列は"left["と"right]"でベクトルや行列の括弧を作る
+        % 括弧内に"array"環境を展開する
+        % {c|cc}の形で中央揃え、縦線、中央揃え*2の並びに出来る
+        \left[\begin{array}{c}
+            2 \\
+            3 \\
+        \end{array}\right] \quad
+    \boldsymbol{M} =
+        \left[\begin{array}{c|cc}
+            % 横並びは&を挟む
+            1 & 2 & 4 \\
+            % 水平線は\\hlineを使う
+            \hline
+            2 & 3 & 5 \\
+        \end{array}\right] \quad
+$$
+```
+
+$$
+    % "boldsymbol"で太字にしている
+    \boldsymbol{v} =
+        % ベクトルや行列は"left["と"right]"でベクトルや行列の括弧を作る
+        % 括弧内に"array"環境を展開する
+        % {c|cc}の形で中央揃え、縦線、中央揃え*2の並びに出来る
+        \left[\begin{array}{c}
+            2 \\\\
+            3 \\\\
+        \end{array}\right] \quad
+    \boldsymbol{M} =
+        \left[\begin{array}{c|cc}
+            % 横並びは&を挟む
+            1 & 2 & 4 \\\\
+            % 水平線は\\hlineを使う
+            \hline
+            2 & 3 & 5 \\\\
+        \end{array}\right] \quad
+$$
+
+## ルート
+
+```latex
+$$
+    |\boldsymbol{a}| = \sqrt{a_0^2+a_1^2}
+$$
+```
+
+$$
+    |\boldsymbol{a}| = \sqrt{a_0^2+a_1^2}
+$$
+
+## 和 & 積
+
+```latex
+$$
+    a = \sum_{i=0}^{n}2a \quad
+    b = \prod_{i=0}^{n}2b
+$$
+```
+
+$$
+    a = \sum_{i=0}^{n}2a \quad
+    b = \prod_{i=0}^{n}2b
+$$
+
+## 分数
+
+```latex
+$$
+    y = \frac{2}{3}
+$$
+```
+
+$$
+    y = \frac{2}{3}
+$$
+
+## 微分
+
+```latex
+$$
+    \frac{d}{d x} x^2 = 2x \\
+    \frac{\partial}{\partial x} x^2 + a = 2x
+$$
+```
+
+$$
+    \frac{d}{d x} x^2 = 2x \\\\
+    \frac{\partial}{\partial x} x^2 + a = 2x
+$$
+
+## 点線
+
+* \cdots: 横向き
+* \vdots: 縦向き
+* \ddots: 斜線
+
+```latex
+$$
+    \boldsymbol{A} =
+        \left[\begin{array}{ccc}
+            a_{0,0} & \cdots & a_{0,x} \\
+            \vdots  & \ddots & \vdots \\
+            a_{y,0} & \cdots & a_{y,x} \\
+        \end{array}\right]
+$$
+```
+
+$$
+    \boldsymbol{A} =
+        \left[\begin{array}{ccc}
+            a_{0,0} & \cdots & a_{0,x} \\\\
+            \vdots  & \ddots & \vdots \\\\
+            a_{y,0} & \cdots & a_{y,x} \\\\
+        \end{array}\right]
+$$
+
+## 条件分け
+
+```latex
+$$
+    ReLU(x) =
+        \begin{cases}
+            x \quad x \geqq 0 \\
+            0 \quad x < 0 \\
+        \end{cases}
+$$
+```
+
+$$
+    ReLU(x) =
+        \begin{cases}
+            x \quad x \geqq 0 \\\\
+            0 \quad x < 0 \\\\
+        \end{cases}
+$$
+
+## 各種記号
+上手く活用すればローマン体になるべきところが自然とローマン体になります。
+
+|              | シンボル  | 描画        |
+|--------------|-----------|-------------|
+| 円周率       | \\pi      | $ \pi     $ |
+| eを体としたx | \\exp(x)  | $ \exp(x) $ |
+| 自然対数     | \\ln(x)   | $ \ln(x)  $ |
+| デルタ       | \\delta   | $ \delta  $ |
+| アダマール積 | \\odot    | $ \odot   $ |
+
+## 書式の指定
+任意の文字列をローマン体にしたい場合もあります(略語を想定)。その際は以下のようにします。イタリックの場合でも複数文字を一塊の単語として表示したい場合には \\mathit を使うと "f" などが間延びせずに表示できます。
+
+| 書式                 | 記述           | 描画            |
+|----------------------|----------------|-----------------|
+| ローマン体           | \\mathrm{x}    | $\mathrm{x}$    |
+| ローマン体 + 太字    | \\mathbf{x}    | $\mathbf{x}$    |
+| イタリック(詰め気味) | \\mathit{diff} | $\mathit{diff}$ |
+
+先程の条件分けサンプルを見てみましょう。ReLUはDNNの活性化関数として用いられるReLU関数として書いており、"R×e×L×U" ではありません。よってここではローマン体になります。
+
+```latex
+$$
+    % ローマン体にする
+    \mathrm{ReLU}(x) =
+        \begin{cases}
+            x \quad x \geqq 0 \\
+            0 \quad x < 0 \\
+        \end{cases}
+$$
+```
+
+$$
+    \mathrm{ReLU}(x) =
+        \begin{cases}
+            x \quad x \geqq 0 \\\\
+            0 \quad x < 0 \\\\
+        \end{cases}
+$$
+
+# 参考資料
+
+1. 数学の常識・非常識—由緒正しい TEX 入力法  
+   https://www.math.tohoku.ac.jp/tmj/oda_tex.pdf
+2. Easy Copy MathJax  
+   http://easy-copy-mathjax.xxxx7.com/
+3. LaTeXコマンド - 数学記号（等号、不等号、演算子、集合）  
+   https://medemanabu.net/latex/operators/
