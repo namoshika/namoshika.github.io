@@ -6,7 +6,7 @@
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script>MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']]}}</script>
 <script type=text/javascript id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js></script>
-<meta name=generator content="Hugo 0.90.1">
+<meta name=generator content="Hugo 0.91.2">
 <title>Hugo | Memo.Namo</title>
 <meta name=robots content="noindex, nofollow">
 <link rel=stylesheet href=/style/main.css>
@@ -60,7 +60,7 @@
 <ul>
 <li><a href=#描画用テンプレート>描画用テンプレート</a></li>
 <li><a href=#描画用テンプレート-partial>描画用テンプレート (Partial)</a></li>
-<li><a href=#描画用テンプレート-block>描画用テンプレート (Block))</a></li>
+<li><a href=#描画用テンプレート-block>描画用テンプレート (Block)</a></li>
 <li><a href=#独自ショートコードの作成>独自ショートコードの作成</a></li>
 </ul>
 </li>
@@ -358,7 +358,7 @@ content/posts/my-post
 <span class=c>&lt;!-- .Scratch.Set を使って値を入れる --&gt;</span>
 <span class=p>&lt;</span><span class=nt>p</span><span class=p>&gt;</span>{{ $param := .Scratch.Set &#34;Param1&#34; &#34;Value&#34; }}<span class=p>&lt;/</span><span class=nt>p</span><span class=p>&gt;</span>
 {{ partial &#34;subtemp&#34; . }}
-</code></pre></div><h2 id=描画用テンプレート-block>描画用テンプレート (Block))</h2>
+</code></pre></div><h2 id=描画用テンプレート-block>描画用テンプレート (Block)</h2>
 <p>block はページの外枠を定義する機構を提供します。 partial との違いは partial が呼び出し元テンプレートの中へ別ファイルとして定義したテンプレートを埋め込みますが、 block は別ファイルとして定義したテンプレートへ呼び出し元のテンプレートが埋め込まれる挙動をします。</p>
 <p>使用する際はベーステンプレートとして <code>baseof.html</code> を作成し、内部には <code>block "名前" .</code> を定義しておきます。各テンプレート内では <code>define "名前"</code> を定義して使う事で、 <code>baseof.html</code> をベースに <code>block "名前" .</code> へ <code>define "名前"</code> を入れた状態で描画されます。</p>
 <div class=highlight><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=c>&lt;!-- テンプレート呼び出し --&gt;</span>
