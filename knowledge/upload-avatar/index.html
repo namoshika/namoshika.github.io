@@ -1,0 +1,305 @@
+<!doctype html><html lang=ja-jp>
+<head>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,minimum-scale=1">
+<meta name=description content="アバターの用意 アバターは BOOTH などで販売されています。ここでは &ldquo;火事屋&rdquo; さんが無料配布している &ldquo;U10H7500&rdquo; をサンプルに VRChat へのアバタ">
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script>MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']]}}</script>
+<script type=text/javascript id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js></script>
+<meta name=generator content="Hugo 0.92.2">
+<title>02. アバターをアップロードする | Memo.Namo</title>
+<meta name=robots content="noindex, nofollow">
+<link rel=stylesheet href=/style/main.css>
+</head>
+<body>
+<div class=flexbox>
+<div>
+<header id=site-header class=toplevel-container>
+<h1><a href=/>Memo.Namo</a></h1>
+<nav>
+<ul class=horizontal-menu>
+<li class=horizontal-menu-item><a href=/about/>About</a></li>
+<li class=horizontal-menu-item><a href=/knowledge/>Knowledge</a></li>
+</ul>
+</nav>
+</header>
+<main id=site-main class=toplevel-container>
+<article class="content-container content-grid">
+<header class=content-grid-header>
+<div>
+<a class=nav-category href=/knowledge/vrchat/>VRChat</a>
+<h1 class=content-grid-title>02. アバターをアップロードする</h1>
+</div>
+<p class=content-grid-desc>
+<span>公開日: 2022-02-05</span>
+<span>更新日: 2022-02-05</span>
+</p>
+</header>
+<aside class=content-grid-side>
+<div class=nav-sticky>
+<h2>目次</h2>
+<nav id=TableOfContents>
+<ul>
+<li><a href=#アバターの用意>アバターの用意</a>
+<ul>
+<li><a href=#1-モデルをインポートする>1. モデルをインポートする</a></li>
+<li><a href=#2-依存アセットを取得する>2. 依存アセットを取得する</a></li>
+<li><a href=#3-unity-アバターの設定>3. Unity アバターの設定</a></li>
+<li><a href=#4-作業用シーンを作成する>4. 作業用シーンを作成する</a></li>
+<li><a href=#5-モデルをシーンへ配置する>5. モデルをシーンへ配置する</a></li>
+<li><a href=#6-アバターを改造する>6. アバターを改造する</a></li>
+<li><a href=#7-vrchat-用の情報を追加>7. VRChat 用の情報を追加</a></li>
+</ul>
+</li>
+<li><a href=#アバターのアップロード>アバターのアップロード</a>
+<ul>
+<li><a href=#1-vrchat-sdk-を開く>1. VRChat SDK を開く</a></li>
+<li><a href=#2-エラーを除去する>2. エラーを除去する</a></li>
+<li><a href=#3-動作確認>3. 動作確認</a></li>
+<li><a href=#4-アップロード-pc-向け>4. アップロード (PC 向け)</a></li>
+<li><a href=#5-アップロード-quest-向け>5. アップロード (Quest 向け)</a></li>
+</ul>
+</li>
+<li><a href=#上手くいかない場合>上手くいかない場合</a></li>
+<li><a href=#追加要素>追加要素</a>
+<ul>
+<li><a href=#アバターサムネイルの指定>アバターサムネイルの指定</a></li>
+</ul>
+</li>
+</ul>
+</nav>
+<nav class=nav-tag>
+<h2>タグ</h2>
+<ul class=tag-container>
+<li class="tag-item tag-item-inactive">
+<a href=/tags/aws/>AWS</a>
+</li>
+<li class="tag-item tag-item-inactive">
+<a href=/tags/box/>Box</a>
+</li>
+<li class="tag-item tag-item-inactive">
+<a href=/tags/hugo/>Hugo</a>
+</li>
+<li class="tag-item tag-item-inactive">
+<a href=/tags/human_skill/>human_skill</a>
+</li>
+<li class="tag-item tag-item-inactive">
+<a href=/tags/math/>Math</a>
+</li>
+<li class="tag-item tag-item-inactive">
+<a href=/tags/nvidia/>Nvidia</a>
+</li>
+<li class="tag-item tag-item-inactive">
+<a href=/tags/openssl/>OpenSSL</a>
+</li>
+<li class="tag-item tag-item-inactive">
+<a href=/tags/tableau/>Tableau</a>
+</li>
+<li class="tag-item tag-item-active">
+<a href=/tags/vrchat/>VRChat</a>
+</li>
+</ul>
+</nav>
+</div>
+</aside>
+<section class="md-content content-grid-main"><h1 id=アバターの用意>アバターの用意</h1>
+<p>アバターは <a href=https://booth.pm/>BOOTH</a> などで販売されています。ここでは &ldquo;火事屋&rdquo; さんが無料配布している &ldquo;U10H7500&rdquo; をサンプルに VRChat へのアバターアップロードを行います。</p>
+<p>ここでは潰しが効く様にするため冗長な手順で進めますが、多くの場合は設定済みのプレハブが提供されています。その場合はどの作業が省略されるのか意識しながら進めてください。</p>
+<h2 id=1-モデルをインポートする>1. モデルをインポートする</h2>
+<p>&ldquo;U10H7500 Ver1.01&rdquo; を DL し、 unitypackage をインポートします。<br>
+(プロジェクトウィンドウの Assets 直下へ Drag&Drop。 zip の場合は解凍した上で行う)<br>
+<a href=https://booth.pm/ja/items/2406667>https://booth.pm/ja/items/2406667</a></p>
+<p><img src=image/upload-avatar01.png alt=upload-avatar01></p>
+<p><code>*.unitypackage</code> ファイルが無い場合はディレクトリごと Assets 配下に入れる場合もあります。多くのアバターはインポート手順がテキストファイルや BOOTH の説明ページに記載されています。これに従いインポートしてください。</p>
+<h2 id=2-依存アセットを取得する>2. 依存アセットを取得する</h2>
+<p>一部のアバターは追加で依存アセットを取得する必要があり、必要に応じて取得してください。<br>
+ここではあえて &ldquo;U10H7500&rdquo; 描画時のシェーダーを変更します (<code>Standard</code> → <code>lilToon</code>) 。</p>
+<p>以下の場所から lilToon を DL し、インポートします。<br>
+<a href=https://booth.pm/ja/items/3087170>https://booth.pm/ja/items/3087170</a></p>
+<p><img src=image/upload-avatar05.png alt=upload-avatar05></p>
+<h2 id=3-unity-アバターの設定>3. Unity アバターの設定</h2>
+<ol>
+<li>アセット配下の FBX を選択<br>
+(プロジェクトウィンドウの Assets の <code>U10H7500.mini_ver.1.0.3</code> を選択)</li>
+<li>FBXの Rig を設定<br>
+Unity にモデルを アバターとして認識させます。
+<ul>
+<li>アニメーション &mldr; ヒューマノイド</li>
+<li>アバターの定義 &mldr; このモデルから作成<br>
+これを行うと、ヒエラルキーに配置された FBX モデルへ Animator が追加されるようになります。</li>
+<li>設定 &mldr; ヒューマノイドのボーン構造とモデルのボーンを対応付け。</li>
+</ul>
+</li>
+<li>FBX の Model を設定
+<ul>
+<li>メッシュの <code>読み込み/書き込み有効</code> &mldr; チェックオン。モデルのポリゴン数のカウントで必要</li>
+<li>ジオメトリの <code>非推奨のブレンドシェイプの法線</code> &mldr; チェックオン。理由不明</li>
+</ul>
+</li>
+</ol>
+<p><img src=image/upload-avatar09.png alt=upload-avatar09>
+<img src=image/upload-avatar10.png alt=upload-avatar10>
+<img src=image/upload-avatar13.png alt=upload-avatar13></p>
+<h2 id=4-作業用シーンを作成する>4. 作業用シーンを作成する</h2>
+<p>プロジェクトウィンドウで Assets の Scenes 配下に作業用のシーンを作成します。<br>
+(Scenes ディレクトリを右クリックし、 <code>[作成]-[シーン]</code> をクリック)</p>
+<p>ファイル名にアバター名、 Android 用には更に <code>_android</code> を付けます。</p>
+<ul>
+<li>U10H7500</li>
+<li>U10H7500_android</li>
+</ul>
+<h2 id=5-モデルをシーンへ配置する>5. モデルをシーンへ配置する</h2>
+<p>Assets からアバターモデルを シーン <code>U10H7500</code> へ配置します。</p>
+<ol>
+<li>シーン <code>U10H7500</code> を開いてヒエラルキーへ <code>U10H7500.mini_ver.1.0.3.fbx</code> を Drag&Drop</li>
+<li>シーンビューへモデルが表示された事を確認</li>
+<li>ヒエラルキーへ配置されたモデルの位置を調整<br>
+(他のアバターが有る場合に邪魔にならないよう位置を調整)
+<ol>
+<li>ヒエラルキーへ配置されたモデルを選択</li>
+<li>移動ツールを選択</li>
+<li>移動させたい方向の軸を Drag&Drop<br>
+(移動させるとモデルの Transform の値が変化します)</li>
+</ol>
+</li>
+</ol>
+<p><img src=image/upload-avatar02.png alt=upload-avatar02>
+<img src=image/upload-avatar03.png alt=upload-avatar03></p>
+<h2 id=6-アバターを改造する>6. アバターを改造する</h2>
+<p>必要に応じて改造を行います。この時に素材は直接編集せず、 Workspace へコピーして編集してください。</p>
+<p>ここでは不要箇所の削除とシェーダー変更 (<code>Standard</code> → <code>lilToon</code>) をしてみます。</p>
+<ol>
+<li>改変するアバターを選択<br>
+(ヒエラルキーの <code>U10H7500.mini_ver.1.0.3</code> を選択)</li>
+<li>編集可能な状態に切換え<br>
+(右クリックし、 <code>プレハブを解凍</code> をクリック)</li>
+<li>必要無い箇所を削除<br>
+(このアバターの FBX は全部入りであるため、不要なパーツを選択し、右クリックから削除)</li>
+<li>改変する箇所を選択<br>
+(ヒエラルキーの <code>U10H7500.mini_ver.1.0.3</code> の <code>Body.U10H7500mini.longonepice</code> を選択)</li>
+<li>改変する箇所のマテリアルを特定し選択<br>
+(インスペクターのマテリアルを選択するとアセット側で素材がハイライトされます。これを選択)</li>
+<li>マテリアルを複製<br>
+(Ctrl+D で複製し <code>Assets/Workspace/U10H7500_ver.1.0.3/Texture</code> へ配置)</li>
+<li>改変するオブジェクトのマテリアルへ複製マテリアルを指定<br>
+(ヒエラルキーの <code>U10H7500.mini_ver.1.0.3</code> 配下のオブジェクトのマテリアルをインスペクターから個別変更)</li>
+<li>複製マテリアルを編集<br>
+(シェーダーを <code>Standard</code> から <code>liltoon</code> へ変更)</li>
+<li>複製マテリアルのメインカラーで指定されているテクスチャのストリーミングミニマップを有効化<br>
+(特に改変テクスチャを追加した場合に忘れず行ってください。今回も未設定状態故、有効化してください)</li>
+</ol>
+<p><img src=image/upload-avatar16.png alt=upload-avatar16>
+<img src=image/upload-avatar17.png alt=upload-avatar17>
+<img src=image/upload-avatar06.png alt=upload-avatar06>
+<img src=image/upload-avatar08.png alt=upload-avatar08>
+<img src=image/upload-avatar18.png alt=upload-avatar18></p>
+<h2 id=7-vrchat-用の情報を追加>7. VRChat 用の情報を追加</h2>
+<p>VRChat 用のメタデータを定義します。ヒエラルキーのモデルを選択し、モデルへ <code>VRC Avatar Descriptor</code> コンポーネントを追加。 VRChat 用の設定を行います。</p>
+<ul>
+<li>View Position &mldr; 視界カメラの場所を指定<br>
+Edit を押すと球体が表示される。球体の場所を目と目の間のメッシュ直下に設置</li>
+<li>Lip Sync &mldr; 口を動かす際の方法を指定<br>
+(&ldquo;U10H7500&rdquo; では Mode に <code>Viseme Blend Shape</code>、 Face Mesh に <code>Body.U10H7500mini.longonepice</code>、Viseme:* に <code>*_lip</code> を指定)
+<ul>
+<li>Jaw Flap Bone &mldr; 発音する際に指定した1ボーンを動かす</li>
+<li>Viseme Blend Shape &mldr; 発音から唇を表現するモード</li>
+</ul>
+</li>
+<li>Playable Layers &mldr; アバターの状態毎の姿勢やハンドサインをアニメーションで定義<br>
+(&ldquo;U10H7500&rdquo; では設定せず既定状態とする)
+<ul>
+<li>Base:<br>
+歩行や落下時の動き。適用は Transform のみ。</li>
+<li>Addaptive:<br>
+呼吸など常に適用される動き。適用は Transform のみ。</li>
+<li>Gesture:<br>
+元の動きをさせつつ、特定部位へ動きを適用したい場合に使用。使用時には特定部位のみ適用されるようマスクを指定。ハンドサインで使われる。適用は Transform のみ。</li>
+<li>Action:<br>
+アバターの姿勢の完全制御をする際に使用。 Emote や AFK で使われる。適用は Transform のみ。</li>
+<li>FX:<br>
+他レイヤーは Transform 以外をアニメーションさせる事が出来ない。一方 FX レイヤーは全てをアニメーションさせる事が可能。表情などの指定で使用。</li>
+</ul>
+</li>
+<li>Expressions:<br>
+Expressions メニューの定義に使用。メニューからパラメータを指定する事で Playable Layer の Animator を状態遷移させるのに使用。<br>
+(&ldquo;U10H7500&rdquo; では設定せず既定状態とする)</li>
+</ul>
+<p><img src=image/upload-avatar11.png alt=upload-avatar11></p>
+<h1 id=アバターのアップロード>アバターのアップロード</h1>
+<p>アバターアップロードは VRChat SDK で行います。主な作業は Builder 画面で行います。問題が有る場合にはこの画面で指摘され、指摘へ対処する事でビルドとアップロードが出来るようになります。</p>
+<h2 id=1-vrchat-sdk-を開く>1. VRChat SDK を開く</h2>
+<ol>
+<li>Editor のメニューの <code>[VRChat SDK]-[Show Control Panel]</code> を開く</li>
+<li>VRChat へログイン &mldr; Authentication でユーザ名とパスワードを入力しログイン</li>
+</ol>
+<h2 id=2-エラーを除去する>2. エラーを除去する</h2>
+<p>アバターに問題が有る場合には指摘されます。赤い <code>！</code> マークは対処する必要があり、一部の問題は <code>Auto Fix</code> を押す事で SDK 側が対処してくれますが、不可の場合は手動で対処を要します。その他は必須ではありませんが、対処推奨です。</p>
+<p>スクショではテクスチャにストリーミングミニマップが有効化されていない事を指摘されています。 <code>Auto Fix</code> で対処してください。<br>
+(参考: アバターを改造する)</p>
+<p><img src=image/upload-avatar14.png alt=upload-avatar14></p>
+<h2 id=3-動作確認>3. 動作確認</h2>
+<p>問題へ一通り対処するとビルドボタンが有効化されます。</p>
+<p>Offline Testing の <code>Build & Test</code> でビルドすると、他の人にアバターを見せずに VRChat 上で動作確認ができます。押してビルドに成功すると VRChat の <code>AVATARS</code> の <code>Other</code> に追加され、使用可能になります。使用中、他の人からはテストアバターに変更する前のアバターが見えます。</p>
+<p><img src=image/upload-avatar15.png alt=upload-avatar15>
+<img src=image/upload-avatar19.png alt=upload-avatar19></p>
+<h2 id=4-アップロード-pc-向け>4. アップロード (PC 向け)</h2>
+<p>動作に問題が無ければ VRChat サーバーへ送信します。 Online Publishing の <code>Build & Publish for ～</code> でビルドを行い、必要事項を記入した上でパブリッシュします。</p>
+<ol>
+<li>Online Publishing を行う</li>
+<li>アバターの情報を記入
+<ol>
+<li>Avatar Name &mldr; アバター名</li>
+<li>Description &mldr; アバターの説明文</li>
+<li>Content Warnings &mldr; 不快表現の有無</li>
+<li>Sharing &mldr; アバタークローン許可の有無 (Private: クローン不可. Public: クローン可)</li>
+<li><code>The above information is ～</code> &mldr; 記入事項が正確である事の宣言 (要チェック)</li>
+</ol>
+</li>
+</ol>
+<p><img src=image/upload-avatar20.png alt=upload-avatar20>
+<img src=image/upload-avatar21.png alt=upload-avatar21></p>
+<h2 id=5-アップロード-quest-向け>5. アップロード (Quest 向け)</h2>
+<p>アバターを Quest へ対応させてみます。 Quest 対応は PC 向けアバターと同じ Blueprint ID で、 Build Target を Android にしてビルド & パブリッシュすると出来ます。</p>
+<p>PC 用アバターは FBX ファイルから作成しましたが、 Quest 用では設定済みのプレハブを使って手順を簡略化します。このように、プレハブが提供されている場合にはヒエラルキーへ配置するだけでアップロードができます。</p>
+<ol>
+<li>シーン <code>U10H7500_android</code> を開く</li>
+<li>Quest 対応アバターをヒエラルキーへ配置<br>
+(今回は <code>Assets/U10H7500_ver.1.0.3/Prefab/U10H7500.mini_ver.1.0.1.longonepice.prefab</code> を使用)</li>
+<li>PC 版アバターの Blueprint ID を Quest 版アバターへ設定<br>
+(PC 版アバターの Blueprint ID をコピー。 Quest 版アバターの Blueprint ID へ貼り付けし Attach)</li>
+<li>Build Target を Android へ変更</li>
+<li>Build & Publish を行う</li>
+<li>VRChat 上で Quest に対応した事を確認<br>
+(アバターサムネイル右上の右側の円に色が付いていれば成功です。左側はPC対応状態を指します)</li>
+</ol>
+<p><img src=image/upload-avatar22.png alt=upload-avatar22>
+<img src=image/upload-avatar23.png alt=upload-avatar23>
+<img src=image/upload-avatar24.png alt=upload-avatar24>
+<img src=image/upload-avatar25.png alt=upload-avatar25></p>
+<h1 id=上手くいかない場合>上手くいかない場合</h1>
+<p><strong>Quest 用アバターのビルド時に VRChat SDK の Build ボタンが有効化されない</strong><br>
+アバターを配置しているシーン内に Quest 非対応アバターが1体以上有る場合は消してください。既知のバグとしてシーン内に1体でも存在するとビルドボタンが有効化されないバグが存在します。</p>
+<h1 id=追加要素>追加要素</h1>
+<h2 id=アバターサムネイルの指定>アバターサムネイルの指定</h2>
+<p>VRChat 上でのアバターサムネイルはツールを使うことで任意の画像を指定可能です。</p>
+<ol>
+<li>VRChatThumbnailer 2020 の unitypackage をインポート</li>
+<li>サムネイル画像を用意 (縦横比を 3:4 にする)</li>
+<li>アップロードアバターを配置しているシーンを開く</li>
+<li>ヒエラルキーへ空のオブジェクトを作成</li>
+<li>空のオブジェクトへ <code>VR Chat Thumbnailer</code> コンポーネントを追加</li>
+<li><code>VR Chat Thumbnailer</code> 上でサムネイル画像を指定</li>
+</ol>
+</section>
+</article>
+</main>
+</div>
+<div>
+<footer id=site-footer class=toplevel-container>
+<p>このサイトでは <a href=https://icons8.jp/>icons8</a> の素材を使用しています。</p>
+<p>&copy; 2022 namoshika, All rights reserved</p>
+</footer>
+</div>
+</div>
+</body>
+</html>
