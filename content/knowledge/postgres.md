@@ -199,7 +199,7 @@ boolean には on/off/true/false/yes/no/1/0 が指定可能
 ## search_path
 スキーマ検索パス
 
-* デフォルト値: "$user".public
+* デフォルト値: "$user",public
 * 反映: 何時でも誰でも
 
 ## default_transaction_isolation
@@ -359,6 +359,7 @@ interval で複数形するか否かは自由。
 | boolean                                           | 1 byte   | {t\|'true'\|'y'\|'yes'\|'on'\|'1'\|TRUE} |
 
 # SQL (DDL)
+## Table
 
 ```sql
 -- 基本操作
@@ -414,3 +415,31 @@ insert into tbl(c2, c3) values ('message', '2019-10-02');
 alter table tbl attach partition {partition_name} for values {condition}
 alter table tbl detach partition {partition_name}
 ```
+
+## Sequence
+
+```sql
+create sequence sample_seq start 10 increment 2;
+select nextval('sample_seq');
+select currval('sample_seq');
+select setval('sample_seq');
+```
+
+## View
+
+```sql
+create view sample_view(id, val) as select id, c2 from sample_table1;
+```
+
+## Index
+
+```sql
+create index idx_name on sample_table1 [using index_type](column_name) where expr
+```
+
+| Type   | Desc                                                                                   |
+| ------ | -------------------------------------------------------------------------------------- |
+| B-Tree | 一般的                                                                                 |
+| GiST   | 主に空間情報の検索に使用。2次元以上の空間に対する一致や包括の検索に用いる              |
+| GIN    | 主に全文検索に用いられる転置インデックス。ある要素がどの列に有るかを検索するのに用いる |
+| Hash   | 値の一致検索のみをする際に用いる                                                       |
