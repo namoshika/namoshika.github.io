@@ -1,7 +1,7 @@
 ---
 title: "ノウハウ備忘録"
 date: 2021-11-27T21:57:28+09:00
-tags: [Tableau]
+tags: [DataVisualization]
 draft: false
 ---
 過去に見かけた、またはやらかしたしくじりなど、

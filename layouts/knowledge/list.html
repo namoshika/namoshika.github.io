@@ -17,7 +17,7 @@
       <nav class="md-content">
         {{ $children := sort (.RegularPagesRecursive.GroupBy "CurrentSection") "Key.Title" }}
         {{/* 独立カテゴリを個別グループ毎に表示 */}}
-        {{ range $category := where $children ".Key.Title" "!=" "Knowledge" }}
+        {{ range $category := where $children ".Key.Title" "!=" "Others" }}
           <h3><a class="nav-category" href="{{ $category.Key.RelPermalink }}">{{ $category.Key.Title }}</a></h3>
           <ul>
             {{ range $item := sort $category.Pages "LinkTitle" }}
@@ -26,7 +26,7 @@
           </ul>
         {{ end }}
         {{/* 雑多カテゴリをその他グループ毎に表示 */}}
-        {{ range $category := where $children ".Key.Title" "==" "Knowledge" }}
+        {{ range $category := where $children ".Key.Title" "==" "Others" }}
           <h3>その他</h3>
           <ul>
             {{ range $item := sort $category.Pages "LinkTitle" }}

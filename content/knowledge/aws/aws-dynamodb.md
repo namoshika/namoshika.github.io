@@ -1,7 +1,7 @@
 ---
 title: "DynamoDB"
 date: 2020-08-24T19:39:09+09:00
-tags: [AWS]
+tags: [Database]
 draft: false
 ---
 

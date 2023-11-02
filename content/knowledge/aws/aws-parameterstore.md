@@ -1,7 +1,7 @@
 ---
 title: "Parameter Store"
 date: 2020-08-25T08:01:20+09:00
-tags: [AWS]
+tags: [DevOps]
 draft: false
 ---
 

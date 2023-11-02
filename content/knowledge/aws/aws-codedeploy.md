@@ -1,7 +1,7 @@
 ---
-title: "CodeDeploy"
+title: "Code Deploy"
 date: 2021-12-16T08:19:46+09:00
-tags: [AWS]
+tags: [DevOps]
 draft: false
 ---
 # この記事で扱う範囲
