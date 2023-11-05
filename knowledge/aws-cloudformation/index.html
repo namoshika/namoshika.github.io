@@ -1,505 +1,273 @@
-<!doctype html><html lang=ja-jp>
-<head>
-<meta charset=utf-8>
-<meta name=viewport content="width=device-width,minimum-scale=1">
-<meta name=description content="CloudFormationでEC2インスタンスを建てる AWS上で構成ファイルによる構築をしてみた。これを使うとAWS サービスをJSON/Y">
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script>MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']]}}</script>
-<script type=text/javascript id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js></script>
-<meta name=generator content="Hugo 0.92.2">
-<title>CloudFormation | Memo.Namo</title>
-<meta name=robots content="noindex, nofollow">
-<link rel=stylesheet href=/style/main.css>
-</head>
-<body>
-<div class=flexbox>
-<div>
-<header id=site-header class=toplevel-container>
-<h1><a href=/>Memo.Namo</a></h1>
-<nav>
-<ul class=horizontal-menu>
-<li class=horizontal-menu-item><a href=/about/>About</a></li>
-<li class=horizontal-menu-item><a href=/knowledge/>Knowledge</a></li>
-</ul>
-</nav>
-</header>
-<main id=site-main class=toplevel-container>
-<article class="content-container content-grid">
-<header class=content-grid-header>
-<div>
-<a class=nav-category href=/knowledge/aws/>AWS</a>
-<h1 class=content-grid-title>CloudFormation</h1>
-</div>
-<p class=content-grid-desc>
-<span>公開日: 2021-12-16</span>
-<span>更新日: 2021-12-16</span>
-</p>
-</header>
-<aside class=content-grid-side>
-<div class=nav-sticky>
-<h2>目次</h2>
-<nav id=TableOfContents>
-<ul>
-<li><a href=#cloudformationでec2インスタンスを建てる>CloudFormationでEC2インスタンスを建てる</a></li>
-<li><a href=#用語説明>用語説明</a></li>
-<li><a href=#事前準備>事前準備</a></li>
-<li><a href=#テンプレートの書き方>テンプレートの書き方</a>
-<ul>
-<li><a href=#パラメータの使い方>パラメータの使い方</a></li>
-<li><a href=#組み込み関数の使い方>組み込み関数の使い方</a></li>
-<li><a href=#省略記法>省略記法</a></li>
-</ul>
-</li>
-<li><a href=#様々な組み込み関数>様々な組み込み関数</a>
-<ul>
-<li><a href=#ref>Ref</a></li>
-<li><a href=#fnfindinmap>Fn::FindInMap</a></li>
-<li><a href=#fngetatt>Fn:GetAtt</a></li>
-<li><a href=#fnsub>Fn::Sub</a></li>
-<li><a href=#fnbase64>Fn::Base64</a></li>
-<li><a href=#fnselect>Fn::Select</a></li>
-<li><a href=#fngetazs>Fn::GetAZs</a></li>
-</ul>
-</li>
-<li><a href=#様々な疑似パラメータ>様々な疑似パラメータ</a></li>
-<li><a href=#使ってみる-aws-shell>使ってみる (aws-shell)</a>
-<ul>
-<li><a href=#スタック一覧>スタック一覧</a></li>
-<li><a href=#スタック生成>スタック生成</a></li>
-<li><a href=#スタック表示>スタック表示</a></li>
-<li><a href=#スタック更新>スタック更新</a></li>
-<li><a href=#変更セット生成>変更セット生成</a></li>
-<li><a href=#保留中の変更セット取得>保留中の変更セット取得</a></li>
-<li><a href=#保留中の変更セット適用>保留中の変更セット適用</a></li>
-<li><a href=#スタック消去>スタック消去</a></li>
-</ul>
-</li>
-<li><a href=#各種リソースの定義>各種リソースの定義</a>
-<ul>
-<li><a href=#vpc>VPC</a></li>
-<li><a href=#subnet>Subnet</a></li>
-<li><a href=#route>Route</a></li>
-<li><a href=#ec2>EC2</a></li>
-</ul>
-</li>
-</ul>
-</nav>
-<nav class=nav-tag>
-<h2>タグ</h2>
-<ul class=tag-container>
-<li class="tag-item tag-item-active">
-<a href=/tags/aws/>AWS</a>
-</li>
-<li class="tag-item tag-item-inactive">
-<a href=/tags/box/>Box</a>
-</li>
-<li class="tag-item tag-item-inactive">
-<a href=/tags/hugo/>Hugo</a>
-</li>
-<li class="tag-item tag-item-inactive">
-<a href=/tags/human_skill/>human_skill</a>
-</li>
-<li class="tag-item tag-item-inactive">
-<a href=/tags/math/>Math</a>
-</li>
-<li class="tag-item tag-item-inactive">
-<a href=/tags/nvidia/>Nvidia</a>
-</li>
-<li class="tag-item tag-item-inactive">
-<a href=/tags/openssl/>OpenSSL</a>
-</li>
-<li class="tag-item tag-item-inactive">
-<a href=/tags/tableau/>Tableau</a>
-</li>
-<li class="tag-item tag-item-inactive">
-<a href=/tags/vrchat/>VRChat</a>
-</li>
-</ul>
-</nav>
-</div>
-</aside>
-<section class="md-content content-grid-main"><h1 id=cloudformationでec2インスタンスを建てる>CloudFormationでEC2インスタンスを建てる</h1>
-<p>AWS上で構成ファイルによる構築をしてみた。これを使うとAWS サービスをJSON/YAMLで記述したテンプレートファイルによって定義できる。忘れないうちに備忘録としてまとめた。</p>
-<p>以下の方針でまとめます。</p>
-<ul>
-<li>目的は登場する諸要素の整理 (読み手は何度か試し構築済みを想定)</li>
-<li>試行錯誤しやすい開発環境構築の記録 (CLIからの操作やエディタ設定)</li>
-<li>毎度忘れてリファレンス漁りそうなルールや記述のまとめ</li>
-</ul>
-<h1 id=用語説明>用語説明</h1>
-<p>CloudFormationで登場する用語</p>
-<ul>
-<li>リソース<br>
-EC2やVPCなどの部品。AWSでは部品を繋ぎ合わせるAttacheなど動詞的なものもリソースとして扱われる。</li>
-<li>テンプレート<br>
-リソースはテンプレートで定義される。JSON/YAMLで記述できるが、コメントや短縮記法ができる点でYAMLが良い。</li>
-<li>スタック<br>
-テンプレート1つはスタックを1つ生成し、生成されたリソースはスタックでひとまとめにされる。</li>
-<li>変更セット<br>
-テンプレートを上書きすると新旧の差分が抽出され適用される。スタック更新する際、変更セットを生成し結果を確認後に適用すると手堅くスタック更新できる。</li>
-</ul>
-<h1 id=事前準備>事前準備</h1>
-<p>テンプレートでリソースを扱う際、リソースを扱えるポリシーを持ったユーザでいる必要がある。エディタで入力補完できる状態にした方が良い。VS Codeでは次の記事が良かった。</p>
-<p><a href=https://qiita.com/yoskeoka/items/6528571a45cd69f93deb>VSCodeでAWS CloudFormation をYAMLで書くための個人的ベスト設定 - Qiita</a></p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>code --install-extension redhat.vscode-yaml
-</code></pre></div><p>settings.jsonでスキーマ指定する事でIntelliSenseが効くようになる。<br>
-スキーマは <a href=https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/cfn-resource-specification.html>AWS CloudFormation リソース仕様</a> で配布されている。</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-json data-lang=json><span class=s2>&#34;yaml.schemas&#34;</span><span class=err>:</span> <span class=p>{</span>
-    <span class=nt>&#34;https://d33vqc0rt9ld30.cloudfront.net/latest/gzip/CloudFormationResourceSpecification.json&#34;</span><span class=p>:</span> <span class=p>[</span>
-        <span class=s2>&#34;*.cf.yaml&#34;</span><span class=p>,</span>
-        <span class=s2>&#34;*.cf.yml&#34;</span><span class=p>,</span>
-        <span class=s2>&#34;cloud*formation/*.yaml&#34;</span><span class=p>,</span>
-        <span class=s2>&#34;cloud*formation/*.yml&#34;</span>
-    <span class=p>]</span>
-<span class=p>}</span><span class=err>,</span>
-<span class=s2>&#34;yaml.customTags&#34;</span><span class=err>:</span> <span class=p>[</span>
-    <span class=s2>&#34;!Ref&#34;</span><span class=p>,</span>
-    <span class=s2>&#34;!Sub&#34;</span><span class=p>,</span>
-    <span class=s2>&#34;!Join sequence&#34;</span><span class=p>,</span>
-    <span class=s2>&#34;!FindInMap sequence&#34;</span><span class=p>,</span>
-    <span class=s2>&#34;!GetAtt scalar sequence&#34;</span><span class=p>,</span>
-    <span class=s2>&#34;!Base64 mapping&#34;</span><span class=p>,</span>
-    <span class=s2>&#34;!GetAZs&#34;</span><span class=p>,</span>
-    <span class=s2>&#34;!Select sequence&#34;</span><span class=p>,</span>
-    <span class=s2>&#34;!Split sequence&#34;</span><span class=p>,</span>
-    <span class=s2>&#34;!ImportValue&#34;</span><span class=p>,</span>
-    <span class=s2>&#34;!Condition&#34;</span><span class=p>,</span>
-    <span class=s2>&#34;!Equals sequence&#34;</span><span class=p>,</span>
-    <span class=s2>&#34;!And&#34;</span><span class=p>,</span>
-    <span class=s2>&#34;!If&#34;</span><span class=p>,</span>
-    <span class=s2>&#34;!Not&#34;</span><span class=p>,</span>
-    <span class=s2>&#34;!Or&#34;</span>
-<span class=p>]</span><span class=err>,</span>
-</code></pre></div><h1 id=テンプレートの書き方>テンプレートの書き方</h1>
-<p>ファイルの構造はAWSドキュメントの <a href=https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/template-anatomy.html>テンプレートの分析 - AWS CloudFormation</a> に書かれている。</p>
-<p>テンプレートにコメント以外で日本語を入れるとエラー多発するので指定不可と思っておいたほうが良い。また、後述する組み込み関数やYAMLの1行で書く記法がエラーになったりと、形式に融通は効かない。</p>
-<p>最小構成は以下の形になる。ここではInternet Gatewayを定義している。</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=nt>AWSTemplateFormatVersion</span><span class=p>:</span><span class=w> </span><span class=s1>&#39;2010-09-09&#39;</span><span class=w>
-</span><span class=w></span><span class=nt>Resources</span><span class=p>:</span><span class=w>
-</span><span class=w>  </span><span class=nt>InternetGW</span><span class=p>:</span><span class=w>
-</span><span class=w>    </span><span class=nt>Type</span><span class=p>:</span><span class=w> </span><span class=l>AWS::EC2::InternetGateway</span><span class=w>
-</span></code></pre></div><p>宣言できる要素は以下の通り。</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=c># 形式バージョン。現在は固定値 (必須)</span><span class=w>
-</span><span class=w></span><span class=nt>AWSTemplateFormatVersion</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;2010-09-09&#34;</span><span class=w>
-</span><span class=w></span><span class=c># スタックの説明 (オプション)</span><span class=w>
-</span><span class=w></span><span class=nt>Description</span><span class=p>:</span><span class=w> </span><span class=l>String</span><span class=w>
-</span><span class=w></span><span class=c># 用途不明。一旦スルー (オプション)</span><span class=w>
-</span><span class=w></span><span class=nt>Metadata</span><span class=p>:</span><span class=w>
-</span><span class=w>  </span><span class=l>template metadata</span><span class=w>
-</span><span class=w></span><span class=c># スタック生成時に決めたい要素を定義する場所 (オプション)</span><span class=w>
-</span><span class=w></span><span class=nt>Parameters</span><span class=p>:</span><span class=w>
-</span><span class=w>  </span><span class=l>set of parameters</span><span class=w>
-</span><span class=w></span><span class=c># 各所で使う共通の値を定義しておく場所 (オプション)</span><span class=w>
-</span><span class=w></span><span class=c># [Name] - [Key] - [List or Map of Attribute] の3階層で宣言する</span><span class=w>
-</span><span class=w></span><span class=nt>Mappings</span><span class=p>:</span><span class=w>
-</span><span class=w>  </span><span class=nt>MappingName1</span><span class=p>:</span><span class=w>
-</span><span class=w>    </span><span class=nt>Key1</span><span class=p>:</span><span class=w>
-</span><span class=w>      </span><span class=nt>Attribute1</span><span class=p>:</span><span class=w> </span><span class=l>obj hoge</span><span class=w>
-</span><span class=w>      </span><span class=nt>Attribute2</span><span class=p>:</span><span class=w> </span><span class=l>obj foo</span><span class=w>
-</span><span class=w>    </span><span class=nt>Key2</span><span class=p>:</span><span class=w>
-</span><span class=w>      </span>- <span class=l>list hoge</span><span class=w>
-</span><span class=w>      </span>- <span class=l>list foo</span><span class=w>
-</span><span class=w></span><span class=c># 用途不明。一旦スルー (オプション)</span><span class=w>
-</span><span class=w></span><span class=nt>Conditions</span><span class=p>:</span><span class=w>
-</span><span class=w>  </span><span class=l>set of conditions</span><span class=w>
-</span><span class=w></span><span class=c># 用途不明。一旦スルー (オプション)</span><span class=w>
-</span><span class=w></span><span class=nt>Transform</span><span class=p>:</span><span class=w>
-</span><span class=w>  </span><span class=l>set of transforms</span><span class=w>
-</span><span class=w></span><span class=c># リソース定義する場所 (必須)</span><span class=w>
-</span><span class=w></span><span class=nt>Resources</span><span class=p>:</span><span class=w>
-</span><span class=w>  </span><span class=nt>LogicalID</span><span class=p>:</span><span class=w>
-</span><span class=w>    </span><span class=nt>Type</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;定義するリソースの種類 (必須) ex: AWS::EC2::VPC&#34;</span><span class=w>
-</span><span class=w>    </span><span class=nt>Properties</span><span class=p>:</span><span class=w>
-</span><span class=w>        </span><span class=l>settings...</span><span class=w>
-</span><span class=w>    </span><span class=nt>Metadata</span><span class=p>:</span><span class=w>
-</span><span class=w>        </span><span class=l>EC2インスタンス生成後の初期化処理などを書く際に登場</span><span class=w>
-</span><span class=w></span><span class=c># 自身の戻り値を定義する場所 (オプション)</span><span class=w>
-</span><span class=w></span><span class=nt>Outputs</span><span class=p>:</span><span class=w>
-</span><span class=w>  </span><span class=nt>LogicalID</span><span class=p>:</span><span class=w>
-</span><span class=w>    </span><span class=nt>Description</span><span class=p>:</span><span class=w> </span><span class=l>オプション</span><span class=w>
-</span><span class=w>    </span><span class=nt>Value</span><span class=p>:</span><span class=w> </span><span class=l>必須</span><span class=w>
-</span><span class=w>    </span><span class=nt>Export</span><span class=p>:</span><span class=w> </span><span class=l>オプション。一旦スルー</span><span class=w>
-</span></code></pre></div><h2 id=パラメータの使い方>パラメータの使い方</h2>
-<p>Parametersを使うとスタック生成時に決める要素を定義できる。</p>
-<p><strong>パラメータ</strong><br>
-<a href=https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html>https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html</a></p>
-<p>使用時は以下のように定義する (Typeのみが必須)。マネジメントコンソール上でスタック生成する場合、Typeへは固有パラメータ型 (AWS::EC2::KeyPair::KeyName etc&mldr;) を使うと使える値を一覧から選べて使い勝手が良い。適切な固有パラメータ型が無いものへは AllowedValues にリストを入れると一覧から値を選べるようになる。</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=nt>Parameters</span><span class=p>:</span><span class=w>
-</span><span class=w>  </span><span class=nt>LogicalID</span><span class=p>:</span><span class=w>
-</span><span class=w>    </span><span class=nt>Type</span><span class=p>:</span><span class=w> </span><span class=l>String</span><span class=w>
-</span><span class=w>    </span><span class=nt>AllowedValues</span><span class=p>:</span><span class=w>
-</span><span class=w>      </span>- <span class=l>item1</span><span class=w>
-</span><span class=w>      </span>- <span class=l>item2</span><span class=w>
-</span><span class=w>      </span>- <span class=l>...</span><span class=w>
-</span></code></pre></div><h2 id=組み込み関数の使い方>組み込み関数の使い方</h2>
-<p>幾つか関数を使用可能。普段、テンプレート内でVPCを定義する際にルーティングやゲートウェイも定義する事が多いが、これらのリソースはテンプレート作成時点では各自のIDが定まっておらず互いを指定できない。そこでスタック生成時のID解決に関数が使える。</p>
-<p><strong>組み込み関数リファレンス</strong><br>
-<a href=https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html>https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html</a></p>
-<p>関数は関数名をキー、引数を値としたオブジェクトとして記述する。</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=nt>Routes</span><span class=p>:</span><span class=w>
-</span><span class=w>  </span><span class=nt>Type</span><span class=p>:</span><span class=w> </span><span class=l>AWS::EC2::RouteTable</span><span class=w>
-</span><span class=w>  </span><span class=nt>Properties</span><span class=p>:</span><span class=w>
-</span><span class=w>    </span><span class=c># テンプレート内で定義されたVPCのIDを取得する</span><span class=w>
-</span><span class=w>    </span><span class=nt>VpcId</span><span class=p>:</span><span class=w> </span>{<span class=nt>Ref</span><span class=p>:</span><span class=w> </span><span class=l>VPC}</span><span class=w>
-</span></code></pre></div><h2 id=省略記法>省略記法</h2>
-<p>YAMLでは関数の省略記法が可能。しかし、省略記法は連続記述はできないため、連続する場合には完全名と交互に使う。</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=nt>Routes</span><span class=p>:</span><span class=w>
-</span><span class=w>  </span><span class=nt>Type</span><span class=p>:</span><span class=w> </span><span class=l>AWS::EC2::RouteTable</span><span class=w>
-</span><span class=w>  </span><span class=nt>Properties</span><span class=p>:</span><span class=w>
-</span><span class=w>    </span><span class=c># 上記の定義と同じ意味になる</span><span class=w>
-</span><span class=w>    </span><span class=nt>VpcId</span><span class=p>:</span><span class=w> </span>!<span class=l>Ref VPC</span><span class=w>
-</span></code></pre></div><h1 id=様々な組み込み関数>様々な組み込み関数</h1>
-<p>色々な関数がある。よく使いそうなのをピックアップする。</p>
-<p><strong>組み込み関数リファレンス</strong><br>
-<a href=https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html>https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html</a></p>
-<h2 id=ref>Ref</h2>
-<p>指定したパラメータやリソースを取得するのに使う。パラメータでは設定された値が、リソースではリソース宣言の戻り値を返す (大抵はリソースの物理ID)</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=nt>Routes</span><span class=p>:</span><span class=w>
-</span><span class=w>  </span><span class=nt>Type</span><span class=p>:</span><span class=w> </span><span class=l>AWS::EC2::RouteTable</span><span class=w>
-</span><span class=w>  </span><span class=nt>Properties</span><span class=p>:</span><span class=w>
-</span><span class=w>    </span><span class=nt>VpcId</span><span class=p>:</span><span class=w> </span>!<span class=l>Ref VPC</span><span class=w>
-</span></code></pre></div><h2 id=fnfindinmap>Fn::FindInMap</h2>
-<p>Mappingsで定義された内容を取得する。次の書き方になる。</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml>!<span class=l>FindInMap [ MapName, Key, Attribute ]</span><span class=w>
-</span></code></pre></div><p>例: VPCへタグを付与する</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=nt>Mappings</span><span class=p>:</span><span class=w>
-</span><span class=w>  </span><span class=nt>Common</span><span class=p>:</span><span class=w>
-</span><span class=w>    </span><span class=nt>ServiceTag</span><span class=p>:</span><span class=w> </span>{<span class=nt>Key: service, Value</span><span class=p>:</span><span class=w> </span><span class=l>helloCF}</span><span class=w>
-</span><span class=w></span><span class=nt>Resources</span><span class=p>:</span><span class=w>
-</span><span class=w>  </span><span class=nt>VPC</span><span class=p>:</span><span class=w>
-</span><span class=w>  </span><span class=nt>Type</span><span class=p>:</span><span class=w> </span><span class=l>AWS::EC2::VPC</span><span class=w>
-</span><span class=w>  </span><span class=nt>Properties</span><span class=p>:</span><span class=w>
-</span><span class=w>    </span><span class=nt>CidrBlock</span><span class=p>:</span><span class=w> </span><span class=m>172.16.0.0</span><span class=l>/16</span><span class=w>
-</span><span class=w>    </span><span class=nt>Tags</span><span class=p>:</span><span class=w>
-</span><span class=w>      </span>- {<span class=w>
-</span><span class=w>          </span><span class=nt>Key</span><span class=p>:</span><span class=w> </span>!<span class=l>FindInMap [Common, ServiceTag, Key],</span><span class=w>
-</span><span class=w>          </span><span class=nt>Value</span><span class=p>:</span><span class=w> </span>!<span class=l>FindInMap [Common, ServiceTag, Value]</span><span class=w>
-</span><span class=w>        </span>}<span class=w>
-</span></code></pre></div><h2 id=fngetatt>Fn:GetAtt</h2>
-<p>リソースの戻り値を取得するためRefと似ている。こちらはリソースのみを対象とする他、Refは大抵が物理IDだが、こちらの関数で何が返ってくるかは各リソースで違うためドキュメントの戻り値の部分を読むこと。</p>
-<p>以下の例ではEC2インスタンスのセキュリティグループにVPCのデフォルトセキュリティグループを指定している。</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=nt>WebSrv</span><span class=p>:</span><span class=w>
-</span><span class=w>  </span><span class=nt>Type</span><span class=p>:</span><span class=w> </span><span class=l>AWS::EC2::Instance</span><span class=w>
-</span><span class=w>  </span><span class=nt>Properties</span><span class=p>:</span><span class=w>
-</span><span class=w>    </span><span class=nt>ImageId</span><span class=p>:</span><span class=w> </span><span class=l>ami-097473abce069b8e9</span><span class=w> </span><span class=c># Amazon Linux 2</span><span class=w>
-</span><span class=w>    </span><span class=nt>InstanceType</span><span class=p>:</span><span class=w> </span><span class=l>t2.micro</span><span class=w>
-</span><span class=w>    </span><span class=nt>KeyName</span><span class=p>:</span><span class=w> </span><span class=l>id_rsa</span><span class=w>
-</span><span class=w>    </span><span class=nt>SubnetId</span><span class=p>:</span><span class=w> </span>!<span class=l>Ref Subnet</span><span class=w>
-</span><span class=w>    </span><span class=nt>SecurityGroups</span><span class=p>:</span><span class=w>
-</span><span class=w>      </span>- !<span class=l>GetAtt [VPC, DefaultSecurityGroup]</span><span class=w>
-</span><span class=w>      </span>- !<span class=l>Ref SecGrp</span><span class=w>
-</span></code></pre></div><h2 id=fnsub>Fn::Sub</h2>
-<p>内部に変数を仕込んだ文字列をスタック生成時に変数の値を解決する。複雑な文字列を組む際に使う。<br>
-変数には次が使用可能</p>
-<ul>
-<li>パラメータ: ${LogicalID} &mldr; !Ref LogicalID と同じ</li>
-<li>リソースID: ${LogicalID} &mldr; !Ref LogicalID と同じ</li>
-<li>リソース属性: ${LogicalID.Attr} &mldr; !GetAtt [LogicalID, Attr] と同じ</li>
-<li>キー/値マップ: 詳細不明</li>
-</ul>
-<h2 id=fnbase64>Fn::Base64</h2>
-<p>入力文字列をBase64表現に変換する。主にEC2リソースを定義する際のUserData用。Fn::Subと組み合わせて以下のように使うと便利。</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=nt>UserData</span><span class=p>:</span><span class=w>
-</span><span class=w>  </span><span class=nt>Fn::Base64</span><span class=p>:</span><span class=w>
-</span><span class=w>    </span>!<span class=l>Sub |</span><span class=w>
-</span><span class=w>      </span><span class=c>#!/bin/bash -xe</span><span class=w>
-</span><span class=w>      </span><span class=l>rpm -Uvh https://packages.microsoft.com/config/rhel/7/packages-microsoft-prod.rpm</span><span class=w>
-</span><span class=w>      </span><span class=l>yum -y update</span><span class=w>
-</span><span class=w>      </span><span class=l>yum -y install aws-cfn-bootstrap</span><span class=w>
-</span><span class=w>      </span><span class=l>/opt/aws/bin/cfn-init -v --stack ${AWS::StackName} --resource WebSrv --region ${AWS::Region} </span><span class=w>
-</span></code></pre></div><h2 id=fnselect>Fn::Select</h2>
-<p>配列から指定したインデックスの要素を取得する。!GetAZsと組み合わせると便利。</p>
-<h2 id=fngetazs>Fn::GetAZs</h2>
-<p>指定リュージョンで利用可能なAzの配列を返す。以下の例ではサブネットをどのAzへ配置するかを作業中リュージョンから動的に取得している。ちなみにAvailabilityZone部分を1行にしたいが、するとエラーになるため現在の書き方に落ち着いた。</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=nt>Subnet</span><span class=p>:</span><span class=w>
-</span><span class=w>  </span><span class=nt>Type</span><span class=p>:</span><span class=w> </span><span class=l>AWS::EC2::Subnet</span><span class=w>
-</span><span class=w>  </span><span class=nt>Properties</span><span class=p>:</span><span class=w>
-</span><span class=w>    </span><span class=nt>CidrBlock</span><span class=p>:</span><span class=w> </span><span class=m>172.16.0.0</span><span class=l>/20</span><span class=w>
-</span><span class=w>    </span><span class=nt>VpcId</span><span class=p>:</span><span class=w> </span>!<span class=l>Ref VPC</span><span class=w>
-</span><span class=w>    </span><span class=nt>MapPublicIpOnLaunch</span><span class=p>:</span><span class=w> </span><span class=kc>True</span><span class=w>
-</span><span class=w>    </span><span class=nt>AvailabilityZone</span><span class=p>:</span><span class=w> </span>!<span class=l>Select</span><span class=w>
-</span><span class=w>      </span>- <span class=m>0</span><span class=w>
-</span><span class=w>      </span>- <span class=nt>Fn::GetAZs</span><span class=p>:</span><span class=w> </span>!<span class=l>Ref AWS::Region</span><span class=w>
-</span></code></pre></div><h1 id=様々な疑似パラメータ>様々な疑似パラメータ</h1>
-<p>事前定義されたパラメータが幾つかある。</p>
-<p><strong>擬似パラメーター参照</strong><br>
-<a href=https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/pseudo-parameter-reference.html>https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/pseudo-parameter-reference.html</a></p>
-<p>以下の ${AWS::～} が該当する。テンプレートから固有要素を排除し汎用性をあげることに使える。</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=nt>Subnet</span><span class=p>:</span><span class=w>
-</span><span class=w>  </span><span class=nt>Type</span><span class=p>:</span><span class=w> </span><span class=l>AWS::EC2::Subnet</span><span class=w>
-</span><span class=w>  </span><span class=nt>Properties</span><span class=p>:</span><span class=w>
-</span><span class=w>    </span><span class=nt>CidrBlock</span><span class=p>:</span><span class=w> </span><span class=m>172.16.0.0</span><span class=l>/20</span><span class=w>
-</span><span class=w>    </span><span class=nt>VpcId</span><span class=p>:</span><span class=w> </span>!<span class=l>Ref VPC</span><span class=w>
-</span><span class=w>    </span><span class=nt>Tag</span><span class=p>:</span><span class=w>
-</span><span class=w>      </span>- {<span class=nt>Key: Name, Value</span><span class=p>:</span><span class=w> </span>!<span class=l>Sub &#34;subnet-${AWS::StackName}&#34;}</span><span class=w>
-</span></code></pre></div><h1 id=使ってみる-aws-shell>使ってみる (aws-shell)</h1>
-<p>EC2でインスタンスを建ててみる。以下のテンプレートを作成。</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=nt>AWSTemplateFormatVersion</span><span class=p>:</span><span class=w> </span><span class=s1>&#39;2010-09-09&#39;</span><span class=w>
-</span><span class=w></span><span class=nt>Parameters</span><span class=p>:</span><span class=w>
-</span><span class=w>  </span><span class=nt>EC2InstanceType</span><span class=p>:</span><span class=w>
-</span><span class=w>    </span><span class=nt>Type</span><span class=p>:</span><span class=w> </span><span class=l>String</span><span class=w>
-</span><span class=w>    </span><span class=nt>Description</span><span class=p>:</span><span class=w> </span><span class=l>Instance type of WebSrv</span><span class=w>
-</span><span class=w>    </span><span class=nt>Default</span><span class=p>:</span><span class=w> </span><span class=l>t2.micro</span><span class=w>
-</span><span class=w>    </span><span class=nt>AllowedValues</span><span class=p>:</span><span class=w> </span><span class=p>[</span><span class=s2>&#34;t2.nano&#34;</span><span class=p>,</span><span class=w> </span><span class=s2>&#34;t2.micro&#34;</span><span class=p>,</span><span class=w> </span><span class=s2>&#34;t2.small&#34;</span><span class=p>,</span><span class=w> </span><span class=s2>&#34;t2.medium&#34;</span><span class=p>,</span><span class=w> </span><span class=s2>&#34;t2.large&#34;</span><span class=p>,</span><span class=w> </span><span class=s2>&#34;t2.xlarge&#34;</span><span class=p>,</span><span class=w> </span><span class=s2>&#34;t2.2xlarge&#34;</span><span class=p>]</span><span class=w>
-</span><span class=w>  </span><span class=nt>EC2KeyName</span><span class=p>:</span><span class=w>
-</span><span class=w>    </span><span class=nt>Type</span><span class=p>:</span><span class=w> </span><span class=l>AWS::EC2::KeyPair::KeyName</span><span class=w>
-</span><span class=w>    </span><span class=nt>Description</span><span class=p>:</span><span class=w> </span><span class=l>SSH public key</span><span class=w>
-</span><span class=w>    </span><span class=nt>Default</span><span class=p>:</span><span class=w> </span><span class=l>id_rsa</span><span class=w>
-</span><span class=w></span><span class=nt>Mappings</span><span class=p>:</span><span class=w>
-</span><span class=w>  </span><span class=nt>Common</span><span class=p>:</span><span class=w>
-</span><span class=w>    </span><span class=nt>ServiceTag</span><span class=p>:</span><span class=w> </span>{<span class=nt>Key: service, Value</span><span class=p>:</span><span class=w> </span><span class=l>helloCF}</span><span class=w>
-</span><span class=w></span><span class=nt>Resources</span><span class=p>:</span><span class=w>
-</span><span class=w>  </span><span class=c># ---------------------------</span><span class=w>
-</span><span class=w>  </span><span class=c># VPC</span><span class=w>
-</span><span class=w>  </span><span class=c># ---------------------------</span><span class=w>
-</span><span class=w>  </span><span class=nt>VPC</span><span class=p>:</span><span class=w>
-</span><span class=w>    </span><span class=nt>Type</span><span class=p>:</span><span class=w> </span><span class=l>AWS::EC2::VPC</span><span class=w>
-</span><span class=w>    </span><span class=nt>Properties</span><span class=p>:</span><span class=w>
-</span><span class=w>      </span><span class=nt>CidrBlock</span><span class=p>:</span><span class=w> </span><span class=m>172.16.0.0</span><span class=l>/16</span><span class=w>
-</span><span class=w>      </span><span class=nt>Tags</span><span class=p>:</span><span class=w>
-</span><span class=w>        </span>- {<span class=nt>Key: !FindInMap [Common, ServiceTag, Key], Value</span><span class=p>:</span><span class=w> </span>!<span class=l>FindInMap [Common, ServiceTag, Value]}</span><span class=w>
-</span><span class=w>  </span><span class=nt>InternetGWAttacher</span><span class=p>:</span><span class=w>
-</span><span class=w>    </span><span class=nt>Type</span><span class=p>:</span><span class=w> </span><span class=l>AWS::EC2::VPCGatewayAttachment</span><span class=w>
-</span><span class=w>    </span><span class=nt>Properties</span><span class=p>:</span><span class=w>
-</span><span class=w>      </span><span class=nt>VpcId</span><span class=p>:</span><span class=w> </span>!<span class=l>Ref VPC</span><span class=w>
-</span><span class=w>      </span><span class=nt>InternetGatewayId</span><span class=p>:</span><span class=w> </span>!<span class=l>Ref InternetGW</span><span class=w>
-</span><span class=w>
-</span><span class=w>  </span><span class=c># ---------------------------</span><span class=w>
-</span><span class=w>  </span><span class=c># Route</span><span class=w>
-</span><span class=w>  </span><span class=c># ---------------------------</span><span class=w>
-</span><span class=w>  </span><span class=nt>Router</span><span class=p>:</span><span class=w>
-</span><span class=w>    </span><span class=nt>Type</span><span class=p>:</span><span class=w> </span><span class=l>AWS::EC2::RouteTable</span><span class=w>
-</span><span class=w>    </span><span class=nt>Properties</span><span class=p>:</span><span class=w>
-</span><span class=w>      </span><span class=nt>VpcId</span><span class=p>:</span><span class=w> </span>!<span class=l>Ref VPC</span><span class=w>
-</span><span class=w>  </span><span class=nt>InternetGWRoute</span><span class=p>:</span><span class=w>
-</span><span class=w>    </span><span class=nt>Type</span><span class=p>:</span><span class=w> </span><span class=l>AWS::EC2::Route</span><span class=w>
-</span><span class=w>    </span><span class=nt>DependsOn</span><span class=p>:</span><span class=w> </span><span class=l>InternetGWAttacher</span><span class=w>
-</span><span class=w>    </span><span class=nt>Properties</span><span class=p>:</span><span class=w>
-</span><span class=w>      </span><span class=nt>RouteTableId</span><span class=p>:</span><span class=w> </span>!<span class=l>Ref Router</span><span class=w>
-</span><span class=w>      </span><span class=nt>DestinationCidrBlock</span><span class=p>:</span><span class=w> </span><span class=m>0.0.0.0</span><span class=l>/0</span><span class=w>
-</span><span class=w>      </span><span class=nt>GatewayId</span><span class=p>:</span><span class=w> </span>!<span class=l>Ref InternetGW</span><span class=w>
-</span><span class=w>
-</span><span class=w>  </span><span class=c># ---------------------------</span><span class=w>
-</span><span class=w>  </span><span class=c># Security Group</span><span class=w>
-</span><span class=w>  </span><span class=c># ---------------------------</span><span class=w>
-</span><span class=w>  </span><span class=nt>SecGrp</span><span class=p>:</span><span class=w>
-</span><span class=w>    </span><span class=nt>Type</span><span class=p>:</span><span class=w> </span><span class=l>AWS::EC2::SecurityGroup</span><span class=w>
-</span><span class=w>    </span><span class=nt>Properties</span><span class=p>:</span><span class=w>
-</span><span class=w>      </span><span class=nt>GroupDescription</span><span class=p>:</span><span class=w> </span><span class=l>Web Server Rule</span><span class=w>
-</span><span class=w>      </span><span class=nt>VpcId</span><span class=p>:</span><span class=w> </span>!<span class=l>Ref VPC</span><span class=w>
-</span><span class=w>      </span><span class=nt>SecurityGroupIngress</span><span class=p>:</span><span class=w>
-</span><span class=w>        </span>- {<span class=w> </span><span class=nt>IpProtocol: tcp, FromPort: 80, ToPort: 80, CidrIp</span><span class=p>:</span><span class=w> </span><span class=m>0.0.0.0</span><span class=l>/0 }</span><span class=w>
-</span><span class=w>        </span>- {<span class=w> </span><span class=nt>IpProtocol: tcp, FromPort: 22, ToPort: 22, CidrIp</span><span class=p>:</span><span class=w> </span><span class=m>0.0.0.0</span><span class=l>/0 }</span><span class=w>
-</span><span class=w>
-</span><span class=w>  </span><span class=c># ---------------------------</span><span class=w>
-</span><span class=w>  </span><span class=c># Subnet</span><span class=w>
-</span><span class=w>  </span><span class=c># ---------------------------</span><span class=w>
-</span><span class=w>  </span><span class=nt>Subnet</span><span class=p>:</span><span class=w>
-</span><span class=w>    </span><span class=nt>Type</span><span class=p>:</span><span class=w> </span><span class=l>AWS::EC2::Subnet</span><span class=w>
-</span><span class=w>    </span><span class=nt>Properties</span><span class=p>:</span><span class=w>
-</span><span class=w>      </span><span class=nt>CidrBlock</span><span class=p>:</span><span class=w> </span><span class=m>172.16.0.0</span><span class=l>/20</span><span class=w>
-</span><span class=w>      </span><span class=nt>VpcId</span><span class=p>:</span><span class=w> </span>!<span class=l>Ref VPC</span><span class=w>
-</span><span class=w>      </span><span class=nt>MapPublicIpOnLaunch</span><span class=p>:</span><span class=w> </span><span class=kc>True</span><span class=w>
-</span><span class=w>      </span><span class=nt>AvailabilityZone</span><span class=p>:</span><span class=w> </span>!<span class=l>Select</span><span class=w>
-</span><span class=w>        </span>- <span class=m>0</span><span class=w>
-</span><span class=w>        </span>- <span class=nt>Fn::GetAZs</span><span class=p>:</span><span class=w> </span>!<span class=l>Ref AWS::Region</span><span class=w>
-</span><span class=w>  </span><span class=nt>SubnetRouting</span><span class=p>:</span><span class=w>
-</span><span class=w>    </span><span class=nt>Type</span><span class=p>:</span><span class=w> </span><span class=l>AWS::EC2::SubnetRouteTableAssociation</span><span class=w>
-</span><span class=w>    </span><span class=nt>Properties</span><span class=p>:</span><span class=w>
-</span><span class=w>      </span><span class=nt>RouteTableId</span><span class=p>:</span><span class=w> </span>!<span class=l>Ref Router</span><span class=w>
-</span><span class=w>      </span><span class=nt>SubnetId</span><span class=p>:</span><span class=w> </span>!<span class=l>Ref Subnet</span><span class=w>
-</span><span class=w>
-</span><span class=w>  </span><span class=c># ---------------------------</span><span class=w>
-</span><span class=w>  </span><span class=c># InternetGW</span><span class=w>
-</span><span class=w>  </span><span class=c># ---------------------------</span><span class=w>
-</span><span class=w>  </span><span class=nt>InternetGW</span><span class=p>:</span><span class=w>
-</span><span class=w>    </span><span class=nt>Type</span><span class=p>:</span><span class=w> </span><span class=l>AWS::EC2::InternetGateway</span><span class=w>
-</span><span class=w>
-</span><span class=w>  </span><span class=c># ---------------------------</span><span class=w>
-</span><span class=w>  </span><span class=c># EC2</span><span class=w>
-</span><span class=w>  </span><span class=c># ---------------------------</span><span class=w>
-</span><span class=w>  </span><span class=nt>WebSrv</span><span class=p>:</span><span class=w>
-</span><span class=w>    </span><span class=nt>Type</span><span class=p>:</span><span class=w> </span><span class=l>AWS::EC2::Instance</span><span class=w>
-</span><span class=w>    </span><span class=nt>Properties</span><span class=p>:</span><span class=w>
-</span><span class=w>      </span><span class=nt>ImageId</span><span class=p>:</span><span class=w> </span><span class=l>ami-097473abce069b8e9</span><span class=w> </span><span class=c># Amazon Linux 2</span><span class=w>
-</span><span class=w>      </span><span class=nt>InstanceType</span><span class=p>:</span><span class=w> </span>!<span class=l>Ref EC2InstanceType</span><span class=w>
-</span><span class=w>      </span><span class=nt>KeyName</span><span class=p>:</span><span class=w> </span>!<span class=l>Ref EC2KeyName</span><span class=w>
-</span><span class=w>      </span><span class=nt>SubnetId</span><span class=p>:</span><span class=w> </span>!<span class=l>Ref Subnet</span><span class=w>
-</span><span class=w>      </span><span class=nt>SecurityGroupIds</span><span class=p>:</span><span class=w>
-</span><span class=w>        </span>- !<span class=l>GetAtt [VPC, DefaultSecurityGroup]</span><span class=w>
-</span><span class=w>        </span>- !<span class=l>Ref SecGrp</span><span class=w>
-</span><span class=w>
-</span><span class=w></span><span class=nt>Outputs</span><span class=p>:</span><span class=w>
-</span><span class=w>  </span><span class=nt>Region</span><span class=p>:</span><span class=w>
-</span><span class=w>    </span><span class=nt>Description</span><span class=p>:</span><span class=w> </span><span class=l>Output Description.</span><span class=w>
-</span><span class=w>    </span><span class=nt>Value</span><span class=p>:</span><span class=w> </span>!<span class=l>Ref AWS::Region</span><span class=w>
-</span></code></pre></div><h2 id=スタック一覧>スタック一覧</h2>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>cloudformation describe-stacks
-</code></pre></div><h2 id=スタック生成>スタック生成</h2>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>cloudformation create-stack --stack-name helloCF --template-body file://hello.cf.yml
-
-<span class=c1># パラメータは --parameters の後に ParameterKey=Key,ParameterValue=Value と続ける</span>
-<span class=c1># 他コマンドでもパラメータは同じ感じ</span>
-cloudformation create-stack <span class=se>\
-</span><span class=se></span>    --stack-name helloCF <span class=se>\
-</span><span class=se></span>    --template-body file://hello.cf.yml <span class=se>\
-</span><span class=se></span>    --parameters <span class=se>\
-</span><span class=se></span>        <span class=nv>ParameterKey</span><span class=o>=</span>EC2InstanceType,ParameterValue<span class=o>=</span>t2.nano <span class=se>\
-</span><span class=se></span>        <span class=nv>ParameterKey</span><span class=o>=</span>EC2KeyName,ParameterValue<span class=o>=</span>id_rsa
-</code></pre></div><h2 id=スタック表示>スタック表示</h2>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=c1># スタック状態の取得</span>
-cloudformation describe-stacks --stack-name helloCF
-
-<span class=c1># テンプレート本体を取得</span>
-cloudformation get-template --stack-name helloCF <span class=p>|</span> jq .TemplateBody -r
-</code></pre></div><h2 id=スタック更新>スタック更新</h2>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>cloudformation update-stack --stack-name helloCF --template-body file://hello.cf.yml
-</code></pre></div><h2 id=変更セット生成>変更セット生成</h2>
-<p>スタック更新は変更セットを経由すると何が変わるのかが事前に把握できて良い。</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>cloudformation create-change-set --stack-name helloCF --change-set-name fixup2 --template-body file://hello.cf.yml
-</code></pre></div><h2 id=保留中の変更セット取得>保留中の変更セット取得</h2>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>cloudformation list-change-sets --stack-name helloCF
-</code></pre></div><h2 id=保留中の変更セット適用>保留中の変更セット適用</h2>
-<p>変更セットは複数保留されている状態にできるが、1つ適用すれば他は削除される。</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>cloudformation execute-change-set --change-set-name fixup2 --stack-name helloCF
-</code></pre></div><h2 id=スタック消去>スタック消去</h2>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>cloudformation delete-stack --stack-name helloCF
-</code></pre></div><h1 id=各種リソースの定義>各種リソースの定義</h1>
-<p>使った時のコケた部分や使いまわしそうな記述をまとめる。</p>
-<h2 id=vpc>VPC</h2>
-<p>IPアドレスのCIDRは 16～28まで。ドキュメントに172.16.0.0/12 が目に付くが12は無理。</p>
-<p><strong>VPC とサブネット</strong><br>
-<a href=https://docs.aws.amazon.com/ja_jp/vpc/latest/userguide/VPC_Subnets.html>https://docs.aws.amazon.com/ja_jp/vpc/latest/userguide/VPC_Subnets.html</a></p>
-<h2 id=subnet>Subnet</h2>
-<p>Azの指定を省く。作業リージョンで使用可能なAzを出せる。1行にしようとするとエラーになるのが謎。</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=nt>AvailabilityZone</span><span class=p>:</span><span class=w> </span>!<span class=l>Select</span><span class=w>
-</span><span class=w>  </span>- <span class=m>0</span><span class=w>
-</span><span class=w>  </span>- <span class=nt>Fn::GetAZs</span><span class=p>:</span><span class=w> </span>!<span class=l>Ref AWS::Region</span><span class=w>
-</span></code></pre></div><h2 id=route>Route</h2>
-<p>インターネットGWを定義する場合、VPCとGWをAttacherリソースで紐付けし、Routeで経路設定をする。その際、RouteにはAttacherへの依存 (DependOn) を明示的に記述する必要がある。</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=nt>InternetGWRoute</span><span class=p>:</span><span class=w>
-</span><span class=w>  </span><span class=nt>Type</span><span class=p>:</span><span class=w> </span><span class=l>AWS::EC2::Route</span><span class=w>
-</span><span class=w>  </span><span class=nt>DependsOn</span><span class=p>:</span><span class=w> </span><span class=l>InternetGWAttacher</span><span class=w>
-</span><span class=w>  </span><span class=nt>Properties</span><span class=p>:</span><span class=w> </span><span class=l>...</span><span class=w>
-</span></code></pre></div><h2 id=ec2>EC2</h2>
-<p>インスタンスタイプは次のリンク先に一覧がある。</p>
-<p><strong>インスタンスタイプ</strong><br>
-<a href=https://docs.aws.amazon.com/ja_jp/AWSEC2/latest/UserGuide/instance-types.html>https://docs.aws.amazon.com/ja_jp/AWSEC2/latest/UserGuide/instance-types.html</a></p>
-<p>AMIのIDはマネジメントコンソールでインスタンス作成する際のAMI検索画面に載っている<br>
-セキュリティグループにVPCのデフォルトSGを指定する際は !GetAttr を使う。</p>
-<div class=highlight><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=nt>SecurityGroupIds</span><span class=p>:</span><span class=w>
-</span><span class=w>  </span>- !<span class=l>GetAtt [VPC, DefaultSecurityGroup]</span><span class=w>
-</span><span class=w>  </span>- !<span class=l>Ref SecGrp</span><span class=w>
-</span></code></pre></div></section>
-</article>
-</main>
-</div>
-<div>
-<footer id=site-footer class=toplevel-container>
-<p>このサイトでは <a href=https://icons8.jp/>icons8</a> の素材を使用しています。</p>
-<p>&copy; 2022 namoshika, All rights reserved</p>
-</footer>
-</div>
-</div>
-</body>
-</html>
+<!doctype html><html lang=ja-jp><head><meta charset=utf-8><meta name=viewport content="width=device-width,minimum-scale=1"><meta name=description content="CloudFormationでEC2インスタンスを建てる AWS上で構成ファイルによる構築をしてみた。これを使うとAWS サービスをJSON/Y"><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script>MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]]}}</script><script type=text/javascript id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js></script><meta name=generator content="Hugo 0.120.3"><title>Cloud Formation | Memo.Namo</title>
+<meta name=robots content="noindex, nofollow"><link rel=stylesheet href=/style/main.css></head><body><div class=flexbox><div><header id=site-header class=toplevel-container><h1><a href=/>Memo.Namo</a></h1><nav><ul class=horizontal-menu><li class=horizontal-menu-item><a href=/about/>About</a></li><li class=horizontal-menu-item><a href=/knowledge/>Knowledge</a></li></ul></nav></header><main id=site-main class=toplevel-container><article class="content-container content-grid"><header class=content-grid-header><div><a class=nav-category href=/knowledge/aws/>AWS</a><h1 class=content-grid-title>Cloud Formation</h1></div><p class=content-grid-desc><span>公開日: 2021-12-16</span>
+<span>更新日: 2021-12-16</span></p></header><aside class=content-grid-side><div class=nav-sticky><h2>目次</h2><nav id=TableOfContents><ul><li><a href=#cloudformationでec2インスタンスを建てる>CloudFormationでEC2インスタンスを建てる</a></li><li><a href=#用語説明>用語説明</a></li><li><a href=#事前準備>事前準備</a></li><li><a href=#テンプレートの書き方>テンプレートの書き方</a><ul><li><a href=#パラメータの使い方>パラメータの使い方</a></li><li><a href=#組み込み関数の使い方>組み込み関数の使い方</a></li><li><a href=#省略記法>省略記法</a></li></ul></li><li><a href=#様々な組み込み関数>様々な組み込み関数</a><ul><li><a href=#ref>Ref</a></li><li><a href=#fnfindinmap>Fn::FindInMap</a></li><li><a href=#fngetatt>Fn:GetAtt</a></li><li><a href=#fnsub>Fn::Sub</a></li><li><a href=#fnbase64>Fn::Base64</a></li><li><a href=#fnselect>Fn::Select</a></li><li><a href=#fngetazs>Fn::GetAZs</a></li></ul></li><li><a href=#様々な疑似パラメータ>様々な疑似パラメータ</a></li><li><a href=#使ってみる-aws-shell>使ってみる (aws-shell)</a><ul><li><a href=#スタック一覧>スタック一覧</a></li><li><a href=#スタック生成>スタック生成</a></li><li><a href=#スタック表示>スタック表示</a></li><li><a href=#スタック更新>スタック更新</a></li><li><a href=#変更セット生成>変更セット生成</a></li><li><a href=#保留中の変更セット取得>保留中の変更セット取得</a></li><li><a href=#保留中の変更セット適用>保留中の変更セット適用</a></li><li><a href=#スタック消去>スタック消去</a></li></ul></li><li><a href=#各種リソースの定義>各種リソースの定義</a><ul><li><a href=#vpc>VPC</a></li><li><a href=#subnet>Subnet</a></li><li><a href=#route>Route</a></li><li><a href=#ec2>EC2</a></li></ul></li></ul></nav><nav class=nav-tag><h2>タグ</h2><ul class=tag-container><li class="tag-item tag-item-inactive"><a href=/tags/auth/>Auth</a></li><li class="tag-item tag-item-inactive"><a href=/tags/businessman/>BusinessMan</a></li><li class="tag-item tag-item-inactive"><a href=/tags/database/>Database</a></li><li class="tag-item tag-item-inactive"><a href=/tags/datavisualization/>DataVisualization</a></li><li class="tag-item tag-item-active"><a href=/tags/devops/>DevOps</a></li></ul></nav></div></aside><section class="md-content content-grid-main"><h1 id=cloudformationでec2インスタンスを建てる>CloudFormationでEC2インスタンスを建てる</h1><p>AWS上で構成ファイルによる構築をしてみた。これを使うとAWS サービスをJSON/YAMLで記述したテンプレートファイルによって定義できる。忘れないうちに備忘録としてまとめた。</p><p>以下の方針でまとめます。</p><ul><li>目的は登場する諸要素の整理 (読み手は何度か試し構築済みを想定)</li><li>試行錯誤しやすい開発環境構築の記録 (CLIからの操作やエディタ設定)</li><li>毎度忘れてリファレンス漁りそうなルールや記述のまとめ</li></ul><h1 id=用語説明>用語説明</h1><p>CloudFormationで登場する用語</p><ul><li>リソース<br>EC2やVPCなどの部品。AWSでは部品を繋ぎ合わせるAttacheなど動詞的なものもリソースとして扱われる。</li><li>テンプレート<br>リソースはテンプレートで定義される。JSON/YAMLで記述できるが、コメントや短縮記法ができる点でYAMLが良い。</li><li>スタック<br>テンプレート1つはスタックを1つ生成し、生成されたリソースはスタックでひとまとめにされる。</li><li>変更セット<br>テンプレートを上書きすると新旧の差分が抽出され適用される。スタック更新する際、変更セットを生成し結果を確認後に適用すると手堅くスタック更新できる。</li></ul><h1 id=事前準備>事前準備</h1><p>テンプレートでリソースを扱う際、リソースを扱えるポリシーを持ったユーザでいる必要がある。エディタで入力補完できる状態にした方が良い。VS Codeでは次の記事が良かった。</p><p><a href=https://qiita.com/yoskeoka/items/6528571a45cd69f93deb>VSCodeでAWS CloudFormation をYAMLで書くための個人的ベスト設定 - Qiita</a></p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>code --install-extension redhat.vscode-yaml
+</span></span></code></pre></div><p>settings.jsonでスキーマ指定する事でIntelliSenseが効くようになる。<br>スキーマは <a href=https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/cfn-resource-specification.html>AWS CloudFormation リソース仕様</a> で配布されている。</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-json data-lang=json><span class=line><span class=cl><span class=s2>&#34;yaml.schemas&#34;</span><span class=err>:</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&#34;https://d33vqc0rt9ld30.cloudfront.net/latest/gzip/CloudFormationResourceSpecification.json&#34;</span><span class=p>:</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;*.cf.yaml&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;*.cf.yml&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;cloud*formation/*.yaml&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;cloud*formation/*.yml&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=p>]</span>
+</span></span><span class=line><span class=cl><span class=p>}</span><span class=err>,</span>
+</span></span><span class=line><span class=cl><span class=s2>&#34;yaml.customTags&#34;</span><span class=err>:</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;!Ref&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;!Sub&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;!Join sequence&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;!FindInMap sequence&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;!GetAtt scalar sequence&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;!Base64 mapping&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;!GetAZs&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;!Select sequence&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;!Split sequence&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;!ImportValue&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;!Condition&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;!Equals sequence&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;!And&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;!If&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;!Not&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;!Or&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>]</span><span class=err>,</span>
+</span></span></code></pre></div><h1 id=テンプレートの書き方>テンプレートの書き方</h1><p>ファイルの構造はAWSドキュメントの <a href=https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/template-anatomy.html>テンプレートの分析 - AWS CloudFormation</a> に書かれている。</p><p>テンプレートにコメント以外で日本語を入れるとエラー多発するので指定不可と思っておいたほうが良い。また、後述する組み込み関数やYAMLの1行で書く記法がエラーになったりと、形式に融通は効かない。</p><p>最小構成は以下の形になる。ここではInternet Gatewayを定義している。</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=line><span class=cl><span class=nt>AWSTemplateFormatVersion</span><span class=p>:</span><span class=w> </span><span class=s1>&#39;2010-09-09&#39;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>Resources</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>InternetGW</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>Type</span><span class=p>:</span><span class=w> </span><span class=l>AWS::EC2::InternetGateway</span><span class=w>
+</span></span></span></code></pre></div><p>宣言できる要素は以下の通り。</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=line><span class=cl><span class=c># 形式バージョン。現在は固定値 (必須)</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>AWSTemplateFormatVersion</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;2010-09-09&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=c># スタックの説明 (オプション)</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>Description</span><span class=p>:</span><span class=w> </span><span class=l>String</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=c># 用途不明。一旦スルー (オプション)</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>Metadata</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=l>template metadata</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=c># スタック生成時に決めたい要素を定義する場所 (オプション)</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>Parameters</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=l>set of parameters</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=c># 各所で使う共通の値を定義しておく場所 (オプション)</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=c># [Name] - [Key] - [List or Map of Attribute] の3階層で宣言する</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>Mappings</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>MappingName1</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>Key1</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>Attribute1</span><span class=p>:</span><span class=w> </span><span class=l>obj hoge</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>Attribute2</span><span class=p>:</span><span class=w> </span><span class=l>obj foo</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>Key2</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=l>list hoge</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=l>list foo</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=c># 用途不明。一旦スルー (オプション)</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>Conditions</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=l>set of conditions</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=c># 用途不明。一旦スルー (オプション)</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>Transform</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=l>set of transforms</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=c># リソース定義する場所 (必須)</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>Resources</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>LogicalID</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>Type</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;定義するリソースの種類 (必須) ex: AWS::EC2::VPC&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>Properties</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=l>settings...</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>Metadata</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=l>EC2インスタンス生成後の初期化処理などを書く際に登場</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=c># 自身の戻り値を定義する場所 (オプション)</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>Outputs</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>LogicalID</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>Description</span><span class=p>:</span><span class=w> </span><span class=l>オプション</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>Value</span><span class=p>:</span><span class=w> </span><span class=l>必須</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>Export</span><span class=p>:</span><span class=w> </span><span class=l>オプション。一旦スルー</span><span class=w>
+</span></span></span></code></pre></div><h2 id=パラメータの使い方>パラメータの使い方</h2><p>Parametersを使うとスタック生成時に決める要素を定義できる。</p><p><strong>パラメータ</strong><br><a href=https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html>https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html</a></p><p>使用時は以下のように定義する (Typeのみが必須)。マネジメントコンソール上でスタック生成する場合、Typeへは固有パラメータ型 (AWS::EC2::KeyPair::KeyName etc&mldr;) を使うと使える値を一覧から選べて使い勝手が良い。適切な固有パラメータ型が無いものへは AllowedValues にリストを入れると一覧から値を選べるようになる。</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=line><span class=cl><span class=nt>Parameters</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>LogicalID</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>Type</span><span class=p>:</span><span class=w> </span><span class=l>String</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>AllowedValues</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=l>item1</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=l>item2</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=l>...</span><span class=w>
+</span></span></span></code></pre></div><h2 id=組み込み関数の使い方>組み込み関数の使い方</h2><p>幾つか関数を使用可能。普段、テンプレート内でVPCを定義する際にルーティングやゲートウェイも定義する事が多いが、これらのリソースはテンプレート作成時点では各自のIDが定まっておらず互いを指定できない。そこでスタック生成時のID解決に関数が使える。</p><p><strong>組み込み関数リファレンス</strong><br><a href=https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html>https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html</a></p><p>関数は関数名をキー、引数を値としたオブジェクトとして記述する。</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=line><span class=cl><span class=nt>Routes</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>Type</span><span class=p>:</span><span class=w> </span><span class=l>AWS::EC2::RouteTable</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>Properties</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=c># テンプレート内で定義されたVPCのIDを取得する</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>VpcId</span><span class=p>:</span><span class=w> </span>{<span class=nt>Ref</span><span class=p>:</span><span class=w> </span><span class=l>VPC}</span><span class=w>
+</span></span></span></code></pre></div><h2 id=省略記法>省略記法</h2><p>YAMLでは関数の省略記法が可能。しかし、省略記法は連続記述はできないため、連続する場合には完全名と交互に使う。</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=line><span class=cl><span class=nt>Routes</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>Type</span><span class=p>:</span><span class=w> </span><span class=l>AWS::EC2::RouteTable</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>Properties</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=c># 上記の定義と同じ意味になる</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>VpcId</span><span class=p>:</span><span class=w> </span>!<span class=l>Ref VPC</span><span class=w>
+</span></span></span></code></pre></div><h1 id=様々な組み込み関数>様々な組み込み関数</h1><p>色々な関数がある。よく使いそうなのをピックアップする。</p><p><strong>組み込み関数リファレンス</strong><br><a href=https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html>https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference.html</a></p><h2 id=ref>Ref</h2><p>指定したパラメータやリソースを取得するのに使う。パラメータでは設定された値が、リソースではリソース宣言の戻り値を返す (大抵はリソースの物理ID)</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=line><span class=cl><span class=nt>Routes</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>Type</span><span class=p>:</span><span class=w> </span><span class=l>AWS::EC2::RouteTable</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>Properties</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>VpcId</span><span class=p>:</span><span class=w> </span>!<span class=l>Ref VPC</span><span class=w>
+</span></span></span></code></pre></div><h2 id=fnfindinmap>Fn::FindInMap</h2><p>Mappingsで定義された内容を取得する。次の書き方になる。</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=line><span class=cl>!<span class=l>FindInMap [ MapName, Key, Attribute ]</span><span class=w>
+</span></span></span></code></pre></div><p>例: VPCへタグを付与する</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=line><span class=cl><span class=nt>Mappings</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>Common</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>ServiceTag</span><span class=p>:</span><span class=w> </span>{<span class=nt>Key: service, Value</span><span class=p>:</span><span class=w> </span><span class=l>helloCF}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>Resources</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>VPC</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>Type</span><span class=p>:</span><span class=w> </span><span class=l>AWS::EC2::VPC</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>Properties</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>CidrBlock</span><span class=p>:</span><span class=w> </span><span class=m>172.16.0.0</span><span class=l>/16</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>Tags</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- {<span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>Key</span><span class=p>:</span><span class=w> </span>!<span class=l>FindInMap [Common, ServiceTag, Key],</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>          </span><span class=nt>Value</span><span class=p>:</span><span class=w> </span>!<span class=l>FindInMap [Common, ServiceTag, Value]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span>}<span class=w>
+</span></span></span></code></pre></div><h2 id=fngetatt>Fn:GetAtt</h2><p>リソースの戻り値を取得するためRefと似ている。こちらはリソースのみを対象とする他、Refは大抵が物理IDだが、こちらの関数で何が返ってくるかは各リソースで違うためドキュメントの戻り値の部分を読むこと。</p><p>以下の例ではEC2インスタンスのセキュリティグループにVPCのデフォルトセキュリティグループを指定している。</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=line><span class=cl><span class=nt>WebSrv</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>Type</span><span class=p>:</span><span class=w> </span><span class=l>AWS::EC2::Instance</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>Properties</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>ImageId</span><span class=p>:</span><span class=w> </span><span class=l>ami-097473abce069b8e9</span><span class=w> </span><span class=c># Amazon Linux 2</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>InstanceType</span><span class=p>:</span><span class=w> </span><span class=l>t2.micro</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>KeyName</span><span class=p>:</span><span class=w> </span><span class=l>id_rsa</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>SubnetId</span><span class=p>:</span><span class=w> </span>!<span class=l>Ref Subnet</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>SecurityGroups</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- !<span class=l>GetAtt [VPC, DefaultSecurityGroup]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- !<span class=l>Ref SecGrp</span><span class=w>
+</span></span></span></code></pre></div><h2 id=fnsub>Fn::Sub</h2><p>内部に変数を仕込んだ文字列をスタック生成時に変数の値を解決する。複雑な文字列を組む際に使う。<br>変数には次が使用可能</p><ul><li>パラメータ: ${LogicalID} &mldr; !Ref LogicalID と同じ</li><li>リソースID: ${LogicalID} &mldr; !Ref LogicalID と同じ</li><li>リソース属性: ${LogicalID.Attr} &mldr; !GetAtt [LogicalID, Attr] と同じ</li><li>キー/値マップ: 詳細不明</li></ul><h2 id=fnbase64>Fn::Base64</h2><p>入力文字列をBase64表現に変換する。主にEC2リソースを定義する際のUserData用。Fn::Subと組み合わせて以下のように使うと便利。</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=line><span class=cl><span class=nt>UserData</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>Fn::Base64</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span>!<span class=l>Sub |</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=c>#!/bin/bash -xe</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=l>rpm -Uvh https://packages.microsoft.com/config/rhel/7/packages-microsoft-prod.rpm</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=l>yum -y update</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=l>yum -y install aws-cfn-bootstrap</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=l>/opt/aws/bin/cfn-init -v --stack ${AWS::StackName} --resource WebSrv --region ${AWS::Region} </span><span class=w>
+</span></span></span></code></pre></div><h2 id=fnselect>Fn::Select</h2><p>配列から指定したインデックスの要素を取得する。!GetAZsと組み合わせると便利。</p><h2 id=fngetazs>Fn::GetAZs</h2><p>指定リュージョンで利用可能なAzの配列を返す。以下の例ではサブネットをどのAzへ配置するかを作業中リュージョンから動的に取得している。ちなみにAvailabilityZone部分を1行にしたいが、するとエラーになるため現在の書き方に落ち着いた。</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=line><span class=cl><span class=nt>Subnet</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>Type</span><span class=p>:</span><span class=w> </span><span class=l>AWS::EC2::Subnet</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>Properties</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>CidrBlock</span><span class=p>:</span><span class=w> </span><span class=m>172.16.0.0</span><span class=l>/20</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>VpcId</span><span class=p>:</span><span class=w> </span>!<span class=l>Ref VPC</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>MapPublicIpOnLaunch</span><span class=p>:</span><span class=w> </span><span class=kc>True</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>AvailabilityZone</span><span class=p>:</span><span class=w> </span>!<span class=l>Select</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=m>0</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- <span class=nt>Fn::GetAZs</span><span class=p>:</span><span class=w> </span>!<span class=l>Ref AWS::Region</span><span class=w>
+</span></span></span></code></pre></div><h1 id=様々な疑似パラメータ>様々な疑似パラメータ</h1><p>事前定義されたパラメータが幾つかある。</p><p><strong>擬似パラメーター参照</strong><br><a href=https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/pseudo-parameter-reference.html>https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/pseudo-parameter-reference.html</a></p><p>以下の ${AWS::～} が該当する。テンプレートから固有要素を排除し汎用性をあげることに使える。</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=line><span class=cl><span class=nt>Subnet</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>Type</span><span class=p>:</span><span class=w> </span><span class=l>AWS::EC2::Subnet</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>Properties</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>CidrBlock</span><span class=p>:</span><span class=w> </span><span class=m>172.16.0.0</span><span class=l>/20</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>VpcId</span><span class=p>:</span><span class=w> </span>!<span class=l>Ref VPC</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>Tag</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span>- {<span class=nt>Key: Name, Value</span><span class=p>:</span><span class=w> </span>!<span class=l>Sub &#34;subnet-${AWS::StackName}&#34;}</span><span class=w>
+</span></span></span></code></pre></div><h1 id=使ってみる-aws-shell>使ってみる (aws-shell)</h1><p>EC2でインスタンスを建ててみる。以下のテンプレートを作成。</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=line><span class=cl><span class=nt>AWSTemplateFormatVersion</span><span class=p>:</span><span class=w> </span><span class=s1>&#39;2010-09-09&#39;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>Parameters</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>EC2InstanceType</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>Type</span><span class=p>:</span><span class=w> </span><span class=l>String</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>Description</span><span class=p>:</span><span class=w> </span><span class=l>Instance type of WebSrv</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>Default</span><span class=p>:</span><span class=w> </span><span class=l>t2.micro</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>AllowedValues</span><span class=p>:</span><span class=w> </span><span class=p>[</span><span class=s2>&#34;t2.nano&#34;</span><span class=p>,</span><span class=w> </span><span class=s2>&#34;t2.micro&#34;</span><span class=p>,</span><span class=w> </span><span class=s2>&#34;t2.small&#34;</span><span class=p>,</span><span class=w> </span><span class=s2>&#34;t2.medium&#34;</span><span class=p>,</span><span class=w> </span><span class=s2>&#34;t2.large&#34;</span><span class=p>,</span><span class=w> </span><span class=s2>&#34;t2.xlarge&#34;</span><span class=p>,</span><span class=w> </span><span class=s2>&#34;t2.2xlarge&#34;</span><span class=p>]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>EC2KeyName</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>Type</span><span class=p>:</span><span class=w> </span><span class=l>AWS::EC2::KeyPair::KeyName</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>Description</span><span class=p>:</span><span class=w> </span><span class=l>SSH public key</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>Default</span><span class=p>:</span><span class=w> </span><span class=l>id_rsa</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>Mappings</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>Common</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>ServiceTag</span><span class=p>:</span><span class=w> </span>{<span class=nt>Key: service, Value</span><span class=p>:</span><span class=w> </span><span class=l>helloCF}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>Resources</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=c># ---------------------------</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=c># VPC</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=c># ---------------------------</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>VPC</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>Type</span><span class=p>:</span><span class=w> </span><span class=l>AWS::EC2::VPC</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>Properties</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>CidrBlock</span><span class=p>:</span><span class=w> </span><span class=m>172.16.0.0</span><span class=l>/16</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>Tags</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span>- {<span class=nt>Key: !FindInMap [Common, ServiceTag, Key], Value</span><span class=p>:</span><span class=w> </span>!<span class=l>FindInMap [Common, ServiceTag, Value]}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>InternetGWAttacher</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>Type</span><span class=p>:</span><span class=w> </span><span class=l>AWS::EC2::VPCGatewayAttachment</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>Properties</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>VpcId</span><span class=p>:</span><span class=w> </span>!<span class=l>Ref VPC</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>InternetGatewayId</span><span class=p>:</span><span class=w> </span>!<span class=l>Ref InternetGW</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=c># ---------------------------</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=c># Route</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=c># ---------------------------</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>Router</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>Type</span><span class=p>:</span><span class=w> </span><span class=l>AWS::EC2::RouteTable</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>Properties</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>VpcId</span><span class=p>:</span><span class=w> </span>!<span class=l>Ref VPC</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>InternetGWRoute</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>Type</span><span class=p>:</span><span class=w> </span><span class=l>AWS::EC2::Route</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>DependsOn</span><span class=p>:</span><span class=w> </span><span class=l>InternetGWAttacher</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>Properties</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>RouteTableId</span><span class=p>:</span><span class=w> </span>!<span class=l>Ref Router</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>DestinationCidrBlock</span><span class=p>:</span><span class=w> </span><span class=m>0.0.0.0</span><span class=l>/0</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>GatewayId</span><span class=p>:</span><span class=w> </span>!<span class=l>Ref InternetGW</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=c># ---------------------------</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=c># Security Group</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=c># ---------------------------</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>SecGrp</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>Type</span><span class=p>:</span><span class=w> </span><span class=l>AWS::EC2::SecurityGroup</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>Properties</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>GroupDescription</span><span class=p>:</span><span class=w> </span><span class=l>Web Server Rule</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>VpcId</span><span class=p>:</span><span class=w> </span>!<span class=l>Ref VPC</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>SecurityGroupIngress</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span>- {<span class=w> </span><span class=nt>IpProtocol: tcp, FromPort: 80, ToPort: 80, CidrIp</span><span class=p>:</span><span class=w> </span><span class=m>0.0.0.0</span><span class=l>/0 }</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span>- {<span class=w> </span><span class=nt>IpProtocol: tcp, FromPort: 22, ToPort: 22, CidrIp</span><span class=p>:</span><span class=w> </span><span class=m>0.0.0.0</span><span class=l>/0 }</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=c># ---------------------------</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=c># Subnet</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=c># ---------------------------</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>Subnet</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>Type</span><span class=p>:</span><span class=w> </span><span class=l>AWS::EC2::Subnet</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>Properties</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>CidrBlock</span><span class=p>:</span><span class=w> </span><span class=m>172.16.0.0</span><span class=l>/20</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>VpcId</span><span class=p>:</span><span class=w> </span>!<span class=l>Ref VPC</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>MapPublicIpOnLaunch</span><span class=p>:</span><span class=w> </span><span class=kc>True</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>AvailabilityZone</span><span class=p>:</span><span class=w> </span>!<span class=l>Select</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span>- <span class=m>0</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span>- <span class=nt>Fn::GetAZs</span><span class=p>:</span><span class=w> </span>!<span class=l>Ref AWS::Region</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>SubnetRouting</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>Type</span><span class=p>:</span><span class=w> </span><span class=l>AWS::EC2::SubnetRouteTableAssociation</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>Properties</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>RouteTableId</span><span class=p>:</span><span class=w> </span>!<span class=l>Ref Router</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>SubnetId</span><span class=p>:</span><span class=w> </span>!<span class=l>Ref Subnet</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=c># ---------------------------</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=c># InternetGW</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=c># ---------------------------</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>InternetGW</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>Type</span><span class=p>:</span><span class=w> </span><span class=l>AWS::EC2::InternetGateway</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=c># ---------------------------</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=c># EC2</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=c># ---------------------------</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>WebSrv</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>Type</span><span class=p>:</span><span class=w> </span><span class=l>AWS::EC2::Instance</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>Properties</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>ImageId</span><span class=p>:</span><span class=w> </span><span class=l>ami-097473abce069b8e9</span><span class=w> </span><span class=c># Amazon Linux 2</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>InstanceType</span><span class=p>:</span><span class=w> </span>!<span class=l>Ref EC2InstanceType</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>KeyName</span><span class=p>:</span><span class=w> </span>!<span class=l>Ref EC2KeyName</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>SubnetId</span><span class=p>:</span><span class=w> </span>!<span class=l>Ref Subnet</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>      </span><span class=nt>SecurityGroupIds</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span>- !<span class=l>GetAtt [VPC, DefaultSecurityGroup]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span>- !<span class=l>Ref SecGrp</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>Outputs</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>Region</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>Description</span><span class=p>:</span><span class=w> </span><span class=l>Output Description.</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>Value</span><span class=p>:</span><span class=w> </span>!<span class=l>Ref AWS::Region</span><span class=w>
+</span></span></span></code></pre></div><h2 id=スタック一覧>スタック一覧</h2><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>cloudformation describe-stacks
+</span></span></code></pre></div><h2 id=スタック生成>スタック生成</h2><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>cloudformation create-stack --stack-name helloCF --template-body file://hello.cf.yml
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># パラメータは --parameters の後に ParameterKey=Key,ParameterValue=Value と続ける</span>
+</span></span><span class=line><span class=cl><span class=c1># 他コマンドでもパラメータは同じ感じ</span>
+</span></span><span class=line><span class=cl>cloudformation create-stack <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    --stack-name helloCF <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    --template-body file://hello.cf.yml <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>    --parameters <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>        <span class=nv>ParameterKey</span><span class=o>=</span>EC2InstanceType,ParameterValue<span class=o>=</span>t2.nano <span class=se>\
+</span></span></span><span class=line><span class=cl><span class=se></span>        <span class=nv>ParameterKey</span><span class=o>=</span>EC2KeyName,ParameterValue<span class=o>=</span>id_rsa
+</span></span></code></pre></div><h2 id=スタック表示>スタック表示</h2><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl><span class=c1># スタック状態の取得</span>
+</span></span><span class=line><span class=cl>cloudformation describe-stacks --stack-name helloCF
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># テンプレート本体を取得</span>
+</span></span><span class=line><span class=cl>cloudformation get-template --stack-name helloCF <span class=p>|</span> jq .TemplateBody -r
+</span></span></code></pre></div><h2 id=スタック更新>スタック更新</h2><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>cloudformation update-stack --stack-name helloCF --template-body file://hello.cf.yml
+</span></span></code></pre></div><h2 id=変更セット生成>変更セット生成</h2><p>スタック更新は変更セットを経由すると何が変わるのかが事前に把握できて良い。</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>cloudformation create-change-set --stack-name helloCF --change-set-name fixup2 --template-body file://hello.cf.yml
+</span></span></code></pre></div><h2 id=保留中の変更セット取得>保留中の変更セット取得</h2><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>cloudformation list-change-sets --stack-name helloCF
+</span></span></code></pre></div><h2 id=保留中の変更セット適用>保留中の変更セット適用</h2><p>変更セットは複数保留されている状態にできるが、1つ適用すれば他は削除される。</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>cloudformation execute-change-set --change-set-name fixup2 --stack-name helloCF
+</span></span></code></pre></div><h2 id=スタック消去>スタック消去</h2><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>cloudformation delete-stack --stack-name helloCF
+</span></span></code></pre></div><h1 id=各種リソースの定義>各種リソースの定義</h1><p>使った時のコケた部分や使いまわしそうな記述をまとめる。</p><h2 id=vpc>VPC</h2><p>IPアドレスのCIDRは 16～28まで。ドキュメントに172.16.0.0/12 が目に付くが12は無理。</p><p><strong>VPC とサブネット</strong><br><a href=https://docs.aws.amazon.com/ja_jp/vpc/latest/userguide/VPC_Subnets.html>https://docs.aws.amazon.com/ja_jp/vpc/latest/userguide/VPC_Subnets.html</a></p><h2 id=subnet>Subnet</h2><p>Azの指定を省く。作業リージョンで使用可能なAzを出せる。1行にしようとするとエラーになるのが謎。</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=line><span class=cl><span class=nt>AvailabilityZone</span><span class=p>:</span><span class=w> </span>!<span class=l>Select</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>- <span class=m>0</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>- <span class=nt>Fn::GetAZs</span><span class=p>:</span><span class=w> </span>!<span class=l>Ref AWS::Region</span><span class=w>
+</span></span></span></code></pre></div><h2 id=route>Route</h2><p>インターネットGWを定義する場合、VPCとGWをAttacherリソースで紐付けし、Routeで経路設定をする。その際、RouteにはAttacherへの依存 (DependOn) を明示的に記述する必要がある。</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=line><span class=cl><span class=nt>InternetGWRoute</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>Type</span><span class=p>:</span><span class=w> </span><span class=l>AWS::EC2::Route</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>DependsOn</span><span class=p>:</span><span class=w> </span><span class=l>InternetGWAttacher</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>Properties</span><span class=p>:</span><span class=w> </span><span class=l>...</span><span class=w>
+</span></span></span></code></pre></div><h2 id=ec2>EC2</h2><p>インスタンスタイプは次のリンク先に一覧がある。</p><p><strong>インスタンスタイプ</strong><br><a href=https://docs.aws.amazon.com/ja_jp/AWSEC2/latest/UserGuide/instance-types.html>https://docs.aws.amazon.com/ja_jp/AWSEC2/latest/UserGuide/instance-types.html</a></p><p>AMIのIDはマネジメントコンソールでインスタンス作成する際のAMI検索画面に載っている<br>セキュリティグループにVPCのデフォルトSGを指定する際は !GetAttr を使う。</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=line><span class=cl><span class=nt>SecurityGroupIds</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>- !<span class=l>GetAtt [VPC, DefaultSecurityGroup]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>- !<span class=l>Ref SecGrp</span><span class=w>
+</span></span></span></code></pre></div></section></article></main></div><div><footer id=site-footer class=toplevel-container><p>このサイトでは <a href=https://icons8.jp/>icons8</a> の素材を使用しています。</p><p>&copy; 2023 namoshika, All rights reserved</p></footer></div></div></body></html>

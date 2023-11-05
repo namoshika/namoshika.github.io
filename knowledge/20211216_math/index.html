@@ -1,0 +1,163 @@
+<!doctype html><html lang=ja-jp><head><meta charset=utf-8><meta name=viewport content="width=device-width,minimum-scale=1"><meta name=description content="キレイに書かれた数式って良いよね！ Jupyter Notebook の Markdownセルには数式を美しく書く機能があります。 数式は生テキストとして書くと見直した際に意味"><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script>MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]]}}</script><script type=text/javascript id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js></script><meta name=generator content="Hugo 0.120.3"><title>Jupyter Notebook で数式を美しく書く | Memo.Namo</title>
+<meta name=robots content="noindex, nofollow"><link rel=stylesheet href=/style/main.css></head><body><div class=flexbox><div><header id=site-header class=toplevel-container><h1><a href=/>Memo.Namo</a></h1><nav><ul class=horizontal-menu><li class=horizontal-menu-item><a href=/about/>About</a></li><li class=horizontal-menu-item><a href=/knowledge/>Knowledge</a></li></ul></nav></header><main id=site-main class=toplevel-container><article class="content-container content-grid"><header class=content-grid-header><div><a class=nav-category href=/knowledge/others/>Others</a><h1 class=content-grid-title>Jupyter Notebook で数式を美しく書く</h1></div><p class=content-grid-desc><span>公開日: 2021-12-16</span>
+<span>更新日: 2021-12-16</span></p></header><aside class=content-grid-side><div class=nav-sticky><h2>目次</h2><nav id=TableOfContents><ul><li><a href=#キレイに書かれた数式って良いよね>キレイに書かれた数式って良いよね！</a></li><li><a href=#数式の書き方>数式の書き方</a></li><li><a href=#数式ルール>数式ルール</a></li><li><a href=#色々な式を書く>色々な式を書く</a><ul><li><a href=#よく使う記法>よく使う記法</a></li><li><a href=#ベクトル--行列>ベクトル & 行列</a></li><li><a href=#ルート>ルート</a></li><li><a href=#和--積>和 & 積</a></li><li><a href=#分数>分数</a></li><li><a href=#微分>微分</a></li><li><a href=#点線>点線</a></li><li><a href=#条件分け>条件分け</a></li><li><a href=#各種記号>各種記号</a></li><li><a href=#書式の指定>書式の指定</a></li></ul></li><li><a href=#参考資料>参考資料</a></li></ul></nav><nav class=nav-tag><h2>タグ</h2><ul class=tag-container><li class="tag-item tag-item-inactive"><a href=/tags/auth/>Auth</a></li><li class="tag-item tag-item-inactive"><a href=/tags/businessman/>BusinessMan</a></li><li class="tag-item tag-item-inactive"><a href=/tags/database/>Database</a></li><li class="tag-item tag-item-inactive"><a href=/tags/datavisualization/>DataVisualization</a></li><li class="tag-item tag-item-inactive"><a href=/tags/devops/>DevOps</a></li></ul></nav></div></aside><section class="md-content content-grid-main"><h1 id=キレイに書かれた数式って良いよね>キレイに書かれた数式って良いよね！</h1><p>Jupyter Notebook の Markdownセルには数式を美しく書く機能があります。</p><p>数式は生テキストとして書くと見直した際に意味不明で困りものです。教科書通りに書ければ読みやすいのに！。Jupyter Notebookでは出来ます。ここでは次の方針とします。</p><ul><li>あくまでJupyterで書く話 (MathJax? TEX? 知らない子ですね)</li><li>数式のセオリーを知る (大文字小文字とかありますよね)</li><li>ある式を書くための一つの記法 (ベクトルって色々な書き方ありますよね)</li><li>裏技とか無し (強者は本家リファレンスを読もう)</li></ul><h1 id=数式の書き方>数式の書き方</h1><p>数式の区間を作る際にはmarkdownセル中に <code>$$ ... $$</code> と書きます。</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-latex data-lang=latex><span class=line><span class=cl><span class=sb>$$</span><span class=nb>
+</span></span></span><span class=line><span class=cl><span class=nb>    y </span><span class=o>=</span><span class=nb> ax
+</span></span></span><span class=line><span class=cl><span class=nb></span><span class=s>$$</span>
+</span></span></code></pre></div><p>$$
+y = ax
+$$</p><p>文章中に数式を書く場合には <code>$ ... $</code> と書きます。</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-latex data-lang=latex><span class=line><span class=cl>お <span class=s>$</span><span class=nb> </span><span class=nv>\pi</span><span class=nb> </span><span class=s>$</span> ლ(╹◡╹ლ)
+</span></span></code></pre></div><p>お $ \pi $ ლ(╹◡╹ლ)</p><h1 id=数式ルール>数式ルール</h1><p>数式には「大文字」 or 「小文字」、「イタリック」 or 「ローマン体」が登場しますが、これらにはルールがあります (参考資料1)。</p><ul><li>イタリック<ul><li>変数</li><li>e, d (本来はローマン体ですが、面倒臭い&mldr;)</li></ul></li><li>ローマン体<ul><li>数学記号 (演算子、lim、sin etc&mldr;)</li><li>略語</li><li>定数 (π)</li></ul></li></ul><p>ローマン体を使う状況の多くは専用のコントロールシーケンス (\hoge) が用意されており、これを覚える事が基本となります。また、変数は追加で次のルールがあります。</p><table><thead><tr><th></th><th>太さ</th><th>文字</th><th>描画</th></tr></thead><tbody><tr><td>スカラー</td><td>ノーマル</td><td>小文字</td><td>$x$</td></tr><tr><td>ベクトル</td><td>ボールド</td><td>小文字</td><td>$\boldsymbol{x}$</td></tr><tr><td>行列</td><td>ボールド</td><td>大文字</td><td>$\boldsymbol{X}$</td></tr></tbody></table><p>なお、書式は人や分野で違いがあるようです。ベクトルや行列にローマン体を使用する資料もあり、可読性で一理あるようにも思えます。書く際にはルールに一貫性を、指導員が居れば規約確認をした方が良いです。</p><h1 id=色々な式を書く>色々な式を書く</h1><p>後は様々な機能を覚えるのみです。より多くの書き方を知りたい際には (参考資料2)、記号を知る際は (参考資料3) をおすすめします。</p><h2 id=よく使う記法>よく使う記法</h2><p>様々な表現が可能。</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-latex data-lang=latex><span class=line><span class=cl><span class=sb>$$</span><span class=nb>
+</span></span></span><span class=line><span class=cl><span class=nb>    </span><span class=c>% 空白は表示に影響しない。コメントは&#34;%&#34;で始める
+</span></span></span><span class=line><span class=cl><span class=c></span><span class=nb>    </span><span class=c>% 下付き文字は&#34;_a&#34;、上付き文字は&#34;^a&#34;
+</span></span></span><span class=line><span class=cl><span class=c></span><span class=nb>    </span><span class=c>% 改行は&#34;\\&#34;を付ける
+</span></span></span><span class=line><span class=cl><span class=c></span><span class=nb>    y_</span><span class=m>1</span><span class=nb> </span><span class=o>=</span><span class=nb> ax^</span><span class=m>2</span><span class=nb> </span><span class=nv>\\</span><span class=nb>
+</span></span></span><span class=line><span class=cl><span class=nb>    </span><span class=c>% 複数文字を1要素とする際は{...}で囲う
+</span></span></span><span class=line><span class=cl><span class=c></span><span class=nb>    </span><span class=c>% 空白は&#34;\quad&#34;
+</span></span></span><span class=line><span class=cl><span class=c></span><span class=nb>    y_</span><span class=m>2</span><span class=nb> </span><span class=o>=</span><span class=nb> ax^{</span><span class=m>10</span><span class=nb>} </span><span class=nv>\quad</span><span class=nb> y_</span><span class=m>3</span><span class=nb> </span><span class=o>=</span><span class=nb> ax </span><span class=nv>\\</span><span class=nb>
+</span></span></span><span class=line><span class=cl><span class=nb></span><span class=s>$$</span>
+</span></span></code></pre></div><p>$$
+% 空白は表示に影響しない
+% 下付き文字は"_a"、上付き文字は"^a"
+% 改行は"\&ldquo;を付ける
+y_1 = ax^2 \\
+% 複数文字を1要素とする際は{&mldr;}で囲う
+% 空白は&rdquo;\quad"
+y_2 = ax^{10} \quad y_3 = ax \\
+$$</p><p>複数行はイコールの場所で揃えると見やすい。</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-latex data-lang=latex><span class=line><span class=cl><span class=sb>$$</span><span class=nb>
+</span></span></span><span class=line><span class=cl><span class=nb>    </span><span class=c>% \begin{hoge}...\end{hoge} と書くことで幾つかの文章様式が表現可能 (texでは環境と呼ぶようです)
+</span></span></span><span class=line><span class=cl><span class=c></span><span class=nb>    </span><span class=c>% aligned環境を使うと複数の式を&amp;で位置合わせできる
+</span></span></span><span class=line><span class=cl><span class=c></span><span class=nb>    </span><span class=nv>\begin</span><span class=nb>{aligned}
+</span></span></span><span class=line><span class=cl><span class=nb>        </span><span class=c>% 奇数番目の&amp;で場所が縦に揃う
+</span></span></span><span class=line><span class=cl><span class=c></span><span class=nb>        </span><span class=c>% 偶数番目の&amp;はタブスペースになる
+</span></span></span><span class=line><span class=cl><span class=c></span><span class=nb>        a_</span><span class=m>1</span><span class=nb>   &amp;</span><span class=o>=</span><span class=nb> ax_</span><span class=m>1</span><span class=nb> &amp; a_</span><span class=m>2</span><span class=nb>   &amp;</span><span class=o>=</span><span class=nb> ax_</span><span class=m>2</span><span class=nb>  </span><span class=nv>\\</span><span class=nb>
+</span></span></span><span class=line><span class=cl><span class=nb>        bb_</span><span class=m>1</span><span class=nb>  &amp;</span><span class=o>=</span><span class=nb> ax_</span><span class=m>1</span><span class=nb> &amp; bb_</span><span class=m>2</span><span class=nb>  &amp;</span><span class=o>=</span><span class=nb> ax_</span><span class=m>2</span><span class=nb>  </span><span class=nv>\\</span><span class=nb>
+</span></span></span><span class=line><span class=cl><span class=nb>        ccc_</span><span class=m>1</span><span class=nb> &amp;</span><span class=o>=</span><span class=nb> ax_</span><span class=m>1</span><span class=nb> &amp; ccc_</span><span class=m>2</span><span class=nb> &amp;</span><span class=o>=</span><span class=nb> ax_</span><span class=m>2</span><span class=nb>
+</span></span></span><span class=line><span class=cl><span class=nb>    </span><span class=nv>\end</span><span class=nb>{aligned}
+</span></span></span><span class=line><span class=cl><span class=nb></span><span class=s>$$</span>
+</span></span></code></pre></div><p>$$
+% \begin{hoge}&mldr;\end{hoge} と書くことで幾つかの文章様式が表現可能 (texでは環境と呼ぶようです)
+% aligned環境を使うと複数の式を&で位置合わせできる
+\begin{aligned}
+% 奇数番目の&で場所が縦に揃う
+% 偶数番目の&はタブスペースになる
+a_1 &= ax_1 & a_2 &= ax_2 \\
+bb_1 &= ax_1 & bb_2 &= ax_2 \\
+ccc_1 &= ax_1 & ccc_2 &= ax_2
+\end{aligned}
+$$</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-latex data-lang=latex><span class=line><span class=cl><span class=sb>$$</span><span class=nb>
+</span></span></span><span class=line><span class=cl><span class=nb>    </span><span class=nv>\begin</span><span class=nb>{aligned}
+</span></span></span><span class=line><span class=cl><span class=nb>        </span><span class=c>% 各種演算子の書き方
+</span></span></span><span class=line><span class=cl><span class=c></span><span class=nb>        y &amp;</span><span class=o>=</span><span class=nb> ax     &amp; y &amp;&gt; ax  &amp; y </span><span class=nv>\geqq</span><span class=nb> ax </span><span class=nv>\\</span><span class=nb>
+</span></span></span><span class=line><span class=cl><span class=nb>        y &amp;</span><span class=nv>\neq</span><span class=nb> ax  &amp; y &amp;&lt; ax  &amp; y </span><span class=nv>\leqq</span><span class=nb> ax </span><span class=nv>\\</span><span class=nb>
+</span></span></span><span class=line><span class=cl><span class=nb>    </span><span class=nv>\end</span><span class=nb>{aligned}
+</span></span></span><span class=line><span class=cl><span class=nb></span><span class=s>$$</span>
+</span></span></code></pre></div><p>$$
+\begin{aligned}
+% 各種演算子の書き方
+y &= ax & y &> ax & y \geqq ax \\
+y &\neq ax & y &&lt; ax & y \leqq ax \\
+\end{aligned}
+$$</p><h2 id=ベクトル--行列>ベクトル & 行列</h2><div class=highlight><pre tabindex=0 class=chroma><code class=language-latex data-lang=latex><span class=line><span class=cl><span class=sb>$$</span><span class=nb>
+</span></span></span><span class=line><span class=cl><span class=nb>    </span><span class=c>% &#34;boldsymbol&#34;で太字にしている
+</span></span></span><span class=line><span class=cl><span class=c></span><span class=nb>    </span><span class=nv>\boldsymbol</span><span class=nb>{v} </span><span class=o>=</span><span class=nb>
+</span></span></span><span class=line><span class=cl><span class=nb>        </span><span class=c>% ベクトルや行列は&#34;left[&#34;と&#34;right]&#34;でベクトルや行列の括弧を作る
+</span></span></span><span class=line><span class=cl><span class=c></span><span class=nb>        </span><span class=c>% 括弧内に&#34;array&#34;環境を展開する
+</span></span></span><span class=line><span class=cl><span class=c></span><span class=nb>        </span><span class=c>% {c|cc}の形で中央揃え、縦線、中央揃え*2の並びに出来る
+</span></span></span><span class=line><span class=cl><span class=c></span><span class=nb>        </span><span class=nv>\left</span><span class=o>[</span><span class=nv>\begin</span><span class=nb>{array}{c}
+</span></span></span><span class=line><span class=cl><span class=nb>            </span><span class=m>2</span><span class=nb> </span><span class=nv>\\</span><span class=nb>
+</span></span></span><span class=line><span class=cl><span class=nb>            </span><span class=m>3</span><span class=nb> </span><span class=nv>\\</span><span class=nb>
+</span></span></span><span class=line><span class=cl><span class=nb>        </span><span class=nv>\end</span><span class=nb>{array}</span><span class=nv>\right</span><span class=o>]</span><span class=nb> </span><span class=nv>\quad</span><span class=nb>
+</span></span></span><span class=line><span class=cl><span class=nb>    </span><span class=nv>\boldsymbol</span><span class=nb>{M} </span><span class=o>=</span><span class=nb>
+</span></span></span><span class=line><span class=cl><span class=nb>        </span><span class=nv>\left</span><span class=o>[</span><span class=nv>\begin</span><span class=nb>{array}{c|cc}
+</span></span></span><span class=line><span class=cl><span class=nb>            </span><span class=c>% 横並びは&amp;を挟む
+</span></span></span><span class=line><span class=cl><span class=c></span><span class=nb>            </span><span class=m>1</span><span class=nb> &amp; </span><span class=m>2</span><span class=nb> &amp; </span><span class=m>4</span><span class=nb> </span><span class=nv>\\</span><span class=nb>
+</span></span></span><span class=line><span class=cl><span class=nb>            </span><span class=c>% 水平線は\\hlineを使う
+</span></span></span><span class=line><span class=cl><span class=c></span><span class=nb>            </span><span class=nv>\hline</span><span class=nb>
+</span></span></span><span class=line><span class=cl><span class=nb>            </span><span class=m>2</span><span class=nb> &amp; </span><span class=m>3</span><span class=nb> &amp; </span><span class=m>5</span><span class=nb> </span><span class=nv>\\</span><span class=nb>
+</span></span></span><span class=line><span class=cl><span class=nb>        </span><span class=nv>\end</span><span class=nb>{array}</span><span class=nv>\right</span><span class=o>]</span><span class=nb> </span><span class=nv>\quad</span><span class=nb>
+</span></span></span><span class=line><span class=cl><span class=nb></span><span class=s>$$</span>
+</span></span></code></pre></div><p>$$
+% &ldquo;boldsymbol"で太字にしている
+\boldsymbol{v} =
+% ベクトルや行列は"left[&ldquo;と"right]&ldquo;でベクトルや行列の括弧を作る
+% 括弧内に"array"環境を展開する
+% {c|cc}の形で中央揃え、縦線、中央揃え*2の並びに出来る
+\left[\begin{array}{c}
+2 \\
+3 \\
+\end{array}\right] \quad
+\boldsymbol{M} =
+\left[\begin{array}{c|cc}
+% 横並びは&を挟む
+1 & 2 & 4 \\
+% 水平線は\hlineを使う
+\hline
+2 & 3 & 5 \\
+\end{array}\right] \quad
+$$</p><h2 id=ルート>ルート</h2><div class=highlight><pre tabindex=0 class=chroma><code class=language-latex data-lang=latex><span class=line><span class=cl><span class=sb>$$</span><span class=nb>
+</span></span></span><span class=line><span class=cl><span class=nb>    |</span><span class=nv>\boldsymbol</span><span class=nb>{a}| </span><span class=o>=</span><span class=nb> </span><span class=nv>\sqrt</span><span class=nb>{a_</span><span class=m>0</span><span class=nb>^</span><span class=m>2</span><span class=o>+</span><span class=nb>a_</span><span class=m>1</span><span class=nb>^</span><span class=m>2</span><span class=nb>}
+</span></span></span><span class=line><span class=cl><span class=nb></span><span class=s>$$</span>
+</span></span></code></pre></div><p>$$
+|\boldsymbol{a}| = \sqrt{a_0^2+a_1^2}
+$$</p><h2 id=和--積>和 & 積</h2><div class=highlight><pre tabindex=0 class=chroma><code class=language-latex data-lang=latex><span class=line><span class=cl><span class=sb>$$</span><span class=nb>
+</span></span></span><span class=line><span class=cl><span class=nb>    a </span><span class=o>=</span><span class=nb> </span><span class=nv>\sum</span><span class=nb>_{i</span><span class=o>=</span><span class=m>0</span><span class=nb>}^{n}</span><span class=m>2</span><span class=nb>a </span><span class=nv>\quad</span><span class=nb>
+</span></span></span><span class=line><span class=cl><span class=nb>    b </span><span class=o>=</span><span class=nb> </span><span class=nv>\prod</span><span class=nb>_{i</span><span class=o>=</span><span class=m>0</span><span class=nb>}^{n}</span><span class=m>2</span><span class=nb>b
+</span></span></span><span class=line><span class=cl><span class=nb></span><span class=s>$$</span>
+</span></span></code></pre></div><p>$$
+a = \sum_{i=0}^{n}2a \quad
+b = \prod_{i=0}^{n}2b
+$$</p><h2 id=分数>分数</h2><div class=highlight><pre tabindex=0 class=chroma><code class=language-latex data-lang=latex><span class=line><span class=cl><span class=sb>$$</span><span class=nb>
+</span></span></span><span class=line><span class=cl><span class=nb>    y </span><span class=o>=</span><span class=nb> </span><span class=nv>\frac</span><span class=nb>{</span><span class=m>2</span><span class=nb>}{</span><span class=m>3</span><span class=nb>}
+</span></span></span><span class=line><span class=cl><span class=nb></span><span class=s>$$</span>
+</span></span></code></pre></div><p>$$
+y = \frac{2}{3}
+$$</p><h2 id=微分>微分</h2><div class=highlight><pre tabindex=0 class=chroma><code class=language-latex data-lang=latex><span class=line><span class=cl><span class=sb>$$</span><span class=nb>
+</span></span></span><span class=line><span class=cl><span class=nb>    </span><span class=nv>\frac</span><span class=nb>{d}{d x} x^</span><span class=m>2</span><span class=nb> </span><span class=o>=</span><span class=nb> </span><span class=m>2</span><span class=nb>x </span><span class=nv>\\</span><span class=nb>
+</span></span></span><span class=line><span class=cl><span class=nb>    </span><span class=nv>\frac</span><span class=nb>{</span><span class=nv>\partial</span><span class=nb>}{</span><span class=nv>\partial</span><span class=nb> x} x^</span><span class=m>2</span><span class=nb> </span><span class=o>+</span><span class=nb> a </span><span class=o>=</span><span class=nb> </span><span class=m>2</span><span class=nb>x
+</span></span></span><span class=line><span class=cl><span class=nb></span><span class=s>$$</span>
+</span></span></code></pre></div><p>$$
+\frac{d}{d x} x^2 = 2x \\
+\frac{\partial}{\partial x} x^2 + a = 2x
+$$</p><h2 id=点線>点線</h2><ul><li>\cdots: 横向き</li><li>\vdots: 縦向き</li><li>\ddots: 斜線</li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-latex data-lang=latex><span class=line><span class=cl><span class=sb>$$</span><span class=nb>
+</span></span></span><span class=line><span class=cl><span class=nb>    </span><span class=nv>\boldsymbol</span><span class=nb>{A} </span><span class=o>=</span><span class=nb>
+</span></span></span><span class=line><span class=cl><span class=nb>        </span><span class=nv>\left</span><span class=o>[</span><span class=nv>\begin</span><span class=nb>{array}{ccc}
+</span></span></span><span class=line><span class=cl><span class=nb>            a_{</span><span class=m>0</span><span class=nb>,</span><span class=m>0</span><span class=nb>} &amp; </span><span class=nv>\cdots</span><span class=nb> &amp; a_{</span><span class=m>0</span><span class=nb>,x} </span><span class=nv>\\</span><span class=nb>
+</span></span></span><span class=line><span class=cl><span class=nb>            </span><span class=nv>\vdots</span><span class=nb>  &amp; </span><span class=nv>\ddots</span><span class=nb> &amp; </span><span class=nv>\vdots</span><span class=nb> </span><span class=nv>\\</span><span class=nb>
+</span></span></span><span class=line><span class=cl><span class=nb>            a_{y,</span><span class=m>0</span><span class=nb>} &amp; </span><span class=nv>\cdots</span><span class=nb> &amp; a_{y,x} </span><span class=nv>\\</span><span class=nb>
+</span></span></span><span class=line><span class=cl><span class=nb>        </span><span class=nv>\end</span><span class=nb>{array}</span><span class=nv>\right</span><span class=o>]</span><span class=nb>
+</span></span></span><span class=line><span class=cl><span class=nb></span><span class=s>$$</span>
+</span></span></code></pre></div><p>$$
+\boldsymbol{A} =
+\left[\begin{array}{ccc}
+a_{0,0} & \cdots & a_{0,x} \\
+\vdots & \ddots & \vdots \\
+a_{y,0} & \cdots & a_{y,x} \\
+\end{array}\right]
+$$</p><h2 id=条件分け>条件分け</h2><div class=highlight><pre tabindex=0 class=chroma><code class=language-latex data-lang=latex><span class=line><span class=cl><span class=sb>$$</span><span class=nb>
+</span></span></span><span class=line><span class=cl><span class=nb>    ReLU</span><span class=o>(</span><span class=nb>x</span><span class=o>)</span><span class=nb> </span><span class=o>=</span><span class=nb>
+</span></span></span><span class=line><span class=cl><span class=nb>        </span><span class=nv>\begin</span><span class=nb>{cases}
+</span></span></span><span class=line><span class=cl><span class=nb>            x </span><span class=nv>\quad</span><span class=nb> x </span><span class=nv>\geqq</span><span class=nb> </span><span class=m>0</span><span class=nb> </span><span class=nv>\\</span><span class=nb>
+</span></span></span><span class=line><span class=cl><span class=nb>            </span><span class=m>0</span><span class=nb> </span><span class=nv>\quad</span><span class=nb> x &lt; </span><span class=m>0</span><span class=nb> </span><span class=nv>\\</span><span class=nb>
+</span></span></span><span class=line><span class=cl><span class=nb>        </span><span class=nv>\end</span><span class=nb>{cases}
+</span></span></span><span class=line><span class=cl><span class=nb></span><span class=s>$$</span>
+</span></span></code></pre></div><p>$$
+ReLU(x) =
+\begin{cases}
+x \quad x \geqq 0 \\
+0 \quad x &lt; 0 \\
+\end{cases}
+$$</p><h2 id=各種記号>各種記号</h2><p>上手く活用すればローマン体になるべきところが自然とローマン体になります。</p><table><thead><tr><th></th><th>シンボル</th><th>描画</th></tr></thead><tbody><tr><td>円周率</td><td>\pi</td><td>$ \pi $</td></tr><tr><td>eを体としたx</td><td>\exp(x)</td><td>$ \exp(x) $</td></tr><tr><td>自然対数</td><td>\ln(x)</td><td>$ \ln(x) $</td></tr><tr><td>デルタ</td><td>\delta</td><td>$ \delta $</td></tr><tr><td>アダマール積</td><td>\odot</td><td>$ \odot $</td></tr></tbody></table><h2 id=書式の指定>書式の指定</h2><p>任意の文字列をローマン体にしたい場合もあります(略語を想定)。その際は以下のようにします。イタリックの場合でも複数文字を一塊の単語として表示したい場合には \mathit を使うと &ldquo;f&rdquo; などが間延びせずに表示できます。</p><table><thead><tr><th>書式</th><th>記述</th><th>描画</th></tr></thead><tbody><tr><td>ローマン体</td><td>\mathrm{x}</td><td>$\mathrm{x}$</td></tr><tr><td>ローマン体 + 太字</td><td>\mathbf{x}</td><td>$\mathbf{x}$</td></tr><tr><td>イタリック(詰め気味)</td><td>\mathit{diff}</td><td>$\mathit{diff}$</td></tr></tbody></table><p>先程の条件分けサンプルを見てみましょう。ReLUはDNNの活性化関数として用いられるReLU関数として書いており、&ldquo;R×e×L×U&rdquo; ではありません。よってここではローマン体になります。</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-latex data-lang=latex><span class=line><span class=cl><span class=sb>$$</span><span class=nb>
+</span></span></span><span class=line><span class=cl><span class=nb>    </span><span class=c>% ローマン体にする
+</span></span></span><span class=line><span class=cl><span class=c></span><span class=nb>    </span><span class=nv>\mathrm</span><span class=nb>{ReLU}</span><span class=o>(</span><span class=nb>x</span><span class=o>)</span><span class=nb> </span><span class=o>=</span><span class=nb>
+</span></span></span><span class=line><span class=cl><span class=nb>        </span><span class=nv>\begin</span><span class=nb>{cases}
+</span></span></span><span class=line><span class=cl><span class=nb>            x </span><span class=nv>\quad</span><span class=nb> x </span><span class=nv>\geqq</span><span class=nb> </span><span class=m>0</span><span class=nb> </span><span class=nv>\\</span><span class=nb>
+</span></span></span><span class=line><span class=cl><span class=nb>            </span><span class=m>0</span><span class=nb> </span><span class=nv>\quad</span><span class=nb> x &lt; </span><span class=m>0</span><span class=nb> </span><span class=nv>\\</span><span class=nb>
+</span></span></span><span class=line><span class=cl><span class=nb>        </span><span class=nv>\end</span><span class=nb>{cases}
+</span></span></span><span class=line><span class=cl><span class=nb></span><span class=s>$$</span>
+</span></span></code></pre></div><p>$$
+\mathrm{ReLU}(x) =
+\begin{cases}
+x \quad x \geqq 0 \\
+0 \quad x &lt; 0 \\
+\end{cases}
+$$</p><h1 id=参考資料>参考資料</h1><ol><li>数学の常識・非常識—由緒正しい TEX 入力法<br><a href=https://www.math.tohoku.ac.jp/tmj/oda_tex.pdf>https://www.math.tohoku.ac.jp/tmj/oda_tex.pdf</a></li><li>Easy Copy MathJax<br><a href=http://easy-copy-mathjax.xxxx7.com/>http://easy-copy-mathjax.xxxx7.com/</a></li><li>LaTeXコマンド - 数学記号（等号、不等号、演算子、集合）<br><a href=https://medemanabu.net/latex/operators/>https://medemanabu.net/latex/operators/</a></li></ol></section></article></main></div><div><footer id=site-footer class=toplevel-container><p>このサイトでは <a href=https://icons8.jp/>icons8</a> の素材を使用しています。</p><p>&copy; 2023 namoshika, All rights reserved</p></footer></div></div></body></html>
