@@ -2,7 +2,7 @@
 title: "Databricks を使ってみる"
 date: 2023-10-23T00:45:39+09:00
 tags: [DataEngineering]
-draft: true
+draft: false
 ---
 
 # DBFS

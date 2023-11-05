@@ -2,7 +2,7 @@
 title: "Avatar Custom"
 date: 2023-07-12T20:44:34+09:00
 tags: []
-draft: true
+draft: false
 ---
 
 * Bound、ライトプローブの統一
