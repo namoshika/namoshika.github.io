@@ -1,5 +1,5 @@
 ---
-title: "99. お気に入り"
+title: "お気に入り"
 date: 2022-02-20T23:29:26+09:00
 tags: []
 draft: false
