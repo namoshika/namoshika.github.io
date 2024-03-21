@@ -1,7 +1,7 @@
 ---
 title: "Databricks 製品を使ってみる"
 date: 2023-10-23T00:45:39+09:00
-tags: [DataEngineering]
+tags: [Database, DataEngineering]
 draft: false
 ---
 
