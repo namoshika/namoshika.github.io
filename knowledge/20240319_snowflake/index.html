@@ -77,7 +77,7 @@
 </span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>GET</span><span class=w> </span><span class=s1>&#39;@HELLO_SNOWFLAKE.SAMPLE_SCHEMA.%SAMPLE_TBL&#39;</span><span class=w> </span><span class=s1>&#39;file://data_dl/&#39;</span><span class=p>;</span><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w></span><span class=c1>-- ステージング領域のファイルを削除 (1ファイル)
-</span></span></span><span class=line><span class=cl><span class=c1>-- REMOVE &#39;@HELLO_SNOWFLAKE.SAMPLE_SCHEMA.%SAMPLE_TBL/tenki-20190101-20191231.csv.gz&#39;;
+</span></span></span><span class=line><span class=cl><span class=c1>-- REMOVE &#39;@HELLO_SNOWFLAKE.SAMPLE_SCHEMA.%SAMPLE_TBL/{ファイル名}.csv.gz&#39;;
 </span></span></span><span class=line><span class=cl><span class=c1></span><span class=w>
 </span></span></span><span class=line><span class=cl><span class=w></span><span class=c1>-- ステージング領域のファイルを削除 (一括)
 </span></span></span><span class=line><span class=cl><span class=c1>-- REMOVE &#39;@HELLO_SNOWFLAKE.SAMPLE_SCHEMA.%SAMPLE_TBL&#39;;
