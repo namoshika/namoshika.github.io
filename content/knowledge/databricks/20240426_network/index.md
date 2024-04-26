@@ -1,7 +1,7 @@
 ---
 title: "Databricks とネットワーク"
 date: 2024-04-26T20:28:53+09:00
-tags: [Database]
+tags: [Infrastructure]
 draft: false
 ---
 現状は主にクラシックコンピュートプレーンについて記載。
