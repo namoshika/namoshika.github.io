@@ -1,7 +1,7 @@
 ---
 title: "Cloud Formation"
 date: 2021-12-16T08:07:20+09:00
-tags: [DevOps]
+tags: [Infrastructure, IaC]
 draft: false
 ---
 # CloudFormationでEC2インスタンスを建てる
