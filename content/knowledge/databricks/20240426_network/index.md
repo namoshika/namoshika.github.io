@@ -110,7 +110,7 @@ PrivateLink を使うと、トラフィックをインターネットに公開�
     - [Use AWS Glue Data Catalog as a metastore (legacy) | Databricks on AWS](https://docs.databricks.com/ja/archive/external-metastores/aws-glue-metastore.html)
   - NAT 無しかつ外部 Apache Hive metastore 無しの構成ではクラスターや SQL Warehouse、カタログが随所でタイムアウトするまでフリーズする現象が発生する
 
-# ハンズオン
+# やってみる
 以下のリポジトリをローカルへ DL し、ターミナルで開く。  
 https://github.com/namoshika/hello-databricks
 
