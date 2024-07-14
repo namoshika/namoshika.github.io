@@ -5,11 +5,10 @@
   <nav>
     <h1 class="card-container-title">KNOWLEDGE</h1>
     <ul class="card-container">
-      {{/* range $item_key, $item_val := .Site.Taxonomies.categories */}}
-      {{ $cat_pages := .GetPage "/knowledge" }}
-      {{ range $item_key := where $cat_pages.Pages.ByLinkTitle ".LinkTitle" "!=" "Others" }}
+      {{ $klg_pages := .GetPage "/knowledge" }}
+      {{ range where $klg_pages.Pages.ByLinkTitle ".Kind" "==" "section" }}
         {{/* Get Icon URL */}}
-        {{ $icon_key := $item_key.Title | lower | urlize | printf "image/knowledge/icon-%s.png" }}
+        {{ $icon_key := .Title | lower | urlize | printf "image/knowledge/icon-%s.png" }}
         {{ if fileExists (printf "assets/%s" $icon_key) | not }}
           {{ $icon_key = "image/knowledge/icon-default.png" }}
         {{ end }}
@@ -18,26 +17,22 @@
         {{ $icon_obj := resources.Get $icon_key }}
         {{ $icon_obj := $icon_obj.Resize "50x50"}}
         <li class="card-item">
-          <a href="{{ $item_key.RelPermalink }}" class="card-icontext">
+          <a href="{{ .RelPermalink }}" class="card-icontext">
             <img src="{{ $icon_obj.RelPermalink }}" alt="link icon" class="card-icontext-icon" width="50" height="50">
-            <div class="card-icontext-text">{{ $item_key.LinkTitle }}</div>
+            <div class="card-icontext-text">{{ .Title }}</div>
           </a>
         </li>
       {{ end }}
-      {{ range $item_key := where $cat_pages.Pages.ByLinkTitle ".LinkTitle" "==" "Others" }}
+      {{ if len (where $klg_pages.Pages ".Kind" "==" "page") }}
         {{/* Get Icon URL */}}
-        {{ $icon_key := $item_key.Title | lower | urlize | printf "image/knowledge/icon-%s.png" }}
-        {{ if fileExists (printf "assets/%s" $icon_key) | not }}
-          {{ $icon_key = "image/knowledge/icon-default.png" }}
-        {{ end }}
-        
+        {{ $icon_key := urlize "others" | printf "image/knowledge/icon-%s.png" }}
         {{/* Display Icon */}}
         {{ $icon_obj := resources.Get $icon_key }}
         {{ $icon_obj := $icon_obj.Resize "50x50"}}
         <li class="card-item">
-          <a href="{{ $item_key.RelPermalink }}" class="card-icontext">
+          <a href="{{ $klg_pages.RelPermalink }}" class="card-icontext">
             <img src="{{ $icon_obj.RelPermalink }}" alt="link icon" class="card-icontext-icon" width="50" height="50">
-            <div class="card-icontext-text">{{ $item_key.LinkTitle }}</div>
+            <div class="card-icontext-text">Others</div>
           </a>
         </li>
       {{ end }}

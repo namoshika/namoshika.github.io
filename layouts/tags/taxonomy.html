@@ -16,8 +16,8 @@
       <h2>記事一覧</h2>
       <nav>
         <ul>
-          {{ range $item := sort .Pages "LinkTitle" }}
-            <li><a href="{{ $item.RelPermalink }}">{{ $item.LinkTitle }}</a></li>
+          {{ range .Pages.ByLinkTitle }}
+            <li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
           {{ end }}
         </ul>
       </nav>

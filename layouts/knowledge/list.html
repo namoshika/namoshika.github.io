@@ -15,23 +15,27 @@
       <section class="md-content">{{- .Content -}}</section>
       <h2>記事一覧</h2>
       <nav class="md-content">
-        {{ $children := sort (.RegularPagesRecursive.GroupBy "CurrentSection") "Key.Title" }}
-        {{/* 独立カテゴリを個別グループ毎に表示 */}}
-        {{ $categories := where $children ".Key.Title" "!=" "Others" }}
-        {{ range $category := $categories }}
-          {{ if gt (len $categories) 1 }} <h3><a class="nav-category" href="{{ $category.Key.RelPermalink }}">{{ $category.Key.Title }}</a></h3> {{ end }}
+        {{/* サブカテゴリに属すページをサブカテゴリ毎に表示 */}}
+        {{ $children := where .Pages ".Kind" "==" "section" }}
+        {{ range $children.ByLinkTitle }}
+          <h3><a class="nav-category" href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
           <ul>
-            {{ range $item := sort $category.Pages "LinkTitle" }}
-              <li><a href="{{ $item.RelPermalink }}">{{ $item.LinkTitle }}</a></li>
+            {{ range where .Pages.ByLinkTitle ".Kind" "==" "page" }}
+              <li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+            {{ end }}
+            {{ range where .Pages.ByLinkTitle ".Kind" "==" "section" }}
+              <li><a href="{{ .RelPermalink }}">{{ .Title }} [{{ len .RegularPagesRecursive }}]</a></li>
             {{ end }}
           </ul>
         {{ end }}
-        {{/* 雑多カテゴリをその他グループ毎に表示 */}}
-        {{ range $category := where $children ".Key.Title" "==" "Others" }}
-          {{ if gt (len $categories) 0 }} <h3>その他</h3> {{ end }}
+        {{/* 直下ページへのリンクを表示 */}}
+        {{ $subsec_len := len $children}}
+        {{ $children := where .Pages ".Kind" "==" "page" }}
+        {{ if gt (len $children) 0 }}
+          {{ if gt $subsec_len 0}}<h3>その他</h3>{{ end }}
           <ul>
-            {{ range $item := sort $category.Pages "LinkTitle" }}
-              <li><a href="{{ $item.RelPermalink }}">{{ $item.LinkTitle }}</a></li>
+            {{ range $children.ByLinkTitle }}
+              <li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
             {{ end }}
           </ul>
         {{ end }}
