@@ -2,6 +2,7 @@ baseURL = 'http://example.org/' # TODO: そのうち決める必要がある
 languageCode = 'ja-jp'
 title = "Memo.Namo"
 hasCJKLanguage = true
+enableGitInfo = true
 theme = "ananke"
 
 [permalinks]
