@@ -228,11 +228,13 @@ figure {
   border-color: lightgray;
   border-style: solid;
   border-width: 0 0 1px 0;
+  break-after: avoid;
 }
 .md-content h2 {
   border-color: lightgray;
   border-style: solid;
   border-width: 0;
+  break-after: avoid;
 }
 .md-content :not(pre.chroma)>code {
   padding: 0.3rem;
@@ -286,7 +288,7 @@ figure {
 .md-content blockquote>* {
   margin: 0;
 }
-@media (max-width: 45rem){
+@media (max-width: 45rem) {
   .content-grid {
     display: grid;
     grid-template-rows: auto auto 1fr;
@@ -298,7 +300,39 @@ figure {
   }
   .nav-tag {
     display: none;
-  }  
+  }
+}
+@media print {
+  .content-grid {
+    display: grid;
+    grid-template-rows: auto auto 1fr;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "title-area"
+      "side-area"
+      "main-area";
+  }
+  .nav-tag {
+    display: none;
+  }
+  .nav-sticky {
+    position: static;
+  }
+  #site-header, #site-footer {
+    display: none;
+  }
+  #site-main {
+    padding: 0;
+  }
+  /* #site-main .content-grid-side {
+    display: none;
+  } */
+  #site-main .content-grid-desc {
+    display: none;
+  }
+  #site-main .md-content .highlight code {
+    text-wrap: wrap;
+  }
 }/* Background */ .chroma { color: #f8f8f2; background-color: #272822 }
 /* Other */ .chroma .x {  }
 /* Error */ .chroma .err { color: #960050; background-color: #1e0010 }
