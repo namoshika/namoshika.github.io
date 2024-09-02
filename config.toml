@@ -15,6 +15,8 @@ knowledge = "/:section/:filename/"
   [markup.tableOfContents]
     startLevel = 1
     endLevel = 2
+  [markup.goldmark.renderer]
+    unsafe = true
 
 [[menu.main]]
 name = "About"
