@@ -1,4 +1,19 @@
-<!doctype html><html lang=ja-jp><head><meta charset=utf-8><meta name=viewport content="width=device-width,minimum-scale=1"><meta name=description content="Box を CLI ツールから使用する # 認証情報を構成 box configure:environments:add authinf.json # ファイルをアップロード (既にファイルがある場合はエラーになる) box files:upload SRC_FILE_PATH --parent-id DST_FOLDR_ID # 新しいバージョンの"><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script>MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]]}}</script><script type=text/javascript id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js></script><meta name=generator content="Hugo 0.133.1"><title>Box を CLI から使ってみる | Memo.Namo</title>
+<!doctype html><html lang=ja-jp><head><meta charset=utf-8><meta name=viewport content="width=device-width,minimum-scale=1"><meta name=description content="Box を CLI ツールから使用する
+# 認証情報を構成
+box configure:environments:add authinf.json
+
+# ファイルをアップロード (既にファイルがある場合はエラーになる)
+box files:upload SRC_FILE_PATH --parent-id DST_FOLDR_ID
+
+# 新しいバージョンのファイルをアップロード
+box files:versions:upload DST_FILE_ID SRC_FILE_PATH
+
+# フォルダを作成
+box folders:create PARENT_FOLDER_ID FOLDER_NAME
+
+# ユーザ情報を取得. USER_ID 省略時にはカレントユーザの情報が取得される
+box users:get USER_ID
+"><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script>MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]]}}</script><script type=text/javascript id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js></script><meta name=generator content="Hugo 0.135.0"><title>Box を CLI から使ってみる | Memo.Namo</title>
 <meta name=robots content="noindex, nofollow"><link rel=stylesheet href=/style/main.css></head><body><div class=flexbox><div><header id=site-header class=toplevel-container><h1><a href=/>Memo.Namo</a></h1><nav><ul class=horizontal-menu><li class=horizontal-menu-item><a href=/about/>About</a></li><li class=horizontal-menu-item><a href=/knowledge/>Knowledge</a></li></ul></nav></header><main id=site-main class=toplevel-container><article class="content-container content-grid"><header class=content-grid-header><div><h1 class=content-grid-title>Box を CLI から使ってみる</h1></div><p class=content-grid-desc><span>公開日: 2020-09-03</span>
 <span>更新日: 2024-07-14</span></p></header><aside class=content-grid-side><div class=nav-sticky><nav class=nav-tag><h2>タグ</h2><ul class=tag-container><li class="tag-item tag-item-inactive"><a href=/tags/auth/>Auth</a></li><li class="tag-item tag-item-inactive"><a href=/tags/businessman/>BusinessMan</a></li><li class="tag-item tag-item-inactive"><a href=/tags/database/>Database</a></li><li class="tag-item tag-item-inactive"><a href=/tags/dataengineering/>DataEngineering</a></li><li class="tag-item tag-item-inactive"><a href=/tags/datavisualization/>DataVisualization</a></li><li class="tag-item tag-item-inactive"><a href=/tags/devops/>DevOps</a></li><li class="tag-item tag-item-inactive"><a href=/tags/iac/>IaC</a></li><li class="tag-item tag-item-inactive"><a href=/tags/infrastructure/>Infrastructure</a></li></ul></nav></div></aside><section class="md-content content-grid-main"><h1 id=box-を-cli-ツールから使用する>Box を CLI ツールから使用する</h1><div class=highlight><pre tabindex=0 class=chroma><code class=language-powershell data-lang=powershell><span class=line><span class=cl><span class=c># 認証情報を構成</span>
 </span></span><span class=line><span class=cl><span class=n>box</span> <span class=n>configure</span><span class=err>:</span><span class=n>environments</span><span class=err>:</span><span class=n>add</span> <span class=n>authinf</span><span class=p>.</span><span class=py>json</span>

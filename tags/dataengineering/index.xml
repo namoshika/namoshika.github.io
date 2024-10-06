@@ -1,1 +1,53 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>DataEngineering on Memo.Namo</title><link>http://example.org/tags/dataengineering/</link><description>Recent content in DataEngineering on Memo.Namo</description><generator>Hugo</generator><language>ja-jp</language><lastBuildDate>Tue, 03 Sep 2024 03:58:04 +0900</lastBuildDate><atom:link href="http://example.org/tags/dataengineering/index.xml" rel="self" type="application/rss+xml"/><item><title>Spark でパフォーマンスに問題のあるクエリを最適化する</title><link>http://example.org/knowledge/20240426_optimize/</link><pubDate>Thu, 01 Aug 2024 15:26:54 +0900</pubDate><guid>http://example.org/knowledge/20240426_optimize/</guid><description>Spark でデータ処理を書いていて生じたクエリのパフォーマンス問題へ対処する過程で分かった事、見つけた Databricks の便利な機能を記載する。 効率的な処理の基本 Spark</description></item><item><title>Databricks 製品を使ってみる</title><link>http://example.org/knowledge/20231023_databricks/</link><pubDate>Mon, 23 Oct 2023 00:45:39 +0900</pubDate><guid>http://example.org/knowledge/20231023_databricks/</guid><description>ノートブック セル ノートブック内でコードを実行できる。実行はセル単位で行われ、既定では Python として解釈される。これはマジックコマンドを用いることで</description></item><item><title>Spark を使ってみる</title><link>http://example.org/knowledge/20231023_spark/</link><pubDate>Mon, 23 Oct 2023 00:45:39 +0900</pubDate><guid>http://example.org/knowledge/20231023_spark/</guid><description>アーキテクチャ ノード Driver &amp;hellip; 分散しない処理とExecutorの制御を行う Executor &amp;hellip; 分散処理を行うノード 処理の構造 ジョブ &amp;hellip; 複数のステージを内包。処理する</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>DataEngineering on Memo.Namo</title><link>http://example.org/tags/dataengineering/</link><description>Recent content in DataEngineering on Memo.Namo</description><generator>Hugo</generator><language>ja-jp</language><lastBuildDate>Tue, 03 Sep 2024 03:58:04 +0900</lastBuildDate><atom:link href="http://example.org/tags/dataengineering/index.xml" rel="self" type="application/rss+xml"/><item><title>Spark でパフォーマンスに問題のあるクエリを最適化する</title><link>http://example.org/knowledge/20240426_optimize/</link><pubDate>Thu, 01 Aug 2024 15:26:54 +0900</pubDate><guid>http://example.org/knowledge/20240426_optimize/</guid><description>&lt;p>Spark でデータ処理を書いていて生じたクエリのパフォーマンス問題へ対処する過程で分かった事、見つけた Databricks の便利な機能を記載する。&lt;/p>
+&lt;h1 id="効率的な処理の基本">効率的な処理の基本&lt;/h1>
+&lt;p>Spark では巨大なデータセットを複数台のマシンで並列分散処理する事ができるが、効率的に行いたい場合には以下を心掛ける必要が有る。&lt;/p></description></item><item><title>Databricks 製品を使ってみる</title><link>http://example.org/knowledge/20231023_databricks/</link><pubDate>Mon, 23 Oct 2023 00:45:39 +0900</pubDate><guid>http://example.org/knowledge/20231023_databricks/</guid><description>&lt;h1 id="ノートブック">ノートブック&lt;/h1>
+&lt;h2 id="セル">セル&lt;/h2>
+&lt;p>ノートブック内でコードを実行できる。実行はセル単位で行われ、既定では Python として解釈される。これはマジックコマンドを用いることで他言語として実行することも可能。&lt;/p></description></item><item><title>Spark を使ってみる</title><link>http://example.org/knowledge/20231023_spark/</link><pubDate>Mon, 23 Oct 2023 00:45:39 +0900</pubDate><guid>http://example.org/knowledge/20231023_spark/</guid><description>&lt;h1 id="アーキテクチャ">アーキテクチャ&lt;/h1>
+&lt;h2 id="ノード">ノード&lt;/h2>
+&lt;ul>
+&lt;li>Driver &amp;hellip; 分散しない処理とExecutorの制御を行う&lt;/li>
+&lt;li>Executor &amp;hellip; 分散処理を行うノード&lt;/li>
+&lt;/ul>
+&lt;h2 id="処理の構造">処理の構造&lt;/h2>
+&lt;ul>
+&lt;li>ジョブ &amp;hellip; 複数のステージを内包。処理するファイルの文だけ作られる&lt;/li>
+&lt;li>ステージ &amp;hellip; 複数のタスクを内包。単一ノード内で完結するタスクをまとめたもの&lt;/li>
+&lt;li>タスク&lt;/li>
+&lt;/ul>
+&lt;h1 id="データを入出力する">データを入出力する&lt;/h1>
+&lt;ul>
+&lt;li>RDD &amp;hellip; Spark がデータを扱う際の素のAPI.&lt;/li>
+&lt;li>DataFrame &amp;hellip; pandas に似た API が提供されており扱いやすい.&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-py" data-lang="py">&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># -----------------------------&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># RDD&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># SparkContext を通して扱う&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># -----------------------------&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">def&lt;/span> &lt;span class="nf">proc&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">val&lt;/span>&lt;span class="p">):&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="n">val&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="mi">2&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">dt_lst&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="mi">2&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="mi">3&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="s2">&amp;#34;aaa&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">dt_rdd&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">spark&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">sparkContext&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">parallelize&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">dt_lst&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">dt_rdd&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">map&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">proc&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">collect&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># -----------------------------&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># DataFrame &lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># SparkSession を通して扱う。&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># このオブジェクトは RDD/Hive/SQL を束ねて扱うための仕組みとして提供されている。&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># -----------------------------&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 関数から生成&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">dt_df&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">spark&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">range&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">0&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">5&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 配列から生成&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">dt_df&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">spark&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">createDataFrame&lt;/span>&lt;span class="p">([[&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="mi">2&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="mi">3&lt;/span>&lt;span class="p">]],&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;col1&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s2">&amp;#34;col2&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s2">&amp;#34;col3&amp;#34;&lt;/span>&lt;span class="p">])&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># フィールドの情報を取得&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">df&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">schema&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">df&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">printSchema&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 取得した DataFrame の内容を表示&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">dt_df&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">display&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">display&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">dt_df&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="読み書き時-基本">読み書き時 (基本)&lt;/h2>
+&lt;p>SparkSQL での書き方&lt;/p></description></item></channel></rss>

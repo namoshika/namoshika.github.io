@@ -1,1 +1,150 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Knowledge on Memo.Namo</title><link>http://example.org/knowledge/</link><description>Recent content in Knowledge on Memo.Namo</description><generator>Hugo</generator><language>ja-jp</language><lastBuildDate>Sun, 14 Jul 2024 18:29:49 +0900</lastBuildDate><atom:link href="http://example.org/knowledge/index.xml" rel="self" type="application/rss+xml"/><item><title>Snowflake を使ってみる</title><link>http://example.org/knowledge/20240319_snowflake/</link><pubDate>Tue, 19 Mar 2024 00:43:57 +0900</pubDate><guid>http://example.org/knowledge/20240319_snowflake/</guid><description>管理ツール SnowSQL が提供されている。 # ログイン $ snowsql -a {アカウント名} -u {ユーザ名} Password: ... # ログインすると SQL を実行できる SHOW DATABASES; ... 基本的なクエリ よくある構</description></item><item><title>Postgres 備忘録</title><link>http://example.org/knowledge/20221116_postgres/</link><pubDate>Wed, 16 Nov 2022 09:16:21 +0900</pubDate><guid>http://example.org/knowledge/20221116_postgres/</guid><description>psql -h localhost -p 5432 -U postgres -d postgres Database テンプレートを指定しない場合は template1 から作られる。 # create db createdb {DB_NAME} -T template1 # modify db # (empty) # list db psql -l # switch db psql -d {DB_NAME} # drop db dropdb {DB_NAME} -- create db create database {DB_NAME} with template template1</description></item><item><title>読書メモ: エンジニアを説明上手にする本 - 相手に応じた技術情報や知識の伝え方</title><link>http://example.org/knowledge/20220102_book/</link><pubDate>Sun, 02 Jan 2022 01:08:53 +0900</pubDate><guid>http://example.org/knowledge/20220102_book/</guid><description>開米瑞浩.『エンジニアを説明上手にする本 - 相手に応じた技術情報や知識の伝え方』.翔泳社,2016. 情報整理力の向上 普段からインプットを分類し</description></item><item><title>Jupyter Notebook で数式を美しく書く</title><link>http://example.org/knowledge/20211216_math/</link><pubDate>Thu, 16 Dec 2021 08:30:03 +0900</pubDate><guid>http://example.org/knowledge/20211216_math/</guid><description>キレイに書かれた数式って良いよね！ Jupyter Notebook の Markdownセルには数式を美しく書く機能があります。 数式は生テキストとして書くと見直した際に意味</description></item><item><title>Box を CLI から使ってみる</title><link>http://example.org/knowledge/20200903_box-cli/</link><pubDate>Thu, 03 Sep 2020 18:00:26 +0900</pubDate><guid>http://example.org/knowledge/20200903_box-cli/</guid><description>Box を CLI ツールから使用する # 認証情報を構成 box configure:environments:add authinf.json # ファイルをアップロード (既にファイルがある場合はエラーになる) box files:upload SRC_FILE_PATH --parent-id DST_FOLDR_ID # 新しいバージョンの</description></item><item><title>OpenSSL を使ってみる</title><link>http://example.org/knowledge/20200902_openssl/</link><pubDate>Wed, 02 Sep 2020 17:54:16 +0900</pubDate><guid>http://example.org/knowledge/20200902_openssl/</guid><description>基本要素 OpenSSL は http の通信暗号化 (https) で登場します。暗号化には公開鍵暗号方式を使用されており、次の要素が登場します。 鍵 &amp;hellip; 秘密鍵と公開鍵がある 署名要求 &amp;hellip;</description></item><item><title>Nvidia グラボの負荷状況をモニタする</title><link>http://example.org/knowledge/20200824_nvidia/</link><pubDate>Mon, 24 Aug 2020 19:34:20 +0900</pubDate><guid>http://example.org/knowledge/20200824_nvidia/</guid><description>Ubuntu マシンに挿したグラボの負荷状況をターミナルで表示する。 git clone https://github.com/Syllo/nvtop.git sudo apt install build-essential cmake libncurses-dev mkdir -p nvtop/build cd nvtop/build Make .. sudo make install</description></item><item><title>Hugo を使ってみる</title><link>http://example.org/knowledge/20200821_hugo/</link><pubDate>Fri, 21 Aug 2020 08:52:02 +0900</pubDate><guid>http://example.org/knowledge/20200821_hugo/</guid><description>基本操作 サイトを作成する # サイトディレクトリを作成 $ mkdir HelloHugo $ cd HelloHugo # 中を初期化 $ hugo new site # 好みのテーマファイルを取得 (ここでは ananke を指定) $ git submodule add https://github.com/theNewDynamic/gohugo-theme-ananke.git</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Knowledge on Memo.Namo</title><link>http://example.org/knowledge/</link><description>Recent content in Knowledge on Memo.Namo</description><generator>Hugo</generator><language>ja-jp</language><lastBuildDate>Sat, 05 Oct 2024 17:57:24 +0900</lastBuildDate><atom:link href="http://example.org/knowledge/index.xml" rel="self" type="application/rss+xml"/><item><title>VRChat メモ</title><link>http://example.org/knowledge/20241005_vrchat/</link><pubDate>Sat, 05 Oct 2024 16:40:26 +0900</pubDate><guid>http://example.org/knowledge/20241005_vrchat/</guid><description>&lt;h1 id="ノウハウ">ノウハウ&lt;/h1>
+&lt;h2 id="export-fbx">Export FBX&lt;/h2>
+&lt;p>Blender で Unity 向けに fbx をエクスポートする際の設定。&lt;/p>
+&lt;ul>
+&lt;li>対象: &lt;code>可視オブジェクト&lt;/code> (見えているオブジェクトのみを出力させる)&lt;/li>
+&lt;li>オブジェクトタイプ: &lt;code>アーマチュア&lt;/code>、&lt;code>メッシュ&lt;/code> (照明などは出力に含めない)&lt;/li>
+&lt;li>トランスフォーム:
+&lt;ul>
+&lt;li>スケール: &lt;code>1.00&lt;/code>&lt;/li>
+&lt;li>スケールを適用: &lt;code>FBX単位スケール&lt;/code>&lt;/li>
+&lt;li>前方: &lt;code>-Zが前&lt;/code>&lt;/li>
+&lt;li>上: &lt;code>Yが上&lt;/code>&lt;/li>
+&lt;li>単位を適用: &lt;strong>有効&lt;/strong>&lt;/li>
+&lt;li>空間の変換を使用: &lt;strong>有効&lt;/strong>&lt;/li>
+&lt;li>トランスフォームを適用: 無効&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;p>参考画像&lt;/p></description></item><item><title>Snowflake を使ってみる</title><link>http://example.org/knowledge/20240319_snowflake/</link><pubDate>Tue, 19 Mar 2024 00:43:57 +0900</pubDate><guid>http://example.org/knowledge/20240319_snowflake/</guid><description>&lt;h1 id="管理ツール">管理ツール&lt;/h1>
+&lt;p>&lt;a href="https://docs.snowflake.com/ja/user-guide/snowsql-install-config">SnowSQL&lt;/a> が提供されている。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># ログイン&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ snowsql -a &lt;span class="o">{&lt;/span>アカウント名&lt;span class="o">}&lt;/span> -u &lt;span class="o">{&lt;/span>ユーザ名&lt;span class="o">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Password: ...
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># ログインすると SQL を実行できる&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">SHOW DATABASES&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">...
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="基本的なクエリ">基本的なクエリ&lt;/h1>
+&lt;p>よくある構文が使用可能。&lt;/p>
+&lt;p>データベース操作&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-sql" data-lang="sql">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">-- DB一覧
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">SHOW&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">DATABASES&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c1">-- DBを作成
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">CREATE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">DATABASE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">HELLO_SNOWFLAKE&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c1">-- DBを選択
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="n">USE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">DATABASE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">HELLO_SNOWFLAKE&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c1">-- DBを削除
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">-- DROP DATABASE HELLO_SNOWFLAKE;
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>スキーマ操作&lt;/p></description></item><item><title>Postgres 備忘録</title><link>http://example.org/knowledge/20221116_postgres/</link><pubDate>Wed, 16 Nov 2022 09:16:21 +0900</pubDate><guid>http://example.org/knowledge/20221116_postgres/</guid><description>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">psql -h localhost -p &lt;span class="m">5432&lt;/span> -U postgres -d postgres
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="database">Database&lt;/h1>
+&lt;p>テンプレートを指定しない場合は template1 から作られる。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># create db&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">createdb &lt;span class="o">{&lt;/span>DB_NAME&lt;span class="o">}&lt;/span> -T template1
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># modify db&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># (empty)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># list db&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">psql -l
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># switch db&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">psql -d &lt;span class="o">{&lt;/span>DB_NAME&lt;span class="o">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># drop db&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">dropdb &lt;span class="o">{&lt;/span>DB_NAME&lt;span class="o">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-sql" data-lang="sql">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">-- create db
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">create&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">database&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="err">{&lt;/span>&lt;span class="n">DB_NAME&lt;/span>&lt;span class="err">}&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">with&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">template&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">template1&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c1">-- modify db
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">alter&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">database&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="err">{&lt;/span>&lt;span class="n">DB_NAME_OLD&lt;/span>&lt;span class="err">}&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">rename&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">to&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="err">{&lt;/span>&lt;span class="n">DB_NAME_NEW&lt;/span>&lt;span class="err">}&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c1">-- list db
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="err">\&lt;/span>&lt;span class="n">l&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c1">-- switch db
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="err">\&lt;/span>&lt;span class="k">c&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="err">{&lt;/span>&lt;span class="n">DB_NAME&lt;/span>&lt;span class="err">}&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c1">-- drop db
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">drop&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">database&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="err">{&lt;/span>&lt;span class="n">DB_NAME&lt;/span>&lt;span class="err">}&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="schema">Schema&lt;/h1>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-sql" data-lang="sql">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">-- create db
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">create&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">schema&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="err">{&lt;/span>&lt;span class="k">SCHEMA_NAME&lt;/span>&lt;span class="err">}&lt;/span>&lt;span class="w"> 
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c1">-- modify db
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">alter&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">schema&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="err">{&lt;/span>&lt;span class="n">SCHEMA_OLD&lt;/span>&lt;span class="err">}&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">rename&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">to&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="err">{&lt;/span>&lt;span class="n">SCHEMA_NEW&lt;/span>&lt;span class="err">}&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c1">-- list db
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="err">\&lt;/span>&lt;span class="n">dn&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c1">-- drop db
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">drop&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">schema&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="err">{&lt;/span>&lt;span class="n">SCHEMA_OLD&lt;/span>&lt;span class="err">}&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="table">Table&lt;/h1>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-sql" data-lang="sql">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">-- create table
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">create&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">table&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="err">{&lt;/span>&lt;span class="k">TABLE_NAME&lt;/span>&lt;span class="err">}&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">column1&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nb">integer&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">column2&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nb">varchar&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">123&lt;/span>&lt;span class="p">))&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c1">-- modify table
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">alter&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">table&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">sample_table&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">add&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">col1&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nb">varchar&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">123&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c1">-- list table
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="err">\&lt;/span>&lt;span class="n">d&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="err">\&lt;/span>&lt;span class="n">dt&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c1">-- drop table
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">drop&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">table&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="err">{&lt;/span>&lt;span class="k">TABLE_NAME&lt;/span>&lt;span class="err">}&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="role">Role&lt;/h1>
+&lt;p>データベースクラスタの中で同名ユーザの作成は不可。&lt;br>
+データベースクラスタを生成時のOSユーザ名でスーパーユーザが生成される&lt;/p></description></item><item><title>読書メモ: エンジニアを説明上手にする本 - 相手に応じた技術情報や知識の伝え方</title><link>http://example.org/knowledge/20220102_book/</link><pubDate>Sun, 02 Jan 2022 01:08:53 +0900</pubDate><guid>http://example.org/knowledge/20220102_book/</guid><description>&lt;p>開米瑞浩.『エンジニアを説明上手にする本 - 相手に応じた技術情報や知識の伝え方』.翔泳社,2016.&lt;/p>
+&lt;h1 id="情報整理力の向上">情報整理力の向上&lt;/h1>
+&lt;p>普段からインプットを分類し訓練すると、説明時の情報整理上達が見込めます。&lt;br>
+分類ラベルを縦軸とし、ラベルを跨ぐ横軸も加える事で整理する (構造化チャート)&lt;/p></description></item><item><title>Jupyter Notebook で数式を美しく書く</title><link>http://example.org/knowledge/20211216_math/</link><pubDate>Thu, 16 Dec 2021 08:30:03 +0900</pubDate><guid>http://example.org/knowledge/20211216_math/</guid><description>&lt;h1 id="キレイに書かれた数式って良いよね">キレイに書かれた数式って良いよね！&lt;/h1>
+&lt;p>Jupyter Notebook の Markdownセルには数式を美しく書く機能があります。&lt;/p>
+&lt;p>数式は生テキストとして書くと見直した際に意味不明で困りものです。教科書通りに書ければ読みやすいのに！。Jupyter Notebookでは出来ます。ここでは次の方針とします。&lt;/p></description></item><item><title>Box を CLI から使ってみる</title><link>http://example.org/knowledge/20200903_box-cli/</link><pubDate>Thu, 03 Sep 2020 18:00:26 +0900</pubDate><guid>http://example.org/knowledge/20200903_box-cli/</guid><description>&lt;h1 id="box-を-cli-ツールから使用する">Box を CLI ツールから使用する&lt;/h1>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="c"># 認証情報を構成&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">box&lt;/span> &lt;span class="n">configure&lt;/span>&lt;span class="err">:&lt;/span>&lt;span class="n">environments&lt;/span>&lt;span class="err">:&lt;/span>&lt;span class="n">add&lt;/span> &lt;span class="n">authinf&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">json&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c"># ファイルをアップロード (既にファイルがある場合はエラーになる)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">box&lt;/span> &lt;span class="n">files&lt;/span>&lt;span class="err">:&lt;/span>&lt;span class="n">upload&lt;/span> &lt;span class="n">SRC_FILE_PATH&lt;/span> &lt;span class="p">-&lt;/span>&lt;span class="n">-parent-id&lt;/span> &lt;span class="n">DST_FOLDR_ID&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c"># 新しいバージョンのファイルをアップロード&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">box&lt;/span> &lt;span class="n">files&lt;/span>&lt;span class="err">:&lt;/span>&lt;span class="n">versions&lt;/span>&lt;span class="err">:&lt;/span>&lt;span class="n">upload&lt;/span> &lt;span class="n">DST_FILE_ID&lt;/span> &lt;span class="n">SRC_FILE_PATH&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c"># フォルダを作成&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">box&lt;/span> &lt;span class="n">folders&lt;/span>&lt;span class="err">:&lt;/span>&lt;span class="n">create&lt;/span> &lt;span class="n">PARENT_FOLDER_ID&lt;/span> &lt;span class="n">FOLDER_NAME&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c"># ユーザ情報を取得. USER_ID 省略時にはカレントユーザの情報が取得される&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">box&lt;/span> &lt;span class="n">users&lt;/span>&lt;span class="err">:&lt;/span>&lt;span class="n">get&lt;/span> &lt;span class="n">USER_ID&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>OpenSSL を使ってみる</title><link>http://example.org/knowledge/20200902_openssl/</link><pubDate>Wed, 02 Sep 2020 17:54:16 +0900</pubDate><guid>http://example.org/knowledge/20200902_openssl/</guid><description>&lt;h1 id="基本要素">基本要素&lt;/h1>
+&lt;p>OpenSSL は http の通信暗号化 (https) で登場します。暗号化には公開鍵暗号方式を使用されており、次の要素が登場します。&lt;/p>
+&lt;ul>
+&lt;li>鍵 &amp;hellip; 秘密鍵と公開鍵がある&lt;/li>
+&lt;li>署名要求 &amp;hellip; 証明書の認証局による署名付与前のもの&lt;/li>
+&lt;li>証明書 &amp;hellip; 公開鍵に所属や仕込み先サーバーのドメインなどの情報を付与したもの&lt;/li>
+&lt;/ul>
+&lt;p>OpenSSL では各ファイルに PEM 形式が既定で使用されます。 PEM に寄せておく方が良いです。&lt;/p></description></item><item><title>Nvidia グラボの負荷状況をモニタする</title><link>http://example.org/knowledge/20200824_nvidia/</link><pubDate>Mon, 24 Aug 2020 19:34:20 +0900</pubDate><guid>http://example.org/knowledge/20200824_nvidia/</guid><description>&lt;p>Ubuntu マシンに挿したグラボの負荷状況をターミナルで表示する。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">git clone https://github.com/Syllo/nvtop.git
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">sudo apt install build-essential cmake libncurses-dev
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">mkdir -p nvtop/build
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">cd&lt;/span> nvtop/build
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Make ..
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">sudo make install
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>Hugo を使ってみる</title><link>http://example.org/knowledge/20200821_hugo/</link><pubDate>Fri, 21 Aug 2020 08:52:02 +0900</pubDate><guid>http://example.org/knowledge/20200821_hugo/</guid><description>&lt;h1 id="基本操作">基本操作&lt;/h1>
+&lt;h2 id="サイトを作成する">サイトを作成する&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># サイトディレクトリを作成&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ mkdir HelloHugo
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ &lt;span class="nb">cd&lt;/span> HelloHugo
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 中を初期化&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ hugo new site
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 好みのテーマファイルを取得 (ここでは ananke を指定)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ git submodule add https://github.com/theNewDynamic/gohugo-theme-ananke.git themes/ananke
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ git submodule update --init
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ vim ../config.toml
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&amp;gt; ...
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&amp;gt; &lt;span class="nv">theme&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s2">&amp;#34;ananke&amp;#34;&lt;/span> ... テーマ指定して保存
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&amp;gt; ...
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="記事を作成する">記事を作成する&lt;/h2>
+&lt;p>ページは &lt;code>./content/&lt;/code> に markdown ファイルとして格納します。&lt;/p></description></item></channel></rss>

@@ -1,1 +1,327 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Home on Memo.Namo</title><link>http://example.org/</link><description>Recent content in Home on Memo.Namo</description><generator>Hugo</generator><language>ja-jp</language><lastBuildDate>Tue, 03 Sep 2024 03:58:04 +0900</lastBuildDate><atom:link href="http://example.org/index.xml" rel="self" type="application/rss+xml"/><item><title>Spark でパフォーマンスに問題のあるクエリを最適化する</title><link>http://example.org/knowledge/20240426_optimize/</link><pubDate>Thu, 01 Aug 2024 15:26:54 +0900</pubDate><guid>http://example.org/knowledge/20240426_optimize/</guid><description>Spark でデータ処理を書いていて生じたクエリのパフォーマンス問題へ対処する過程で分かった事、見つけた Databricks の便利な機能を記載する。 効率的な処理の基本 Spark</description></item><item><title>データのセキュリティと暗号化</title><link>http://example.org/knowledge/20240507_encrypt/</link><pubDate>Tue, 07 May 2024 23:29:28 +0900</pubDate><guid>http://example.org/knowledge/20240507_encrypt/</guid><description>データのセキュリティと暗号化 データの暗号化関係は (参考資料1) 配下に資料有り。サブスクリプションの種別へ Enterprise を選択している場合には以下を KMS の暗</description></item><item><title>Databricks とネットワーク</title><link>http://example.org/knowledge/20240426_network/</link><pubDate>Fri, 26 Apr 2024 20:28:53 +0900</pubDate><guid>http://example.org/knowledge/20240426_network/</guid><description>現状は主にクラシックコンピュートプレーンについて記載。 自身で用意したVPCを使う Databricksの機能でワークスペース用のVPCを生成す</description></item><item><title>Snowflake を使ってみる</title><link>http://example.org/knowledge/20240319_snowflake/</link><pubDate>Tue, 19 Mar 2024 00:43:57 +0900</pubDate><guid>http://example.org/knowledge/20240319_snowflake/</guid><description>管理ツール SnowSQL が提供されている。 # ログイン $ snowsql -a {アカウント名} -u {ユーザ名} Password: ... # ログインすると SQL を実行できる SHOW DATABASES; ... 基本的なクエリ よくある構</description></item><item><title>Databricks 製品を使ってみる</title><link>http://example.org/knowledge/20231023_databricks/</link><pubDate>Mon, 23 Oct 2023 00:45:39 +0900</pubDate><guid>http://example.org/knowledge/20231023_databricks/</guid><description>ノートブック セル ノートブック内でコードを実行できる。実行はセル単位で行われ、既定では Python として解釈される。これはマジックコマンドを用いることで</description></item><item><title>Spark を使ってみる</title><link>http://example.org/knowledge/20231023_spark/</link><pubDate>Mon, 23 Oct 2023 00:45:39 +0900</pubDate><guid>http://example.org/knowledge/20231023_spark/</guid><description>アーキテクチャ ノード Driver &amp;hellip; 分散しない処理とExecutorの制御を行う Executor &amp;hellip; 分散処理を行うノード 処理の構造 ジョブ &amp;hellip; 複数のステージを内包。処理する</description></item><item><title>Postgres 備忘録</title><link>http://example.org/knowledge/20221116_postgres/</link><pubDate>Wed, 16 Nov 2022 09:16:21 +0900</pubDate><guid>http://example.org/knowledge/20221116_postgres/</guid><description>psql -h localhost -p 5432 -U postgres -d postgres Database テンプレートを指定しない場合は template1 から作られる。 # create db createdb {DB_NAME} -T template1 # modify db # (empty) # list db psql -l # switch db psql -d {DB_NAME} # drop db dropdb {DB_NAME} -- create db create database {DB_NAME} with template template1</description></item><item><title>お気に入り</title><link>http://example.org/knowledge/favorite/</link><pubDate>Sun, 20 Feb 2022 23:29:26 +0900</pubDate><guid>http://example.org/knowledge/favorite/</guid><description>開発 アセット lilToon ユニティちゃんトゥーンシェーダー らずべりー式 睡眠システム(ベータ) スクリーンシェーダー https://vrcmods.com/item/4300 https://www.luka.moe/june https://github.com/xwidghet/StereoCancer https://github.com/MochiesCode/Mochies-Unity-Shaders https://github.com/netri/Neitri-Unity-Shaders https://booth.pm/ja/items/1095863 https://discord.com/invite/MdykFMf ツール Modular Avatar VRCQuestTools OVR Advanced Settings XSOverlay ナレッ</description></item><item><title>作業環境を構築する (アバター用)</title><link>http://example.org/knowledge/make-workspace-for-avatar/</link><pubDate>Fri, 11 Feb 2022 18:40:14 +0900</pubDate><guid>http://example.org/knowledge/make-workspace-for-avatar/</guid><description>作業環境の方針 標準構成として以下のツールを導入します。 Unity Hub Unity DynamicBone VRChat SDK Blender Git ディレクトリ構造の方針は以下の通り。 VRCAvatar_Workspace ... プロジェクト名 ┣ Assets ┃ ┣ Asset01 ... DL し</description></item><item><title>アバターをアップロードする</title><link>http://example.org/knowledge/upload-avatar/</link><pubDate>Sat, 05 Feb 2022 18:18:23 +0900</pubDate><guid>http://example.org/knowledge/upload-avatar/</guid><description>アバターの用意 アバターは BOOTH などで販売されています。ここでは &amp;ldquo;火事屋&amp;rdquo; さんが無料配布している &amp;ldquo;U10H7500&amp;rdquo; をサンプルに VRChat へのアバタ</description></item><item><title>読書メモ: エンジニアを説明上手にする本 - 相手に応じた技術情報や知識の伝え方</title><link>http://example.org/knowledge/20220102_book/</link><pubDate>Sun, 02 Jan 2022 01:08:53 +0900</pubDate><guid>http://example.org/knowledge/20220102_book/</guid><description>開米瑞浩.『エンジニアを説明上手にする本 - 相手に応じた技術情報や知識の伝え方』.翔泳社,2016. 情報整理力の向上 普段からインプットを分類し</description></item><item><title>Jupyter Notebook で数式を美しく書く</title><link>http://example.org/knowledge/20211216_math/</link><pubDate>Thu, 16 Dec 2021 08:30:03 +0900</pubDate><guid>http://example.org/knowledge/20211216_math/</guid><description>キレイに書かれた数式って良いよね！ Jupyter Notebook の Markdownセルには数式を美しく書く機能があります。 数式は生テキストとして書くと見直した際に意味</description></item><item><title>Code Deploy</title><link>http://example.org/knowledge/aws-codedeploy/</link><pubDate>Thu, 16 Dec 2021 08:19:46 +0900</pubDate><guid>http://example.org/knowledge/aws-codedeploy/</guid><description>この記事で扱う範囲 公式チュートリアルの Wordpress サーバーを作成する資料を実践。 初学者過ぎてロールやエージェントインストールが辛かったので、現時点の理</description></item><item><title>Cloud Formation</title><link>http://example.org/knowledge/aws-cloudformation/</link><pubDate>Thu, 16 Dec 2021 08:07:20 +0900</pubDate><guid>http://example.org/knowledge/aws-cloudformation/</guid><description>CloudFormationでEC2インスタンスを建てる AWS上で構成ファイルによる構築をしてみた。これを使うとAWS サービスをJSON/Y</description></item><item><title>ノウハウ備忘録</title><link>http://example.org/knowledge/tableau-knowhow/</link><pubDate>Sat, 27 Nov 2021 21:57:28 +0900</pubDate><guid>http://example.org/knowledge/tableau-knowhow/</guid><description>過去に見かけた、またはやらかしたしくじりなど、 後から振り返った時にこうした方が良かったと思えた事柄をまとめていく。継続的に更新したい。 Tableau Desktop メ</description></item><item><title>SAML で SSO を構成する</title><link>http://example.org/knowledge/tabsrv-sso-saml/</link><pubDate>Sat, 27 Nov 2021 21:51:21 +0900</pubDate><guid>http://example.org/knowledge/tabsrv-sso-saml/</guid><description>ログイン1回でどこでも TableauServerのSAML シングルサインオン (以下SSO) を構成してみます。これができると、認証基盤側で1度</description></item><item><title>About</title><link>http://example.org/about/</link><pubDate>Fri, 26 Nov 2021 11:59:38 +0900</pubDate><guid>http://example.org/about/</guid><description>σ(´・ω・`) Twitter GitHub このサイトについて お勉強ノート置き場</description></item><item><title>Box を CLI から使ってみる</title><link>http://example.org/knowledge/20200903_box-cli/</link><pubDate>Thu, 03 Sep 2020 18:00:26 +0900</pubDate><guid>http://example.org/knowledge/20200903_box-cli/</guid><description>Box を CLI ツールから使用する # 認証情報を構成 box configure:environments:add authinf.json # ファイルをアップロード (既にファイルがある場合はエラーになる) box files:upload SRC_FILE_PATH --parent-id DST_FOLDR_ID # 新しいバージョンの</description></item><item><title>OpenSSL を使ってみる</title><link>http://example.org/knowledge/20200902_openssl/</link><pubDate>Wed, 02 Sep 2020 17:54:16 +0900</pubDate><guid>http://example.org/knowledge/20200902_openssl/</guid><description>基本要素 OpenSSL は http の通信暗号化 (https) で登場します。暗号化には公開鍵暗号方式を使用されており、次の要素が登場します。 鍵 &amp;hellip; 秘密鍵と公開鍵がある 署名要求 &amp;hellip;</description></item><item><title>Parameter Store</title><link>http://example.org/knowledge/aws-parameterstore/</link><pubDate>Tue, 25 Aug 2020 08:01:20 +0900</pubDate><guid>http://example.org/knowledge/aws-parameterstore/</guid><description>Parameter Store aws ssm describe-parameters aws ssm get-parameters-by-path &amp;ndash;path / &amp;ndash;recursive aws ssm get-parameter &amp;ndash;name /dev/tabsrv/passwd aws ssm put-parameter &amp;ndash;name /prod/tabsrv/server &amp;ndash;value &amp;lsquo;hoge&amp;rsquo; &amp;ndash;type String aws ssm delete-parameter &amp;ndash;name /prod/tabsrv/userid aws ssm delete-parameters &amp;ndash;names /prod/tabsrv /prod/tabsrv/server</description></item><item><title>DynamoDB</title><link>http://example.org/knowledge/aws-dynamodb/</link><pubDate>Mon, 24 Aug 2020 19:39:09 +0900</pubDate><guid>http://example.org/knowledge/aws-dynamodb/</guid><description>データ型 スカラー … 数値、文字列、バイナリ、ブール、null ドキュメント … リスト、マップ セット … 同一型のスカラー型を複数格納できるデータ型。文</description></item><item><title>Nvidia グラボの負荷状況をモニタする</title><link>http://example.org/knowledge/20200824_nvidia/</link><pubDate>Mon, 24 Aug 2020 19:34:20 +0900</pubDate><guid>http://example.org/knowledge/20200824_nvidia/</guid><description>Ubuntu マシンに挿したグラボの負荷状況をターミナルで表示する。 git clone https://github.com/Syllo/nvtop.git sudo apt install build-essential cmake libncurses-dev mkdir -p nvtop/build cd nvtop/build Make .. sudo make install</description></item><item><title>Hugo を使ってみる</title><link>http://example.org/knowledge/20200821_hugo/</link><pubDate>Fri, 21 Aug 2020 08:52:02 +0900</pubDate><guid>http://example.org/knowledge/20200821_hugo/</guid><description>基本操作 サイトを作成する # サイトディレクトリを作成 $ mkdir HelloHugo $ cd HelloHugo # 中を初期化 $ hugo new site # 好みのテーマファイルを取得 (ここでは ananke を指定) $ git submodule add https://github.com/theNewDynamic/gohugo-theme-ananke.git</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Home on Memo.Namo</title><link>http://example.org/</link><description>Recent content in Home on Memo.Namo</description><generator>Hugo</generator><language>ja-jp</language><lastBuildDate>Sat, 05 Oct 2024 17:57:24 +0900</lastBuildDate><atom:link href="http://example.org/index.xml" rel="self" type="application/rss+xml"/><item><title>VRChat メモ</title><link>http://example.org/knowledge/20241005_vrchat/</link><pubDate>Sat, 05 Oct 2024 16:40:26 +0900</pubDate><guid>http://example.org/knowledge/20241005_vrchat/</guid><description>&lt;h1 id="ノウハウ">ノウハウ&lt;/h1>
+&lt;h2 id="export-fbx">Export FBX&lt;/h2>
+&lt;p>Blender で Unity 向けに fbx をエクスポートする際の設定。&lt;/p>
+&lt;ul>
+&lt;li>対象: &lt;code>可視オブジェクト&lt;/code> (見えているオブジェクトのみを出力させる)&lt;/li>
+&lt;li>オブジェクトタイプ: &lt;code>アーマチュア&lt;/code>、&lt;code>メッシュ&lt;/code> (照明などは出力に含めない)&lt;/li>
+&lt;li>トランスフォーム:
+&lt;ul>
+&lt;li>スケール: &lt;code>1.00&lt;/code>&lt;/li>
+&lt;li>スケールを適用: &lt;code>FBX単位スケール&lt;/code>&lt;/li>
+&lt;li>前方: &lt;code>-Zが前&lt;/code>&lt;/li>
+&lt;li>上: &lt;code>Yが上&lt;/code>&lt;/li>
+&lt;li>単位を適用: &lt;strong>有効&lt;/strong>&lt;/li>
+&lt;li>空間の変換を使用: &lt;strong>有効&lt;/strong>&lt;/li>
+&lt;li>トランスフォームを適用: 無効&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;p>参考画像&lt;/p></description></item><item><title>Spark でパフォーマンスに問題のあるクエリを最適化する</title><link>http://example.org/knowledge/20240426_optimize/</link><pubDate>Thu, 01 Aug 2024 15:26:54 +0900</pubDate><guid>http://example.org/knowledge/20240426_optimize/</guid><description>&lt;p>Spark でデータ処理を書いていて生じたクエリのパフォーマンス問題へ対処する過程で分かった事、見つけた Databricks の便利な機能を記載する。&lt;/p>
+&lt;h1 id="効率的な処理の基本">効率的な処理の基本&lt;/h1>
+&lt;p>Spark では巨大なデータセットを複数台のマシンで並列分散処理する事ができるが、効率的に行いたい場合には以下を心掛ける必要が有る。&lt;/p></description></item><item><title>データのセキュリティと暗号化</title><link>http://example.org/knowledge/20240507_encrypt/</link><pubDate>Tue, 07 May 2024 23:29:28 +0900</pubDate><guid>http://example.org/knowledge/20240507_encrypt/</guid><description>&lt;h1 id="データのセキュリティと暗号化">データのセキュリティと暗号化&lt;/h1>
+&lt;p>データの暗号化関係は (参考資料1) 配下に資料有り。サブスクリプションの種別へ Enterprise を選択している場合には以下を KMS の暗号化対象として設定可能 (参考資料2)。&lt;/p></description></item><item><title>Databricks とネットワーク</title><link>http://example.org/knowledge/20240426_network/</link><pubDate>Fri, 26 Apr 2024 20:28:53 +0900</pubDate><guid>http://example.org/knowledge/20240426_network/</guid><description>&lt;p>現状は主にクラシックコンピュートプレーンについて記載。&lt;/p>
+&lt;h1 id="自身で用意したvpcを使う">自身で用意したVPCを使う&lt;/h1>
+&lt;p>Databricksの機能でワークスペース用のVPCを生成する事ができない事情がある場合には、ワークスペースを顧客が独自に用意したVPCで作成する機能がある。これは顧客管理VPCと呼ばれている (参考資料1)。&lt;/p></description></item><item><title>Snowflake を使ってみる</title><link>http://example.org/knowledge/20240319_snowflake/</link><pubDate>Tue, 19 Mar 2024 00:43:57 +0900</pubDate><guid>http://example.org/knowledge/20240319_snowflake/</guid><description>&lt;h1 id="管理ツール">管理ツール&lt;/h1>
+&lt;p>&lt;a href="https://docs.snowflake.com/ja/user-guide/snowsql-install-config">SnowSQL&lt;/a> が提供されている。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># ログイン&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ snowsql -a &lt;span class="o">{&lt;/span>アカウント名&lt;span class="o">}&lt;/span> -u &lt;span class="o">{&lt;/span>ユーザ名&lt;span class="o">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Password: ...
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># ログインすると SQL を実行できる&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">SHOW DATABASES&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">...
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="基本的なクエリ">基本的なクエリ&lt;/h1>
+&lt;p>よくある構文が使用可能。&lt;/p>
+&lt;p>データベース操作&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-sql" data-lang="sql">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">-- DB一覧
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">SHOW&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">DATABASES&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c1">-- DBを作成
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">CREATE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">DATABASE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">HELLO_SNOWFLAKE&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c1">-- DBを選択
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="n">USE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">DATABASE&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">HELLO_SNOWFLAKE&lt;/span>&lt;span class="p">;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c1">-- DBを削除
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">-- DROP DATABASE HELLO_SNOWFLAKE;
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>スキーマ操作&lt;/p></description></item><item><title>Databricks 製品を使ってみる</title><link>http://example.org/knowledge/20231023_databricks/</link><pubDate>Mon, 23 Oct 2023 00:45:39 +0900</pubDate><guid>http://example.org/knowledge/20231023_databricks/</guid><description>&lt;h1 id="ノートブック">ノートブック&lt;/h1>
+&lt;h2 id="セル">セル&lt;/h2>
+&lt;p>ノートブック内でコードを実行できる。実行はセル単位で行われ、既定では Python として解釈される。これはマジックコマンドを用いることで他言語として実行することも可能。&lt;/p></description></item><item><title>Spark を使ってみる</title><link>http://example.org/knowledge/20231023_spark/</link><pubDate>Mon, 23 Oct 2023 00:45:39 +0900</pubDate><guid>http://example.org/knowledge/20231023_spark/</guid><description>&lt;h1 id="アーキテクチャ">アーキテクチャ&lt;/h1>
+&lt;h2 id="ノード">ノード&lt;/h2>
+&lt;ul>
+&lt;li>Driver &amp;hellip; 分散しない処理とExecutorの制御を行う&lt;/li>
+&lt;li>Executor &amp;hellip; 分散処理を行うノード&lt;/li>
+&lt;/ul>
+&lt;h2 id="処理の構造">処理の構造&lt;/h2>
+&lt;ul>
+&lt;li>ジョブ &amp;hellip; 複数のステージを内包。処理するファイルの文だけ作られる&lt;/li>
+&lt;li>ステージ &amp;hellip; 複数のタスクを内包。単一ノード内で完結するタスクをまとめたもの&lt;/li>
+&lt;li>タスク&lt;/li>
+&lt;/ul>
+&lt;h1 id="データを入出力する">データを入出力する&lt;/h1>
+&lt;ul>
+&lt;li>RDD &amp;hellip; Spark がデータを扱う際の素のAPI.&lt;/li>
+&lt;li>DataFrame &amp;hellip; pandas に似た API が提供されており扱いやすい.&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-py" data-lang="py">&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># -----------------------------&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># RDD&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># SparkContext を通して扱う&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># -----------------------------&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">def&lt;/span> &lt;span class="nf">proc&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">val&lt;/span>&lt;span class="p">):&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="n">val&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="mi">2&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">dt_lst&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="mi">2&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="mi">3&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="s2">&amp;#34;aaa&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">dt_rdd&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">spark&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">sparkContext&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">parallelize&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">dt_lst&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">dt_rdd&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">map&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">proc&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">collect&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># -----------------------------&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># DataFrame &lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># SparkSession を通して扱う。&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># このオブジェクトは RDD/Hive/SQL を束ねて扱うための仕組みとして提供されている。&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># -----------------------------&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 関数から生成&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">dt_df&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">spark&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">range&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">0&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">5&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 配列から生成&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">dt_df&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">spark&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">createDataFrame&lt;/span>&lt;span class="p">([[&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="mi">2&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="mi">3&lt;/span>&lt;span class="p">]],&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;col1&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s2">&amp;#34;col2&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s2">&amp;#34;col3&amp;#34;&lt;/span>&lt;span class="p">])&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># フィールドの情報を取得&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">df&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">schema&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">df&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">printSchema&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 取得した DataFrame の内容を表示&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">dt_df&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">display&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">display&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">dt_df&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="読み書き時-基本">読み書き時 (基本)&lt;/h2>
+&lt;p>SparkSQL での書き方&lt;/p></description></item><item><title>Postgres 備忘録</title><link>http://example.org/knowledge/20221116_postgres/</link><pubDate>Wed, 16 Nov 2022 09:16:21 +0900</pubDate><guid>http://example.org/knowledge/20221116_postgres/</guid><description>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">psql -h localhost -p &lt;span class="m">5432&lt;/span> -U postgres -d postgres
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="database">Database&lt;/h1>
+&lt;p>テンプレートを指定しない場合は template1 から作られる。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># create db&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">createdb &lt;span class="o">{&lt;/span>DB_NAME&lt;span class="o">}&lt;/span> -T template1
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># modify db&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># (empty)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># list db&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">psql -l
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># switch db&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">psql -d &lt;span class="o">{&lt;/span>DB_NAME&lt;span class="o">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># drop db&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">dropdb &lt;span class="o">{&lt;/span>DB_NAME&lt;span class="o">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-sql" data-lang="sql">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">-- create db
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">create&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">database&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="err">{&lt;/span>&lt;span class="n">DB_NAME&lt;/span>&lt;span class="err">}&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">with&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">template&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">template1&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c1">-- modify db
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">alter&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">database&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="err">{&lt;/span>&lt;span class="n">DB_NAME_OLD&lt;/span>&lt;span class="err">}&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">rename&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">to&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="err">{&lt;/span>&lt;span class="n">DB_NAME_NEW&lt;/span>&lt;span class="err">}&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c1">-- list db
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="err">\&lt;/span>&lt;span class="n">l&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c1">-- switch db
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="err">\&lt;/span>&lt;span class="k">c&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="err">{&lt;/span>&lt;span class="n">DB_NAME&lt;/span>&lt;span class="err">}&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c1">-- drop db
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">drop&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">database&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="err">{&lt;/span>&lt;span class="n">DB_NAME&lt;/span>&lt;span class="err">}&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="schema">Schema&lt;/h1>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-sql" data-lang="sql">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">-- create db
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">create&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">schema&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="err">{&lt;/span>&lt;span class="k">SCHEMA_NAME&lt;/span>&lt;span class="err">}&lt;/span>&lt;span class="w"> 
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c1">-- modify db
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">alter&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">schema&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="err">{&lt;/span>&lt;span class="n">SCHEMA_OLD&lt;/span>&lt;span class="err">}&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">rename&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">to&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="err">{&lt;/span>&lt;span class="n">SCHEMA_NEW&lt;/span>&lt;span class="err">}&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c1">-- list db
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="err">\&lt;/span>&lt;span class="n">dn&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c1">-- drop db
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">drop&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">schema&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="err">{&lt;/span>&lt;span class="n">SCHEMA_OLD&lt;/span>&lt;span class="err">}&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="table">Table&lt;/h1>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-sql" data-lang="sql">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">-- create table
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">create&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">table&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="err">{&lt;/span>&lt;span class="k">TABLE_NAME&lt;/span>&lt;span class="err">}&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">column1&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nb">integer&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">column2&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nb">varchar&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">123&lt;/span>&lt;span class="p">))&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c1">-- modify table
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">alter&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">table&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">sample_table&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">add&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="n">col1&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="nb">varchar&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">123&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c1">-- list table
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="err">\&lt;/span>&lt;span class="n">d&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="err">\&lt;/span>&lt;span class="n">dt&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>&lt;span class="c1">-- drop table
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">drop&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="k">table&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="err">{&lt;/span>&lt;span class="k">TABLE_NAME&lt;/span>&lt;span class="err">}&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="role">Role&lt;/h1>
+&lt;p>データベースクラスタの中で同名ユーザの作成は不可。&lt;br>
+データベースクラスタを生成時のOSユーザ名でスーパーユーザが生成される&lt;/p></description></item><item><title>読書メモ: エンジニアを説明上手にする本 - 相手に応じた技術情報や知識の伝え方</title><link>http://example.org/knowledge/20220102_book/</link><pubDate>Sun, 02 Jan 2022 01:08:53 +0900</pubDate><guid>http://example.org/knowledge/20220102_book/</guid><description>&lt;p>開米瑞浩.『エンジニアを説明上手にする本 - 相手に応じた技術情報や知識の伝え方』.翔泳社,2016.&lt;/p>
+&lt;h1 id="情報整理力の向上">情報整理力の向上&lt;/h1>
+&lt;p>普段からインプットを分類し訓練すると、説明時の情報整理上達が見込めます。&lt;br>
+分類ラベルを縦軸とし、ラベルを跨ぐ横軸も加える事で整理する (構造化チャート)&lt;/p></description></item><item><title>Jupyter Notebook で数式を美しく書く</title><link>http://example.org/knowledge/20211216_math/</link><pubDate>Thu, 16 Dec 2021 08:30:03 +0900</pubDate><guid>http://example.org/knowledge/20211216_math/</guid><description>&lt;h1 id="キレイに書かれた数式って良いよね">キレイに書かれた数式って良いよね！&lt;/h1>
+&lt;p>Jupyter Notebook の Markdownセルには数式を美しく書く機能があります。&lt;/p>
+&lt;p>数式は生テキストとして書くと見直した際に意味不明で困りものです。教科書通りに書ければ読みやすいのに！。Jupyter Notebookでは出来ます。ここでは次の方針とします。&lt;/p></description></item><item><title>Code Deploy</title><link>http://example.org/knowledge/aws-codedeploy/</link><pubDate>Thu, 16 Dec 2021 08:19:46 +0900</pubDate><guid>http://example.org/knowledge/aws-codedeploy/</guid><description>&lt;h1 id="この記事で扱う範囲">この記事で扱う範囲&lt;/h1>
+&lt;p>公式チュートリアルの Wordpress サーバーを作成する資料を実践。&lt;br>
+初学者過ぎてロールやエージェントインストールが辛かったので、現時点の理解を整理して出力。CodeDeployを使う際の用意する資材や、IAMの初歩的解説、デプロイ失敗時の原因調査で使えたログ場所をまとめました。&lt;/p></description></item><item><title>Cloud Formation</title><link>http://example.org/knowledge/aws-cloudformation/</link><pubDate>Thu, 16 Dec 2021 08:07:20 +0900</pubDate><guid>http://example.org/knowledge/aws-cloudformation/</guid><description>&lt;h1 id="cloudformationでec2インスタンスを建てる">CloudFormationでEC2インスタンスを建てる&lt;/h1>
+&lt;p>AWS上で構成ファイルによる構築をしてみた。これを使うとAWS サービスをJSON/YAMLで記述したテンプレートファイルによって定義できる。忘れないうちに備忘録としてまとめた。&lt;/p></description></item><item><title>ノウハウ備忘録</title><link>http://example.org/knowledge/tableau-knowhow/</link><pubDate>Sat, 27 Nov 2021 21:57:28 +0900</pubDate><guid>http://example.org/knowledge/tableau-knowhow/</guid><description>&lt;p>過去に見かけた、またはやらかしたしくじりなど、
+後から振り返った時にこうした方が良かったと思えた事柄をまとめていく。継続的に更新したい。&lt;/p>
+&lt;h1 id="tableau-desktop">Tableau Desktop&lt;/h1>
+&lt;h2 id="メジャーネームの別名設定は要注意">メジャーネームの別名設定は要注意&lt;/h2>
+&lt;p>データソースをTableauServerへパブリッシュする前は禁止。
+ワークシートで別名の設定が出来なくなり、表形式の列名やグラフの凡例で致命的です。&lt;/p></description></item><item><title>SAML で SSO を構成する</title><link>http://example.org/knowledge/tabsrv-sso-saml/</link><pubDate>Sat, 27 Nov 2021 21:51:21 +0900</pubDate><guid>http://example.org/knowledge/tabsrv-sso-saml/</guid><description>&lt;h1 id="ログイン1回でどこでも">ログイン1回でどこでも&lt;/h1>
+&lt;p>TableauServerのSAML シングルサインオン (以下SSO) を構成してみます。これができると、認証基盤側で1度ログインすれば TableauServer やその他の SSO 対応アプリ間では二度とログイン画面を見なくて済みます。現実は中々そうはいきませんが、パスワード何回も入れるとか馬鹿らしいよね！ (どうせ同じパスワードだよ？)&lt;/p></description></item><item><title>About</title><link>http://example.org/about/</link><pubDate>Fri, 26 Nov 2021 11:59:38 +0900</pubDate><guid>http://example.org/about/</guid><description>&lt;h1 id="σω">σ(´・ω・`)&lt;/h1>
+&lt;ul>
+&lt;li>&lt;a href="https://twitter.com/namoshika">Twitter&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://github.com/namoshika">GitHub&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;h1 id="このサイトについて">このサイトについて&lt;/h1>
+&lt;p>お勉強ノート置き場&lt;/p></description></item><item><title>Box を CLI から使ってみる</title><link>http://example.org/knowledge/20200903_box-cli/</link><pubDate>Thu, 03 Sep 2020 18:00:26 +0900</pubDate><guid>http://example.org/knowledge/20200903_box-cli/</guid><description>&lt;h1 id="box-を-cli-ツールから使用する">Box を CLI ツールから使用する&lt;/h1>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="c"># 認証情報を構成&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">box&lt;/span> &lt;span class="n">configure&lt;/span>&lt;span class="err">:&lt;/span>&lt;span class="n">environments&lt;/span>&lt;span class="err">:&lt;/span>&lt;span class="n">add&lt;/span> &lt;span class="n">authinf&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">json&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c"># ファイルをアップロード (既にファイルがある場合はエラーになる)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">box&lt;/span> &lt;span class="n">files&lt;/span>&lt;span class="err">:&lt;/span>&lt;span class="n">upload&lt;/span> &lt;span class="n">SRC_FILE_PATH&lt;/span> &lt;span class="p">-&lt;/span>&lt;span class="n">-parent-id&lt;/span> &lt;span class="n">DST_FOLDR_ID&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c"># 新しいバージョンのファイルをアップロード&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">box&lt;/span> &lt;span class="n">files&lt;/span>&lt;span class="err">:&lt;/span>&lt;span class="n">versions&lt;/span>&lt;span class="err">:&lt;/span>&lt;span class="n">upload&lt;/span> &lt;span class="n">DST_FILE_ID&lt;/span> &lt;span class="n">SRC_FILE_PATH&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c"># フォルダを作成&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">box&lt;/span> &lt;span class="n">folders&lt;/span>&lt;span class="err">:&lt;/span>&lt;span class="n">create&lt;/span> &lt;span class="n">PARENT_FOLDER_ID&lt;/span> &lt;span class="n">FOLDER_NAME&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c"># ユーザ情報を取得. USER_ID 省略時にはカレントユーザの情報が取得される&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">box&lt;/span> &lt;span class="n">users&lt;/span>&lt;span class="err">:&lt;/span>&lt;span class="n">get&lt;/span> &lt;span class="n">USER_ID&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>OpenSSL を使ってみる</title><link>http://example.org/knowledge/20200902_openssl/</link><pubDate>Wed, 02 Sep 2020 17:54:16 +0900</pubDate><guid>http://example.org/knowledge/20200902_openssl/</guid><description>&lt;h1 id="基本要素">基本要素&lt;/h1>
+&lt;p>OpenSSL は http の通信暗号化 (https) で登場します。暗号化には公開鍵暗号方式を使用されており、次の要素が登場します。&lt;/p>
+&lt;ul>
+&lt;li>鍵 &amp;hellip; 秘密鍵と公開鍵がある&lt;/li>
+&lt;li>署名要求 &amp;hellip; 証明書の認証局による署名付与前のもの&lt;/li>
+&lt;li>証明書 &amp;hellip; 公開鍵に所属や仕込み先サーバーのドメインなどの情報を付与したもの&lt;/li>
+&lt;/ul>
+&lt;p>OpenSSL では各ファイルに PEM 形式が既定で使用されます。 PEM に寄せておく方が良いです。&lt;/p></description></item><item><title>Parameter Store</title><link>http://example.org/knowledge/aws-parameterstore/</link><pubDate>Tue, 25 Aug 2020 08:01:20 +0900</pubDate><guid>http://example.org/knowledge/aws-parameterstore/</guid><description>&lt;h1 id="parameter-store">Parameter Store&lt;/h1>
+&lt;ul>
+&lt;li>aws ssm describe-parameters&lt;/li>
+&lt;li>aws ssm get-parameters-by-path &amp;ndash;path / &amp;ndash;recursive&lt;/li>
+&lt;li>aws ssm get-parameter &amp;ndash;name /dev/tabsrv/passwd&lt;/li>
+&lt;li>aws ssm put-parameter &amp;ndash;name /prod/tabsrv/server &amp;ndash;value &amp;lsquo;hoge&amp;rsquo; &amp;ndash;type String&lt;/li>
+&lt;li>aws ssm delete-parameter &amp;ndash;name /prod/tabsrv/userid&lt;/li>
+&lt;li>aws ssm delete-parameters &amp;ndash;names /prod/tabsrv /prod/tabsrv/server&lt;/li>
+&lt;/ul></description></item><item><title>DynamoDB</title><link>http://example.org/knowledge/aws-dynamodb/</link><pubDate>Mon, 24 Aug 2020 19:39:09 +0900</pubDate><guid>http://example.org/knowledge/aws-dynamodb/</guid><description>&lt;h1 id="データ型">データ型&lt;/h1>
+&lt;ul>
+&lt;li>スカラー … 数値、文字列、バイナリ、ブール、null&lt;/li>
+&lt;li>ドキュメント … リスト、マップ&lt;/li>
+&lt;li>セット … 同一型のスカラー型を複数格納できるデータ型。文字セット、数値セット、バイナリセットの3種類がある&lt;/li>
+&lt;/ul>
+&lt;h1 id="テーブル操作">テーブル操作&lt;/h1>
+&lt;ul>
+&lt;li>テーブル&lt;/li>
+&lt;li>項目&lt;/li>
+&lt;/ul>
+&lt;h1 id="データ操作">データ操作&lt;/h1>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="nn">boto3&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="nn">datetime&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">dynamodb&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">boto3&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">resource&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;dynamodb&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">region_name&lt;/span>&lt;span class="o">=&lt;/span>&lt;span class="s2">&amp;#34;ap-northeast-1&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">table&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">dynamodb&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Table&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;Books&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># アイテム登録&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">item&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">table&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">put_item&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Item&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;Author&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;athr_1&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;Title&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;ttl_1&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;Num&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="mi">123&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;Obj&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="nb">dict&lt;/span>&lt;span class="p">(),&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;Lst&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="nb">list&lt;/span>&lt;span class="p">(),&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;Set&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="s2">&amp;#34;set_1&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s2">&amp;#34;set_2&amp;#34;&lt;/span> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># アイテム取得&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">item&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">table&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">get_item&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Key&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="s2">&amp;#34;Author&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;athr_1&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s2">&amp;#34;Title&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;ttl_1&amp;#34;&lt;/span> &lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">item_meta&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">item&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;ResponseMetadata&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">item_payload&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">item&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;Item&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">item_payload_author&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">item_payload&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;Author&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">item_payload_title&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">item_payload&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="s2">&amp;#34;Title&amp;#34;&lt;/span>&lt;span class="p">]&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="sa">f&lt;/span>&lt;span class="s2">&amp;#34;Author: &lt;/span>&lt;span class="si">{&lt;/span>&lt;span class="n">item_payload_author&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">, Title: &lt;/span>&lt;span class="si">{&lt;/span>&lt;span class="n">item_payload_title&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># アイテム更新 (代入)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">item&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">table&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">update_item&lt;/span>&lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">Key&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="s2">&amp;#34;Author&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;athr_1&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s2">&amp;#34;Title&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;ttl_1&amp;#34;&lt;/span> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">UpdateExpression&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s2">&amp;#34;set #key1 = :val1, Obj.item1 = :val2, Obj.item2 = :val3, Lst[0] = :val4&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">ExpressionAttributeNames&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;#key1&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;nyao&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">ExpressionAttributeValues&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;:val1&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">datetime&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">datetime&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">now&lt;/span>&lt;span class="p">()&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">strftime&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;%Y-%m-&lt;/span>&lt;span class="si">%d&lt;/span>&lt;span class="s2"> %H:%M:%S&amp;#34;&lt;/span>&lt;span class="p">),&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;:val2&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;obj_text_1&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;:val3&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;obj_text_2&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;:val4&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="mi">123&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">item&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">table&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">get_item&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Key&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="s2">&amp;#34;Author&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;athr_1&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s2">&amp;#34;Title&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;ttl_1&amp;#34;&lt;/span> &lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">item&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># アイテム更新 (リスト追加)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">item&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">table&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">update_item&lt;/span>&lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">Key&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="s2">&amp;#34;Author&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;athr_1&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s2">&amp;#34;Title&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;ttl_1&amp;#34;&lt;/span> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">UpdateExpression&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s2">&amp;#34;set Lst = list_append(Lst, :val3)&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">ExpressionAttributeValues&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;:val3&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="mi">456&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">789&lt;/span>&lt;span class="p">],&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">item&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">table&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">get_item&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Key&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="s2">&amp;#34;Author&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;athr_1&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s2">&amp;#34;Title&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;ttl_1&amp;#34;&lt;/span> &lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">item&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># アイテム更新 (要素削除)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">item&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">table&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">update_item&lt;/span>&lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">Key&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="s2">&amp;#34;Author&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;athr_1&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s2">&amp;#34;Title&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;ttl_1&amp;#34;&lt;/span> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">UpdateExpression&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s2">&amp;#34;remove Obj.item1, Lst[2]&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">item&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">table&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">get_item&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Key&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="s2">&amp;#34;Author&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;athr_1&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s2">&amp;#34;Title&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;ttl_1&amp;#34;&lt;/span> &lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">item&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># アイテム更新 (セット追加)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">item&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">table&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">update_item&lt;/span>&lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">Key&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="s2">&amp;#34;Author&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;athr_1&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s2">&amp;#34;Title&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;ttl_1&amp;#34;&lt;/span> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">UpdateExpression&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s2">&amp;#34;add #key1 :val1&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">ExpressionAttributeNames&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;#key1&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;Set&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">ExpressionAttributeValues&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;:val1&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="s2">&amp;#34;four&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s2">&amp;#34;five&amp;#34;&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">item&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">table&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">get_item&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Key&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="s2">&amp;#34;Author&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;athr_1&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s2">&amp;#34;Title&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;ttl_1&amp;#34;&lt;/span> &lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">item&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># アイテム更新 (セット削除)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">item&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">table&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">update_item&lt;/span>&lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">Key&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="s2">&amp;#34;Author&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;athr_1&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s2">&amp;#34;Title&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;ttl_1&amp;#34;&lt;/span> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">UpdateExpression&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s2">&amp;#34;delete #key1 :val1&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">ExpressionAttributeNames&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;#key1&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;Set&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">ExpressionAttributeValues&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s2">&amp;#34;:val1&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="s2">&amp;#34;four&amp;#34;&lt;/span> &lt;span class="p">},&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">item&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">table&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">get_item&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Key&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="s2">&amp;#34;Author&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;athr_1&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s2">&amp;#34;Title&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;ttl_1&amp;#34;&lt;/span> &lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">item&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>Nvidia グラボの負荷状況をモニタする</title><link>http://example.org/knowledge/20200824_nvidia/</link><pubDate>Mon, 24 Aug 2020 19:34:20 +0900</pubDate><guid>http://example.org/knowledge/20200824_nvidia/</guid><description>&lt;p>Ubuntu マシンに挿したグラボの負荷状況をターミナルで表示する。&lt;/p>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">git clone https://github.com/Syllo/nvtop.git
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">sudo apt install build-essential cmake libncurses-dev
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">mkdir -p nvtop/build
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">cd&lt;/span> nvtop/build
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Make ..
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">sudo make install
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>Hugo を使ってみる</title><link>http://example.org/knowledge/20200821_hugo/</link><pubDate>Fri, 21 Aug 2020 08:52:02 +0900</pubDate><guid>http://example.org/knowledge/20200821_hugo/</guid><description>&lt;h1 id="基本操作">基本操作&lt;/h1>
+&lt;h2 id="サイトを作成する">サイトを作成する&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># サイトディレクトリを作成&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ mkdir HelloHugo
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ &lt;span class="nb">cd&lt;/span> HelloHugo
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 中を初期化&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ hugo new site
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 好みのテーマファイルを取得 (ここでは ananke を指定)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ git submodule add https://github.com/theNewDynamic/gohugo-theme-ananke.git themes/ananke
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ git submodule update --init
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ vim ../config.toml
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&amp;gt; ...
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&amp;gt; &lt;span class="nv">theme&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s2">&amp;#34;ananke&amp;#34;&lt;/span> ... テーマ指定して保存
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&amp;gt; ...
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="記事を作成する">記事を作成する&lt;/h2>
+&lt;p>ページは &lt;code>./content/&lt;/code> に markdown ファイルとして格納します。&lt;/p></description></item></channel></rss>

@@ -5,11 +5,9 @@ body {
   margin: 0;
   color: rgb(50, 50, 50);
 }
-a {
+a, a:visited {
   color: rgb(45, 132, 172);
-}
-a:visited {
-  color: rgb(121, 45, 172);
+  text-decoration: none;
 }
 figure {
   margin: 0;
@@ -53,7 +51,7 @@ figure {
 }
 #TableOfContents ul {
   list-style: none;
-  padding: 0 0 0 0.5rem;
+  padding: 0 0 0 0.8rem;
 }
 #TableOfContents>ul {
   padding: 0;
@@ -127,19 +125,11 @@ figure {
 .content-grid-side :is(h1, h2) {
   font-size: 1.17rem;
 }
-.content-grid-main h1 {
-  margin: 1em 0 0.3em 0;
-  font-size: 1.5rem;
-}
-.content-grid-main h2 {
-  margin: 1em 0 0.3em 0;
-  font-size: 1.17rem;
-}
 .content-grid-title, .content-grid-desc {
   margin-top: 0;
   margin-bottom: 0;
 }
-.nav-category {
+.nav-category, .nav-category:visited {
   font-weight: bold;
   text-decoration: none;
   color: rgb(45, 132, 172);
@@ -229,12 +219,19 @@ figure {
   border-style: solid;
   border-width: 0 0 1px 0;
   break-after: avoid;
+  font-size: 1.5rem;
+  margin: 2em 0 0.3em 0;
+}
+.md-content h1:first-child {
+  margin: 1em 0 0.3em 0;
 }
 .md-content h2 {
   border-color: lightgray;
   border-style: solid;
   border-width: 0;
   break-after: avoid;
+  font-size: 1.17rem;
+  margin: 1em 0 0.3em 0;
 }
 .md-content :not(pre.chroma)>code {
   padding: 0.3rem;
