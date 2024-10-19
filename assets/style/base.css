@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400;500;700&display=swap');
 * {
   box-sizing: border-box;
 }
@@ -11,6 +12,10 @@ a, a:visited {
 }
 figure {
   margin: 0;
+}
+code {
+  font-family: "Fira Mono", monospace;
+  font-size: 0.9rem;
 }
 #site-header {
   display: flex;
