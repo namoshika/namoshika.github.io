@@ -121,7 +121,7 @@ code {
 }
 .content-grid-side {
   grid-area: side-area;
-  margin: 0 0.5rem 0 0.5rem;
+  margin: 0.5rem 0.5rem 0 0.5rem;
 }
 .content-grid-main {
   grid-area: main-area;
@@ -228,7 +228,7 @@ code {
   margin: 2em 0 0.3em 0;
 }
 .md-content h1:first-child {
-  margin: 1em 0 0.3em 0;
+  margin: 1rem 0 0.3em 0;
 }
 .md-content h2 {
   border-color: lightgray;
@@ -239,7 +239,7 @@ code {
   margin: 1em 0 0.3em 0;
 }
 .md-content :not(pre.chroma)>code {
-  padding: 0.3rem;
+  padding: 0.1rem;
   background-color: #f0f0f0;
   border-color: #d0d0d0;
   border-style: solid;

@@ -1,5 +1,5 @@
 ---
-title: "Snowflake を使ってみる"
+title: "Snowflake"
 date: 2024-03-19T00:43:57+09:00
 tags: [Database]
 draft: false
