@@ -3,10 +3,10 @@ languageCode = 'ja-jp'
 title = "Memo.Namo"
 hasCJKLanguage = true
 enableGitInfo = true
-theme = "ananke"
+# theme = "ananke"
 
 [permalinks]
-knowledge = "/:section/:filename/"
+knowledge = "/:section/:contentbasename/"
 
 [markup]
   [markup.highlight]
