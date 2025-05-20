@@ -1,0 +1,27 @@
+{{ define "main" }}
+  <article class="content-container content-grid">
+    <header class="content-grid-header">
+      <h1 class="content-grid-title">Tag: {{- .Title -}}</h1>
+    </header>
+    <aside class="content-grid-side">
+      <div class="nav-sticky">
+        <h2>タグ</h2>
+        {{ .Scratch.Set "tag-activetags" (slice .) }}
+        {{ .Scratch.Set "tag-onlyactive" false }}
+        {{ partial "tag.html" . }}
+      </div>
+    </aside>
+    <section class="content-grid-main">
+      <section>{{- .Content -}}</section>
+      <h2>記事一覧</h2>
+      <nav>
+        <ul>
+          {{ range .Pages.ByLinkTitle }}
+            <li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+          {{ end }}
+        </ul>
+      </nav>
+    </section>
+  </article>
+  <nav>{{ partial "pagination.html" . }}</nav>
+{{ end }}
