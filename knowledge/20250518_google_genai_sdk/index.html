@@ -1,0 +1,168 @@
+<!doctype html><html lang=ja-jp><head><meta charset=utf-8><meta name=viewport content="width=device-width,minimum-scale=1"><meta name=description content="概要
+Gemini API を使用すると、Google の最新の生成モデルにアクセスできる。Python からは Google Gen AI SDK を通すことで簡単に使用できる。
+Gemini の使用には API Key を要し、Google AI Studio から発行可能。
+https://aistudio.google.com/"><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script>MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]]}}</script><script type=text/javascript id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js></script><meta name=generator content="Hugo 0.147.3"><title>Google Gen AI SDK | Memo.Namo</title>
+<meta name=robots content="noindex, nofollow"><link rel=stylesheet href=/style/main.css></head><body><div class=flexbox><div><header id=site-header class=toplevel-container><h1><a href=/>Memo.Namo</a></h1><nav><ul class=horizontal-menu><li class=horizontal-menu-item><a href=/about/>About</a></li><li class=horizontal-menu-item><a href=/knowledge/>Knowledge</a></li></ul></nav></header><main id=site-main class=toplevel-container><article class="content-container content-grid"><header class=content-grid-header><div><a class=nav-category href=/knowledge/python/>Python</a><h1 class=content-grid-title>Google Gen AI SDK</h1></div><p class=content-grid-desc><span>公開日: 2025-05-18</span>
+<span>更新日: 2025-05-18</span></p></header><aside class=content-grid-side><div class=nav-sticky><h2>目次</h2><nav id=TableOfContents><ul><li><a href=#概要>概要</a></li><li><a href=#1-質問する>1. 質問する</a><ul><li><a href=#基本的な使い方>基本的な使い方</a></li><li><a href=#ロールを指定>ロールを指定</a></li></ul></li><li><a href=#2-画像を入力する>2. 画像を入力する</a><ul><li><a href=#画像認識させる>画像認識させる</a></li><li><a href=#物体検知させる>物体検知させる</a></li></ul></li><li><a href=#3-チャット形式>3. チャット形式</a></li><li><a href=#4-コード実行>4. コード実行</a></li><li><a href=#5-画像を生成>5. 画像を生成</a></li><li><a href=#6-ツール呼び出し>6. ツール呼び出し</a></li><li><a href=#7-埋め込み表現を取得する>7. 埋め込み表現を取得する</a></li></ul></nav><nav class=nav-tag><h2>タグ</h2><ul class=tag-container><li class="tag-item tag-item-inactive"><a href=/tags/auth/>Auth</a></li><li class="tag-item tag-item-inactive"><a href=/tags/businessman/>BusinessMan</a></li><li class="tag-item tag-item-inactive"><a href=/tags/database/>Database</a></li><li class="tag-item tag-item-inactive"><a href=/tags/dataengineering/>DataEngineering</a></li><li class="tag-item tag-item-inactive"><a href=/tags/datavisualization/>DataVisualization</a></li><li class="tag-item tag-item-inactive"><a href=/tags/devops/>DevOps</a></li><li class="tag-item tag-item-inactive"><a href=/tags/iac/>IaC</a></li><li class="tag-item tag-item-inactive"><a href=/tags/infrastructure/>Infrastructure</a></li></ul></nav></div></aside><section class="md-content content-grid-main"><h1 id=概要>概要</h1><p>Gemini API を使用すると、Google の最新の生成モデルにアクセスできる。Python からは Google Gen AI SDK を通すことで簡単に使用できる。</p><p>Gemini の使用には API Key を要し、Google AI Studio から発行可能。<br><a href=https://aistudio.google.com/>https://aistudio.google.com/</a></p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ pip install google-genai
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 class=chroma><code class=language-py data-lang=py><span class=line><span class=cl><span class=kn>import</span> <span class=nn>os</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>google</span> <span class=kn>import</span> <span class=n>genai</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>GEMINI_API_KEY</span><span class=o>=</span><span class=n>os</span><span class=o>.</span><span class=n>getenv</span><span class=p>(</span><span class=s2>&#34;GEMINI_API_KEY&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>client</span> <span class=o>=</span> <span class=n>genai</span><span class=o>.</span><span class=n>Client</span><span class=p>(</span><span class=n>api_key</span><span class=o>=</span><span class=n>GEMINI_API_KEY</span><span class=p>)</span>
+</span></span></code></pre></div><p>※ 古い SDK に注意<br>以下のような import がある場合、Gen AI SDK へ移行する前の Gemini SDK が使われている。
+画像生成へ対応するなど、Gen AI SDK の方が適用範囲が広い。</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-py data-lang=py><span class=line><span class=cl><span class=kn>import</span> <span class=nn>google.generativeai</span> <span class=k>as</span> <span class=nn>genai</span>
+</span></span></code></pre></div><h1 id=1-質問する>1. 質問する</h1><p>使用可能なモデル<br><a href="https://ai.google.dev/gemini-api/docs/models?hl=ja">https://ai.google.dev/gemini-api/docs/models?hl=ja</a></p><h2 id=基本的な使い方>基本的な使い方</h2><div class=highlight><pre tabindex=0 class=chroma><code class=language-py data-lang=py><span class=line><span class=cl><span class=kn>from</span> <span class=nn>IPython.display</span> <span class=kn>import</span>  <span class=n>Markdown</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>response</span> <span class=o>=</span> <span class=n>client</span><span class=o>.</span><span class=n>models</span><span class=o>.</span><span class=n>generate_content</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>  <span class=n>model</span><span class=o>=</span><span class=s2>&#34;gemini-2.0-flash&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>  <span class=n>contents</span><span class=o>=</span><span class=s2>&#34;AI の仕組みを IT エンジニア向けに 400 文字前後で説明してください&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>Markdown</span><span class=p>(</span><span class=n>response</span><span class=o>.</span><span class=n>text</span><span class=p>)</span>
+</span></span></code></pre></div><h2 id=ロールを指定>ロールを指定</h2><div class=highlight><pre tabindex=0 class=chroma><code class=language-py data-lang=py><span class=line><span class=cl><span class=kn>from</span> <span class=nn>IPython.display</span> <span class=kn>import</span>  <span class=n>Markdown</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>response</span> <span class=o>=</span> <span class=n>client</span><span class=o>.</span><span class=n>models</span><span class=o>.</span><span class=n>generate_content</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=n>model</span><span class=o>=</span><span class=s2>&#34;gemini-2.0-flash&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>contents</span><span class=o>=</span><span class=s2>&#34;私は罪を犯しました。豆腐の角で隣人を殴ってしまいました&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>config</span><span class=o>=</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;system_instruction&#34;</span><span class=p>:</span> <span class=s2>&#34;あなたは神です。質問に対して神らしく回答してください。&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>Markdown</span><span class=p>(</span><span class=n>response</span><span class=o>.</span><span class=n>text</span><span class=p>)</span>
+</span></span></code></pre></div><h1 id=2-画像を入力する>2. 画像を入力する</h1><h2 id=画像認識させる>画像認識させる</h2><div class=highlight><pre tabindex=0 class=chroma><code class=language-py data-lang=py><span class=line><span class=cl><span class=kn>import</span> <span class=nn>PIL.Image</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>IPython.display</span> <span class=kn>import</span>  <span class=n>Markdown</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>img_sample</span> <span class=o>=</span> <span class=n>PIL</span><span class=o>.</span><span class=n>Image</span><span class=o>.</span><span class=n>open</span><span class=p>(</span><span class=s2>&#34;sample.jpg&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>response</span> <span class=o>=</span> <span class=n>client</span><span class=o>.</span><span class=n>models</span><span class=o>.</span><span class=n>generate_content</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=n>model</span><span class=o>=</span><span class=s2>&#34;gemini-2.0-flash&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>contents</span><span class=o>=</span><span class=p>[</span><span class=s2>&#34;この画像には何が写っているのかを説明してください&#34;</span><span class=p>,</span> <span class=n>img_sample</span><span class=p>]</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>Markdown</span><span class=p>(</span><span class=n>response</span><span class=o>.</span><span class=n>text</span><span class=p>)</span>
+</span></span></code></pre></div><h2 id=物体検知させる>物体検知させる</h2><div class=highlight><pre tabindex=0 class=chroma><code class=language-py data-lang=py><span class=line><span class=cl><span class=kn>import</span> <span class=nn>PIL.Image</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>dataclasses</span> <span class=kn>import</span> <span class=n>dataclass</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>typing</span> <span class=kn>import</span> <span class=n>TypedDict</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>BoundingBox</span><span class=p>(</span><span class=n>TypedDict</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=n>ymin</span><span class=p>:</span> <span class=nb>int</span>
+</span></span><span class=line><span class=cl>    <span class=n>xmin</span><span class=p>:</span> <span class=nb>int</span>
+</span></span><span class=line><span class=cl>    <span class=n>ymax</span><span class=p>:</span> <span class=nb>int</span>
+</span></span><span class=line><span class=cl>    <span class=n>xmax</span><span class=p>:</span> <span class=nb>int</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=nc>DetectedObject</span><span class=p>(</span><span class=n>TypedDict</span><span class=p>):</span>
+</span></span><span class=line><span class=cl>    <span class=n>name</span><span class=p>:</span> <span class=nb>str</span>
+</span></span><span class=line><span class=cl>    <span class=n>boundingbox</span><span class=p>:</span> <span class=n>BoundingBox</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>img_sample</span> <span class=o>=</span> <span class=n>PIL</span><span class=o>.</span><span class=n>Image</span><span class=o>.</span><span class=n>open</span><span class=p>(</span><span class=s2>&#34;sample.jpg&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>response</span> <span class=o>=</span> <span class=n>client</span><span class=o>.</span><span class=n>models</span><span class=o>.</span><span class=n>generate_content</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=n>model</span><span class=o>=</span><span class=s2>&#34;gemini-2.0-flash&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>contents</span><span class=o>=</span><span class=p>[</span><span class=n>img_sample</span><span class=p>,</span> <span class=s1>&#39;画像の中の物体をバウンディングボックスで囲ってください。結果は次の形式に沿ってJSON ({&#34;name&#34;: &#34;detected_object_name&#34;, &#34;bounding_box&#34;: [ymin, xmin, ymax, xmax]}) で出力してください。JSONのみを出力してください&#39;</span><span class=p>],</span>
+</span></span><span class=line><span class=cl>    <span class=n>config</span><span class=o>=</span><span class=p>{</span> <span class=s2>&#34;response_mime_type&#34;</span><span class=p>:</span> <span class=s2>&#34;application/json&#34;</span><span class=p>,</span> <span class=s2>&#34;response_schema&#34;</span><span class=p>:</span> <span class=nb>list</span><span class=p>[</span><span class=n>DetectedObject</span><span class=p>]</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span></code></pre></div><p>出力</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-json data-lang=json><span class=line><span class=cl><span class=p>[{</span><span class=nt>&#34;name&#34;</span><span class=p>:</span> <span class=s2>&#34;cat&#34;</span><span class=p>,</span> <span class=nt>&#34;boundingbox&#34;</span><span class=p>:</span> <span class=p>{</span><span class=nt>&#34;ymin&#34;</span><span class=p>:</span> <span class=mi>176</span><span class=p>,</span> <span class=nt>&#34;xmin&#34;</span><span class=p>:</span> <span class=mi>100</span><span class=p>,</span> <span class=nt>&#34;ymax&#34;</span><span class=p>:</span> <span class=mi>620</span><span class=p>,</span> <span class=nt>&#34;xmax&#34;</span><span class=p>:</span> <span class=mi>795</span><span class=p>}}]</span>
+</span></span></code></pre></div><h1 id=3-チャット形式>3. チャット形式</h1><p>過去のやり取りの文脈を反映させたい場合にはセッションを作る。</p><p>コード</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-py data-lang=py><span class=line><span class=cl><span class=n>sess</span> <span class=o>=</span> <span class=n>client</span><span class=o>.</span><span class=n>chats</span><span class=o>.</span><span class=n>create</span><span class=p>(</span><span class=n>model</span><span class=o>=</span><span class=s2>&#34;gemini-2.0-flash&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>res</span> <span class=o>=</span> <span class=n>sess</span><span class=o>.</span><span class=n>send_message</span><span class=p>(</span><span class=s2>&#34;こんにちわ&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>res</span><span class=o>.</span><span class=n>text</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>res</span> <span class=o>=</span> <span class=n>sess</span><span class=o>.</span><span class=n>send_message</span><span class=p>(</span><span class=s2>&#34;私はケビンです&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>res</span><span class=o>.</span><span class=n>text</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>res</span> <span class=o>=</span> <span class=n>sess</span><span class=o>.</span><span class=n>send_message</span><span class=p>(</span><span class=s2>&#34;私の名前はなんでしょう&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>res</span><span class=o>.</span><span class=n>text</span><span class=p>)</span>
+</span></span></code></pre></div><p>出力</p><blockquote><p>こんにちは！何かお手伝いできることはありますか？😊</p><p>ケビンさん、こんにちは！ どんなことに関心がありますか？ 何かお手伝いできることがあれば教えてくださいね。😊</p><p>あなたはケビンさんです。そう言いましたね。</p></blockquote><h1 id=4-コード実行>4. コード実行</h1><p>コード</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-py data-lang=py><span class=line><span class=cl><span class=kn>import</span>  <span class=nn>google.genai.types</span> <span class=k>as</span> <span class=nn>typs</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>IPython.display</span> <span class=kn>import</span>  <span class=n>Markdown</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>response</span> <span class=o>=</span> <span class=n>client</span><span class=o>.</span><span class=n>models</span><span class=o>.</span><span class=n>generate_content</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=n>model</span><span class=o>=</span><span class=s2>&#34;gemini-1.5-flash&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>contents</span><span class=o>=</span><span class=s2>&#34;整数を1～40まで表示する python を生成し実行結果を出力してください。ただし 3の倍数と3のつく数字だけアホになります&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>config</span><span class=o>=</span><span class=n>typs</span><span class=o>.</span><span class=n>GenerateContentConfig</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>        <span class=n>tools</span><span class=o>=</span><span class=p>[</span><span class=n>typs</span><span class=o>.</span><span class=n>Tool</span><span class=p>(</span><span class=n>code_execution</span><span class=o>=</span><span class=n>typs</span><span class=o>.</span><span class=n>ToolCodeExecution</span><span class=p>)],</span>
+</span></span><span class=line><span class=cl>    <span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>Markdown</span><span class=p>(</span><span class=n>response</span><span class=o>.</span><span class=n>text</span><span class=p>)</span>
+</span></span></code></pre></div><p>出力</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-plain data-lang=plain><span class=line><span class=cl>```python
+</span></span><span class=line><span class=cl>for i in range(1, 41):
+</span></span><span class=line><span class=cl>    if i % 3 == 0 or &#39;3&#39; in str(i):
+</span></span><span class=line><span class=cl>        print(&#34;アホ&#34;)
+</span></span><span class=line><span class=cl>    else:
+</span></span><span class=line><span class=cl>        print(i)
+</span></span><span class=line><span class=cl>```
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>実行結果：
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>```
+</span></span><span class=line><span class=cl>1
+</span></span><span class=line><span class=cl>2
+</span></span><span class=line><span class=cl>アホ
+</span></span><span class=line><span class=cl>4
+</span></span><span class=line><span class=cl>5
+</span></span><span class=line><span class=cl>アホ
+</span></span><span class=line><span class=cl>7
+</span></span><span class=line><span class=cl>8
+</span></span><span class=line><span class=cl>アホ
+</span></span><span class=line><span class=cl>10
+</span></span><span class=line><span class=cl>11
+</span></span><span class=line><span class=cl>アホ
+</span></span><span class=line><span class=cl>...
+</span></span><span class=line><span class=cl>アホ
+</span></span><span class=line><span class=cl>アホ
+</span></span><span class=line><span class=cl>40
+</span></span><span class=line><span class=cl>```
+</span></span></code></pre></div><p>コードと実行結果は分けて扱うことも可能。</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-py data-lang=py><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>response</span><span class=o>.</span><span class=n>executable_code</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>response</span><span class=o>.</span><span class=n>code_execution_result</span><span class=p>)</span>
+</span></span></code></pre></div><h1 id=5-画像を生成>5. 画像を生成</h1><div class=highlight><pre tabindex=0 class=chroma><code class=language-py data-lang=py><span class=line><span class=cl><span class=kn>from</span> <span class=nn>IPython.display</span> <span class=kn>import</span>  <span class=n>display</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>io</span> <span class=kn>import</span> <span class=n>BytesIO</span>
+</span></span><span class=line><span class=cl><span class=kn>from</span> <span class=nn>PIL</span> <span class=kn>import</span> <span class=n>Image</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>response</span> <span class=o>=</span> <span class=n>client</span><span class=o>.</span><span class=n>models</span><span class=o>.</span><span class=n>generate_content</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=n>model</span><span class=o>=</span><span class=s2>&#34;gemini-2.0-flash-preview-image-generation&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>contents</span><span class=o>=</span><span class=s2>&#34;Linus Torvalds playing PC games happily on Windows&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>config</span><span class=o>=</span><span class=p>{</span> <span class=s2>&#34;response_modalities&#34;</span><span class=p>:</span> <span class=p>[</span><span class=s1>&#39;TEXT&#39;</span><span class=p>,</span> <span class=s1>&#39;IMAGE&#39;</span><span class=p>]}</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>bytes_png</span> <span class=o>=</span> <span class=n>response</span><span class=o>.</span><span class=n>candidates</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span><span class=o>.</span><span class=n>content</span><span class=o>.</span><span class=n>parts</span><span class=p>[</span><span class=mi>1</span><span class=p>]</span><span class=o>.</span><span class=n>inline_data</span><span class=o>.</span><span class=n>data</span>
+</span></span><span class=line><span class=cl><span class=n>image</span> <span class=o>=</span> <span class=n>Image</span><span class=o>.</span><span class=n>open</span><span class=p>(</span><span class=n>BytesIO</span><span class=p>((</span><span class=n>bytes_png</span><span class=p>)))</span>
+</span></span><span class=line><span class=cl><span class=n>display</span><span class=p>(</span><span class=n>image</span><span class=p>)</span>
+</span></span></code></pre></div><h1 id=6-ツール呼び出し>6. ツール呼び出し</h1><div class=highlight><pre tabindex=0 class=chroma><code class=language-py data-lang=py><span class=line><span class=cl><span class=kn>from</span> <span class=nn>google.genai.types</span> <span class=kn>import</span> <span class=n>GenerateContentConfig</span><span class=p>,</span> <span class=n>Tool</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>weather_func</span> <span class=o>=</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;name&#34;</span><span class=p>:</span> <span class=s2>&#34;get_current_weather&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;description&#34;</span><span class=p>:</span> <span class=s2>&#34;現在地の天気を取得します&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;parameters&#34;</span><span class=p>:</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;type&#34;</span><span class=p>:</span> <span class=s2>&#34;object&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;properties&#34;</span><span class=p>:</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=s2>&#34;location&#34;</span><span class=p>:</span> <span class=p>{</span> <span class=s2>&#34;type&#34;</span><span class=p>:</span> <span class=s2>&#34;string&#34;</span><span class=p>,</span> <span class=s2>&#34;description&#34;</span><span class=p>:</span> <span class=s2>&#34;都市名&#34;</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=p>},</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;required&#34;</span><span class=p>:</span> <span class=p>[</span><span class=s2>&#34;location&#34;</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>    <span class=p>},</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=n>tools</span> <span class=o>=</span> <span class=n>Tool</span><span class=p>(</span><span class=n>functionDeclarations</span><span class=o>=</span><span class=p>[</span><span class=n>weather_func</span><span class=p>])</span>
+</span></span><span class=line><span class=cl><span class=n>conf</span> <span class=o>=</span> <span class=n>GenerateContentConfig</span><span class=p>(</span><span class=n>tools</span><span class=o>=</span><span class=p>[</span><span class=n>tools</span><span class=p>])</span>
+</span></span><span class=line><span class=cl><span class=n>res</span> <span class=o>=</span> <span class=n>client</span><span class=o>.</span><span class=n>models</span><span class=o>.</span><span class=n>generate_content</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=n>model</span><span class=o>=</span><span class=s2>&#34;gemini-2.0-flash&#34;</span><span class=p>,</span> <span class=n>contents</span><span class=o>=</span><span class=s2>&#34;東京の天気&#34;</span><span class=p>,</span> <span class=n>config</span><span class=o>=</span><span class=n>conf</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=n>res</span>
+</span></span></code></pre></div><p>ツールが呼び出されると以下のようになる。</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-py data-lang=py><span class=line><span class=cl><span class=n>res</span><span class=o>.</span><span class=n>function_calls</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=p>[</span><span class=n>FunctionCall</span><span class=p>(</span><span class=nb>id</span><span class=o>=</span><span class=kc>None</span><span class=p>,</span> <span class=n>args</span><span class=o>=</span><span class=p>{</span><span class=s1>&#39;location&#39;</span><span class=p>:</span> <span class=s1>&#39;東京&#39;</span><span class=p>},</span> <span class=n>name</span><span class=o>=</span><span class=s1>&#39;get_current_weather&#39;</span><span class=p>)]</span>
+</span></span></code></pre></div><h1 id=7-埋め込み表現を取得する>7. 埋め込み表現を取得する</h1><p>参考: <a href="https://ai.google.dev/gemini-api/docs/embeddings?hl=ja">https://ai.google.dev/gemini-api/docs/embeddings?hl=ja</a></p><div class=highlight><pre tabindex=0 class=chroma><code class=language-py data-lang=py><span class=line><span class=cl><span class=n>result</span> <span class=o>=</span> <span class=n>client</span><span class=o>.</span><span class=n>models</span><span class=o>.</span><span class=n>embed_content</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=n>model</span><span class=o>=</span><span class=s2>&#34;gemini-embedding-exp-03-07&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>contents</span><span class=o>=</span><span class=p>[</span><span class=s2>&#34;わっしょいわっしょい&#34;</span><span class=p>,</span> <span class=s2>&#34;あばばば&#34;</span><span class=p>],</span>
+</span></span><span class=line><span class=cl>    <span class=n>config</span><span class=o>=</span><span class=p>{</span> <span class=s2>&#34;task_type&#34;</span><span class=p>:</span> <span class=s2>&#34;SEMANTIC_SIMILARITY&#34;</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=nb>print</span><span class=p>(</span><span class=n>result</span><span class=o>.</span><span class=n>embeddings</span><span class=p>)</span>
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 class=chroma><code class=language-Py data-lang=Py><span class=line><span class=cl><span class=nb>len</span><span class=p>(</span><span class=n>result</span><span class=o>.</span><span class=n>embeddings</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> <span class=mi>2</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>result</span><span class=o>.</span><span class=n>embeddings</span><span class=p>[</span><span class=mi>0</span><span class=p>]</span><span class=o>.</span><span class=n>values</span><span class=p>[:</span><span class=mi>10</span><span class=p>]</span>
+</span></span><span class=line><span class=cl><span class=o>&gt;</span> 
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=o>-</span><span class=mf>0.016820915</span><span class=p>,</span>
+</span></span><span class=line><span class=cl> <span class=o>-</span><span class=mf>0.0012726645</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>  <span class=mf>0.01619753</span><span class=p>,</span>
+</span></span><span class=line><span class=cl> <span class=o>-</span><span class=mf>0.07796676</span><span class=p>,</span>
+</span></span><span class=line><span class=cl> <span class=o>-</span><span class=mf>0.033992294</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>  <span class=mf>0.00074800395</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>  <span class=mf>0.0039061843</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>  <span class=mf>0.004672302</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>  <span class=mf>0.016051557</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>  <span class=mf>0.019814486</span>
+</span></span><span class=line><span class=cl><span class=p>]</span>
+</span></span></code></pre></div></section></article></main></div><div><footer id=site-footer class=toplevel-container><p>このサイトでは <a href=https://icons8.jp/>icons8</a> の素材を使用しています。</p><p>&copy; 2025 namoshika, All rights reserved</p></footer></div></div></body></html>

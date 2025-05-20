@@ -1,4 +1,87 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Home on Memo.Namo</title><link>http://example.org/</link><description>Recent content in Home on Memo.Namo</description><generator>Hugo</generator><language>ja-jp</language><lastBuildDate>Sun, 06 Oct 2024 17:07:24 +0900</lastBuildDate><atom:link href="http://example.org/index.xml" rel="self" type="application/rss+xml"/><item><title>CloudWatch Agent</title><link>http://example.org/knowledge/aws-cloudwatch-agent/</link><pubDate>Sun, 06 Oct 2024 12:03:16 +0900</pubDate><guid>http://example.org/knowledge/aws-cloudwatch-agent/</guid><description>&lt;h1 id="概要">概要&lt;/h1>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Home on Memo.Namo</title><link>http://example.org/</link><description>Recent content in Home on Memo.Namo</description><generator>Hugo</generator><language>ja-jp</language><lastBuildDate>Sun, 18 May 2025 23:20:37 +0900</lastBuildDate><atom:link href="http://example.org/index.xml" rel="self" type="application/rss+xml"/><item><title>LangChain</title><link>http://example.org/knowledge/20250519_langchain/</link><pubDate>Mon, 19 May 2025 21:23:05 +0900</pubDate><guid>http://example.org/knowledge/20250519_langchain/</guid><description>&lt;h1 id="概要">概要&lt;/h1>
+&lt;p>LangChain は LLM を活用したアプリケーションの開発を支援するフレームワークである。これを使うことで、 LLM を活用したシステムへ以下のような機能を持たせる事ができる。&lt;/p></description></item><item><title>備忘録</title><link>http://example.org/knowledge/20250518_python/</link><pubDate>Sun, 18 May 2025 23:22:36 +0900</pubDate><guid>http://example.org/knowledge/20250518_python/</guid><description>&lt;h1 id="環境管理">環境管理&lt;/h1>
+&lt;h2 id="パッケージマネージャ">パッケージマネージャ&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ pip install --outdated
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ pip show &lt;span class="o">{&lt;/span>pkg&lt;span class="o">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ pip freeze &amp;gt; requirements.txt
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ pip install -r requirements.txt -c constraints.txt
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="仮想化">仮想化&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ python -m venv .venv
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ . .venv/bin/activate
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="便利な言語機能">便利な言語機能&lt;/h1>
+&lt;h2 id="関数の引数">関数の引数&lt;/h2>
+&lt;ul>
+&lt;li>位置引数&lt;/li>
+&lt;li>キーワード引数&lt;/li>
+&lt;li>可変長位置引数 … &lt;code>*func&lt;/code>&lt;/li>
+&lt;li>可変長キーワード引数 … &lt;code>**func&lt;/code>&lt;/li>
+&lt;li>&lt;code>*&lt;/code> … 後に続く引数をキーワード専用引数にする (&lt;code>def func(val1, val2, *, val3)&lt;/code> )&lt;/li>
+&lt;li>&lt;code>/&lt;/code> … 前の引数を位置専用引数にする&lt;/li>
+&lt;/ul>
+&lt;h2 id="オブジェクト関連">オブジェクト関連&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="line">&lt;span class="cl">&lt;span class="nb">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nb">id&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">123&lt;/span>&lt;span class="p">))&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nb">type&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">123&lt;/span>&lt;span class="p">))&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nb">isinstance&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">123&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nb">int&lt;/span>&lt;span class="p">))&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nb">issubclass&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nb">float&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nb">object&lt;/span>&lt;span class="p">))&lt;/span> &lt;span class="o">...&lt;/span> &lt;span class="kc">True&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">help&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nb">int&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nb">dir&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">123&lt;/span>&lt;span class="p">))&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="プロパティ">プロパティ&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="line">&lt;span class="cl">&lt;span class="k">class&lt;/span> &lt;span class="nc">Hoge&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">_name&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="kc">None&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nd">@property&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">def&lt;/span> &lt;span class="nf">name&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="bp">self&lt;/span>&lt;span class="p">):&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="bp">self&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">_name&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nd">@name.setter&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">def&lt;/span> &lt;span class="nf">name&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="bp">self&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">val&lt;/span>&lt;span class="p">):&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="bp">self&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">_name&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">val&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">obj&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">Hoge&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">obj&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">name&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">obj&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">name&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s2">&amp;#34;hoge&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">obj&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">name&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="静的メソッド">静的メソッド&lt;/h2>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="line">&lt;span class="cl">&lt;span class="k">class&lt;/span> &lt;span class="nc">Hoge&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">def&lt;/span> &lt;span class="nf">nyao&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="bp">self&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">val&lt;/span>&lt;span class="p">):&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">Hoge&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">piyo&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">val&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">def&lt;/span> &lt;span class="nf">hell&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="bp">self&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">val&lt;/span>&lt;span class="p">):&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">Hoge&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">hoge&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">val&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nd">@classmethod&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">def&lt;/span> &lt;span class="nf">piyo&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="bp">cls&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">val&lt;/span>&lt;span class="p">):&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="sa">f&lt;/span>&lt;span class="s2">&amp;#34;Called piyo &lt;/span>&lt;span class="si">{&lt;/span>&lt;span class="n">val&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">.&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nd">@staticmethod&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">def&lt;/span> &lt;span class="nf">hoge&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">val&lt;/span>&lt;span class="p">):&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="sa">f&lt;/span>&lt;span class="s2">&amp;#34;Called hoge &lt;/span>&lt;span class="si">{&lt;/span>&lt;span class="n">val&lt;/span>&lt;span class="si">}&lt;/span>&lt;span class="s2">.&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Hoge&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">hoge&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">123&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Hoge&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">piyo&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">234&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">var&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">Hoge&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">var&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">hell&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">345&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="コンテキストマネージャ">コンテキストマネージャ&lt;/h2>
+&lt;ul>
+&lt;li>&lt;code>__enter__&lt;/code> , &lt;code>__exit__&lt;/code> のメソッドを持つオブジェクト&lt;/li>
+&lt;li>with 句で指定すると楽&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-python" data-lang="python">&lt;span class="line">&lt;span class="cl">&lt;span class="kn">import&lt;/span> &lt;span class="nn">contextlib&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nd">@contextlib.contextmanager&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">def&lt;/span> &lt;span class="nf">context_manager_sample&lt;/span>&lt;span class="p">():&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">try&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;processing&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">yield&lt;/span> &lt;span class="s2">&amp;#34;aaa&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">finally&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;finalization&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">with&lt;/span> &lt;span class="n">context_manager_sample&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="k">as&lt;/span> &lt;span class="n">a&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nb">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">a&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">pass&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="テストに便利なもの">テストに便利なもの&lt;/h1>
+&lt;p>使う時に毎回覚えていない類。&lt;/p></description></item><item><title>Google Gen AI SDK</title><link>http://example.org/knowledge/20250518_google_genai_sdk/</link><pubDate>Sun, 18 May 2025 21:23:51 +0900</pubDate><guid>http://example.org/knowledge/20250518_google_genai_sdk/</guid><description>&lt;h1 id="概要">概要&lt;/h1>
+&lt;p>Gemini API を使用すると、Google の最新の生成モデルにアクセスできる。Python からは Google Gen AI SDK を通すことで簡単に使用できる。&lt;/p>
+&lt;p>Gemini の使用には API Key を要し、Google AI Studio から発行可能。&lt;br>
+&lt;a href="https://aistudio.google.com/">https://aistudio.google.com/&lt;/a>&lt;/p></description></item><item><title>MLflow</title><link>http://example.org/knowledge/20250512_mlflow/</link><pubDate>Mon, 12 May 2025 07:37:21 +0900</pubDate><guid>http://example.org/knowledge/20250512_mlflow/</guid><description>&lt;h1 id="概要">概要&lt;/h1>
+&lt;p>MLflowは機械学習モデルの開発からデプロイまでのライフサイクルを一貫して管理するためのオープンソースプラットフォーム。以下のような機能によって、 MLOps のワークフローをシンプルにする事ができる。&lt;/p></description></item><item><title>CloudWatch Agent</title><link>http://example.org/knowledge/aws-cloudwatch-agent/</link><pubDate>Sun, 06 Oct 2024 12:03:16 +0900</pubDate><guid>http://example.org/knowledge/aws-cloudwatch-agent/</guid><description>&lt;h1 id="概要">概要&lt;/h1>
 &lt;p>EC2 インスタンスのメモリやディスクの使用率を CloudWatch からモニタしたい場合、EC2 インスタンスに CloudWatch Agent をインストールし設定してやることでメトリクスとして採取できる。この記事ではエージェントのインストールを設定についてまとめる。&lt;/p></description></item><item><title>VRChat メモ</title><link>http://example.org/knowledge/20241005_vrchat/</link><pubDate>Sat, 05 Oct 2024 16:40:26 +0900</pubDate><guid>http://example.org/knowledge/20241005_vrchat/</guid><description>&lt;h1 id="ノウハウ">ノウハウ&lt;/h1>
 &lt;h2 id="export-fbx">Export FBX&lt;/h2>
 &lt;p>Blender で Unity 向けに fbx をエクスポートする際の設定。&lt;/p>
@@ -22,7 +105,7 @@
 &lt;p>Spark では巨大なデータセットを複数台のマシンで並列分散処理する事ができるが、効率的に行いたい場合には以下を心掛ける必要が有る。&lt;/p></description></item><item><title>データのセキュリティと暗号化</title><link>http://example.org/knowledge/20240507_encrypt/</link><pubDate>Tue, 07 May 2024 23:29:28 +0900</pubDate><guid>http://example.org/knowledge/20240507_encrypt/</guid><description>&lt;h1 id="データのセキュリティと暗号化">データのセキュリティと暗号化&lt;/h1>
 &lt;p>データの暗号化関係は (参考資料1) 配下に資料有り。サブスクリプションの種別へ Enterprise を選択している場合には以下を KMS の暗号化対象として設定可能 (参考資料2)。&lt;/p></description></item><item><title>Databricks とネットワーク</title><link>http://example.org/knowledge/20240426_network/</link><pubDate>Fri, 26 Apr 2024 20:28:53 +0900</pubDate><guid>http://example.org/knowledge/20240426_network/</guid><description>&lt;p>現状は主にクラシックコンピュートプレーンについて記載。&lt;/p>
 &lt;h1 id="自身で用意したvpcを使う">自身で用意したVPCを使う&lt;/h1>
-&lt;p>Databricksの機能でワークスペース用のVPCを生成する事ができない事情がある場合には、ワークスペースを顧客が独自に用意したVPCで作成する機能がある。これは顧客管理VPCと呼ばれている (参考資料1)。&lt;/p></description></item><item><title>Snowflake を使ってみる</title><link>http://example.org/knowledge/20240319_snowflake/</link><pubDate>Tue, 19 Mar 2024 00:43:57 +0900</pubDate><guid>http://example.org/knowledge/20240319_snowflake/</guid><description>&lt;h1 id="管理ツール">管理ツール&lt;/h1>
+&lt;p>Databricksの機能でワークスペース用のVPCを生成する事ができない事情がある場合には、ワークスペースを顧客が独自に用意したVPCで作成する機能がある。これは顧客管理VPCと呼ばれている (参考資料1)。&lt;/p></description></item><item><title>Snowflake</title><link>http://example.org/knowledge/20240319_snowflake/</link><pubDate>Tue, 19 Mar 2024 00:43:57 +0900</pubDate><guid>http://example.org/knowledge/20240319_snowflake/</guid><description>&lt;h1 id="管理ツール">管理ツール&lt;/h1>
 &lt;p>&lt;a href="https://docs.snowflake.com/ja/user-guide/snowsql-install-config">SnowSQL&lt;/a> が提供されている。&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># ログイン&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ snowsql -a &lt;span class="o">{&lt;/span>アカウント名&lt;span class="o">}&lt;/span> -u &lt;span class="o">{&lt;/span>ユーザ名&lt;span class="o">}&lt;/span>
@@ -47,7 +130,7 @@
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">-- DROP DATABASE HELLO_SNOWFLAKE;
 &lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;p>スキーマ操作&lt;/p></description></item><item><title>Databricks 製品を使ってみる</title><link>http://example.org/knowledge/20231023_databricks/</link><pubDate>Mon, 23 Oct 2023 00:45:39 +0900</pubDate><guid>http://example.org/knowledge/20231023_databricks/</guid><description>&lt;h1 id="ノートブック">ノートブック&lt;/h1>
 &lt;h2 id="セル">セル&lt;/h2>
-&lt;p>ノートブック内でコードを実行できる。実行はセル単位で行われ、既定では Python として解釈される。これはマジックコマンドを用いることで他言語として実行することも可能。&lt;/p></description></item><item><title>Spark を使ってみる</title><link>http://example.org/knowledge/20231023_spark/</link><pubDate>Mon, 23 Oct 2023 00:45:39 +0900</pubDate><guid>http://example.org/knowledge/20231023_spark/</guid><description>&lt;h1 id="アーキテクチャ">アーキテクチャ&lt;/h1>
+&lt;p>ノートブック内でコードを実行できる。実行はセル単位で行われ、既定では Python として解釈される。これはマジックコマンドを用いることで他言語として実行することも可能。&lt;/p></description></item><item><title>Spark</title><link>http://example.org/knowledge/20231023_spark/</link><pubDate>Mon, 23 Oct 2023 00:45:39 +0900</pubDate><guid>http://example.org/knowledge/20231023_spark/</guid><description>&lt;h1 id="アーキテクチャ">アーキテクチャ&lt;/h1>
 &lt;h2 id="ノード">ノード&lt;/h2>
 &lt;ul>
 &lt;li>Driver &amp;hellip; 分散しない処理とExecutorの制御を行う&lt;/li>
@@ -95,7 +178,7 @@
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">dt_df&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">display&lt;/span>&lt;span class="p">()&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">display&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">dt_df&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h2 id="読み書き時-基本">読み書き時 (基本)&lt;/h2>
-&lt;p>SparkSQL での書き方&lt;/p></description></item><item><title>Postgres 備忘録</title><link>http://example.org/knowledge/20221116_postgres/</link><pubDate>Wed, 16 Nov 2022 09:16:21 +0900</pubDate><guid>http://example.org/knowledge/20221116_postgres/</guid><description>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">psql -h localhost -p &lt;span class="m">5432&lt;/span> -U postgres -d postgres
+&lt;p>SparkSQL での書き方&lt;/p></description></item><item><title>Postgres SQL</title><link>http://example.org/knowledge/20221116_postgres/</link><pubDate>Wed, 16 Nov 2022 09:16:21 +0900</pubDate><guid>http://example.org/knowledge/20221116_postgres/</guid><description>&lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">psql -h localhost -p &lt;span class="m">5432&lt;/span> -U postgres -d postgres
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>&lt;h1 id="database">Database&lt;/h1>
 &lt;p>テンプレートを指定しない場合は template1 から作られる。&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-sh" data-lang="sh">&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># create db&lt;/span>
@@ -172,7 +255,7 @@
 &lt;li>&lt;a href="https://github.com/namoshika">GitHub&lt;/a>&lt;/li>
 &lt;/ul>
 &lt;h1 id="このサイトについて">このサイトについて&lt;/h1>
-&lt;p>お勉強ノート置き場&lt;/p></description></item><item><title>Box を CLI から使ってみる</title><link>http://example.org/knowledge/20200903_box-cli/</link><pubDate>Thu, 03 Sep 2020 18:00:26 +0900</pubDate><guid>http://example.org/knowledge/20200903_box-cli/</guid><description>&lt;h1 id="box-を-cli-ツールから使用する">Box を CLI ツールから使用する&lt;/h1>
+&lt;p>お勉強ノート置き場&lt;/p></description></item><item><title>Box CLI</title><link>http://example.org/knowledge/20200903_box-cli/</link><pubDate>Thu, 03 Sep 2020 18:00:26 +0900</pubDate><guid>http://example.org/knowledge/20200903_box-cli/</guid><description>&lt;h1 id="box-を-cli-ツールから使用する">Box を CLI ツールから使用する&lt;/h1>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-powershell" data-lang="powershell">&lt;span class="line">&lt;span class="cl">&lt;span class="c"># 認証情報を構成&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">box&lt;/span> &lt;span class="n">configure&lt;/span>&lt;span class="err">:&lt;/span>&lt;span class="n">environments&lt;/span>&lt;span class="err">:&lt;/span>&lt;span class="n">add&lt;/span> &lt;span class="n">authinf&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="py">json&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
@@ -187,7 +270,7 @@
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c"># ユーザ情報を取得. USER_ID 省略時にはカレントユーザの情報が取得される&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">box&lt;/span> &lt;span class="n">users&lt;/span>&lt;span class="err">:&lt;/span>&lt;span class="n">get&lt;/span> &lt;span class="n">USER_ID&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>OpenSSL を使ってみる</title><link>http://example.org/knowledge/20200902_openssl/</link><pubDate>Wed, 02 Sep 2020 17:54:16 +0900</pubDate><guid>http://example.org/knowledge/20200902_openssl/</guid><description>&lt;h1 id="基本要素">基本要素&lt;/h1>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>OpenSSL</title><link>http://example.org/knowledge/20200902_openssl/</link><pubDate>Wed, 02 Sep 2020 17:54:16 +0900</pubDate><guid>http://example.org/knowledge/20200902_openssl/</guid><description>&lt;h1 id="基本要素">基本要素&lt;/h1>
 &lt;p>OpenSSL は http の通信暗号化 (https) で登場します。暗号化には公開鍵暗号方式を使用されており、次の要素が登場します。&lt;/p>
 &lt;ul>
 &lt;li>鍵 &amp;hellip; 秘密鍵と公開鍵がある&lt;/li>
@@ -301,14 +384,14 @@
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">)&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">item&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">table&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">get_item&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Key&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="s2">&amp;#34;Author&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;athr_1&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s2">&amp;#34;Title&amp;#34;&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="s2">&amp;#34;ttl_1&amp;#34;&lt;/span> &lt;span class="p">})&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">print&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">item&lt;/span>&lt;span class="p">)&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>Nvidia グラボの負荷状況をモニタする</title><link>http://example.org/knowledge/20200824_nvidia/</link><pubDate>Mon, 24 Aug 2020 19:34:20 +0900</pubDate><guid>http://example.org/knowledge/20200824_nvidia/</guid><description>&lt;p>Ubuntu マシンに挿したグラボの負荷状況をターミナルで表示する。&lt;/p>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>NVIDIA CLI</title><link>http://example.org/knowledge/20200824_nvidia/</link><pubDate>Mon, 24 Aug 2020 19:34:20 +0900</pubDate><guid>http://example.org/knowledge/20200824_nvidia/</guid><description>&lt;p>Ubuntu マシンに挿したグラボの負荷状況をターミナルで表示する。&lt;/p>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">git clone https://github.com/Syllo/nvtop.git
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">sudo apt install build-essential cmake libncurses-dev
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">mkdir -p nvtop/build
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nb">cd&lt;/span> nvtop/build
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Make ..
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">sudo make install
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>Hugo を使ってみる</title><link>http://example.org/knowledge/20200821_hugo/</link><pubDate>Fri, 21 Aug 2020 08:52:02 +0900</pubDate><guid>http://example.org/knowledge/20200821_hugo/</guid><description>&lt;h1 id="基本操作">基本操作&lt;/h1>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div></description></item><item><title>Hugo</title><link>http://example.org/knowledge/20200821_hugo/</link><pubDate>Fri, 21 Aug 2020 08:52:02 +0900</pubDate><guid>http://example.org/knowledge/20200821_hugo/</guid><description>&lt;h1 id="基本操作">基本操作&lt;/h1>
 &lt;h2 id="サイトを作成する">サイトを作成する&lt;/h2>
 &lt;div class="highlight">&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># サイトディレクトリを作成&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">$ mkdir HelloHugo
