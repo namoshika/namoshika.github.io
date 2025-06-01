@@ -17,6 +17,9 @@ knowledge = "/:section/:contentbasename/"
     endLevel = 2
   [markup.goldmark.renderer]
     unsafe = true
+  [markup.goldmark.parser]
+    [markup.goldmark.parser.attribute]
+      block = true
 
 [[menu.main]]
 name = "About"
