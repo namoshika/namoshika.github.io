@@ -1,0 +1,65 @@
+<!doctype html><html lang=ja-jp><head><meta charset=utf-8><meta name=viewport content="width=device-width,minimum-scale=1"><meta name=description content="概要
+uv は Rust で実装された高速 Python パッケージ・プロジェクトマネージャ。 pyenv, venv, pip を置き換えるツールとして使用できる。非常に高速。 poetry からの乗り換え先として使用。"><script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script><script>MathJax={tex:{inlineMath:[["$","$"],["\\(","\\)"]]}}</script><script type=text/javascript id=MathJax-script async src=https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js></script><meta name=generator content="Hugo 0.147.7"><title>uv | Memo.Namo</title><meta name=robots content="noindex, nofollow"><link rel=stylesheet href=/style/main.css></head><body><div class=flexbox><div><header id=site-header class=toplevel-container><h1><a href=/>Memo.Namo</a></h1><nav><ul class=horizontal-menu><li class=horizontal-menu-item><a href=/about/>About</a></li><li class=horizontal-menu-item><a href=/knowledge/>Knowledge</a></li></ul></nav></header><main id=site-main class=toplevel-container><article class="content-container content-grid"><header class=content-grid-header><div><a class=nav-category href=/knowledge/python/>Python</a><h1 class=content-grid-title>uv</h1></div><p class=content-grid-desc><span>公開日: 2025-06-01</span>
+<span>更新日: 2025-06-01</span></p></header><aside class=content-grid-side><div class=nav-sticky><h2>目次</h2><nav id=TableOfContents><ul><li><a href=#概要>概要</a></li><li><a href=#導入>導入</a></li><li><a href=#python-をインストール>Python をインストール</a></li><li><a href=#プロジェクトを作成>プロジェクトを作成</a></li><li><a href=#仮想環境を作成>仮想環境を作成</a></li><li><a href=#依存関係を管理>依存関係を管理</a></li></ul></nav><nav class=nav-tag><h2>タグ</h2><ul class=tag-container><li class="tag-item tag-item-inactive"><a href=/tags/auth/>Auth</a></li><li class="tag-item tag-item-inactive"><a href=/tags/businessman/>BusinessMan</a></li><li class="tag-item tag-item-inactive"><a href=/tags/database/>Database</a></li><li class="tag-item tag-item-inactive"><a href=/tags/dataengineering/>DataEngineering</a></li><li class="tag-item tag-item-inactive"><a href=/tags/datavisualization/>DataVisualization</a></li><li class="tag-item tag-item-inactive"><a href=/tags/devops/>DevOps</a></li><li class="tag-item tag-item-inactive"><a href=/tags/iac/>IaC</a></li><li class="tag-item tag-item-inactive"><a href=/tags/infrastructure/>Infrastructure</a></li></ul></nav></div></aside><section class="md-content content-grid-main"><h1 id=概要>概要</h1><p>uv は Rust で実装された高速 Python パッケージ・プロジェクトマネージャ。 pyenv, venv, pip を置き換えるツールとして使用できる。非常に高速。 poetry からの乗り換え先として使用。</p><h1 id=導入>導入</h1><p>python 未インストールの状態から導入可能 (<a href=https://docs.astral.sh/uv/getting-started/installation/#installation-methods>Installation | uv</a>)。</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-sh data-lang=sh><span class=line><span class=cl><span class=c1># Unix系</span>
+</span></span><span class=line><span class=cl>$ curl -LsSf https://astral.sh/uv/install.sh <span class=p>|</span> sh
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># PyPI 経由</span>
+</span></span><span class=line><span class=cl>$ pip install uv
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 最新版へアップデート</span>
+</span></span><span class=line><span class=cl>$ uv self update
+</span></span></code></pre></div><p>シェル環境へ設定を行う。以下のようにして <code>~/.bashrc</code> へ入力補完の処理を追記する。 uvx はパッケージに収録されたツールをインストールせずに使うためのツール。</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-sh data-lang=sh><span class=line><span class=cl>$ <span class=nb>echo</span> <span class=s1>&#39;eval &#34;$(uv generate-shell-completion bash)&#34;&#39;</span> &gt;&gt; ~/.bashrc
+</span></span><span class=line><span class=cl>$ <span class=nb>echo</span> <span class=s1>&#39;eval &#34;$(uvx --generate-shell-completion bash)&#34;&#39;</span> &gt;&gt; ~/.bashrc
+</span></span></code></pre></div><p>アンインストールは以下の通り。</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-sh data-lang=sh><span class=line><span class=cl>$ uv cache clean
+</span></span><span class=line><span class=cl>$ rm -r <span class=s2>&#34;</span><span class=k>$(</span>uv python dir<span class=k>)</span><span class=s2>&#34;</span>
+</span></span><span class=line><span class=cl>$ rm -r <span class=s2>&#34;</span><span class=k>$(</span>uv tool dir<span class=k>)</span><span class=s2>&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>$ rm ~/.local/bin/uv ~/.local/bin/uvx
+</span></span></code></pre></div><h1 id=python-をインストール>Python をインストール</h1><p>uv から python をインストールして使うことが可能 (<a href=https://docs.astral.sh/uv/guides/install-python/>Installing and managing Python | uv</a>)。バージョン指定 (<a href=https://docs.astral.sh/uv/concepts/python-versions/#requesting-a-version>Python versions | uv</a> ) を入れる事で指定できる。</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-sh data-lang=sh><span class=line><span class=cl><span class=c1># インストール可能なバージョンの一覧を取得</span>
+</span></span><span class=line><span class=cl>$ uv python list
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># インストール済みバージョンの一覧を取得</span>
+</span></span><span class=line><span class=cl>$ uv python list --only-installed
+</span></span><span class=line><span class=cl>cpython-3.13.1-linux-x86_64-gnu
+</span></span><span class=line><span class=cl>cpython-3.12.3-linux-x86_64-gnu
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 任意のバージョンをインストール</span>
+</span></span><span class=line><span class=cl>$ uv python install 3.12
+</span></span><span class=line><span class=cl>$ uv python install cpython-3.12.3-linux-x86_64-gnu
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 再インストール</span>
+</span></span><span class=line><span class=cl>uv python install --reinstall
+</span></span></code></pre></div><h1 id=プロジェクトを作成>プロジェクトを作成</h1><p>プロジェクトを作成し管理できる (<a href=https://docs.astral.sh/uv/guides/projects/>Working on projects | uv</a>)。作成時に python バージョンを指定する事で任意のバージョンを使用できる。省略時にはインストールされたものから最新版が選択される (<a href="https://docs.astral.sh/uv/concepts/python-versions/?utm_source=chatgpt.com#installing-a-python-version">Python versions | uv</a>)。</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-sh data-lang=sh><span class=line><span class=cl><span class=c1># プロジェクトの python バージョンを明示する</span>
+</span></span><span class=line><span class=cl>$ uv init --python 3.11
+</span></span><span class=line><span class=cl><span class=c1># カレントディレクトリへ以下の様なファイルが生成される。</span>
+</span></span><span class=line><span class=cl><span class=c1># (cwd)</span>
+</span></span><span class=line><span class=cl><span class=c1>#  ├ .python-version</span>
+</span></span><span class=line><span class=cl><span class=c1>#  ├ README.md</span>
+</span></span><span class=line><span class=cl><span class=c1>#  ├ main.py</span>
+</span></span><span class=line><span class=cl><span class=c1>#  └ pyproject.toml</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>$ uv init --bare
+</span></span><span class=line><span class=cl><span class=c1># カレントディレクトリへ以下の様なファイルが生成される。</span>
+</span></span><span class=line><span class=cl><span class=c1># python バージョン指定などは追加しても機能しない。</span>
+</span></span><span class=line><span class=cl><span class=c1># (cwd)</span>
+</span></span><span class=line><span class=cl><span class=c1>#  └ pyproject.toml</span>
+</span></span></code></pre></div><p>コードの実行。実行する際に仮想環境 (.venv) が作成され、内部で実行される。</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-sh data-lang=sh><span class=line><span class=cl>uv run python main.py
+</span></span></code></pre></div><h1 id=仮想環境を作成>仮想環境を作成</h1><p>仮想環境は実行前に作成する事も可能。</p><blockquote class="alert alert-note"><p class=alert-heading><strong>Note</strong></p><p>仮想環境を作成する事で以下のような事柄が実現できる：</p><ul><li><strong>依存関係の分離</strong>：<br>他システムと競合しないよう、専用の <code>site-packages</code> ディレクトリを持つ</li><li><strong>環境の再現性向上</strong>：<br>プロジェクトごとに必要なパッケージだけで固定し、チームや CI 環境での同一動作を保証する</li></ul></blockquote><p>以下のコマンドで作成する。</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-sh data-lang=sh><span class=line><span class=cl><span class=c1># ディレクトリ下の python バージョンを指定 (.python-version)</span>
+</span></span><span class=line><span class=cl>$ uv python pin 3.13
+</span></span><span class=line><span class=cl>$ uv python pin cpython@3.13
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 仮想環境 (.venv) を作成</span>
+</span></span><span class=line><span class=cl>$ uv venv
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 仮想環境 (.venv) を作成。</span>
+</span></span><span class=line><span class=cl><span class=c1># 作成時に pip などをインストールする</span>
+</span></span><span class=line><span class=cl>$ uv venv --seed
+</span></span></code></pre></div><h1 id=依存関係を管理>依存関係を管理</h1><p>プロジェクトへ依存関係を追加する (<a href=https://docs.astral.sh/uv/guides/projects/#managing-dependencies>Working on projects | uv</a>)。</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-sh data-lang=sh><span class=line><span class=cl><span class=c1># 依存関係を追加</span>
+</span></span><span class=line><span class=cl>$ uv add PACKAGE_NAME
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 依存関係を削除</span>
+</span></span><span class=line><span class=cl>$ uv remove PACKAGE_NAME
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 依存関係で pyproject.toml と .venv の状態を同期</span>
+</span></span><span class=line><span class=cl>$ uv sync
+</span></span></code></pre></div></section></article></main></div><div><footer id=site-footer class=toplevel-container><p>このサイトでは <a href=https://icons8.jp/>icons8</a> の素材を使用しています。</p><p>&copy; 2025 namoshika, All rights reserved</p></footer></div></div></body></html>
